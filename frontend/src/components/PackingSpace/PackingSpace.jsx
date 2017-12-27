@@ -7,7 +7,7 @@ class PackingSpace extends Component {
     const { height, width} = this.props;
 
     return (
-      <div className="PackingSpace" style={{width: width}}>
+      <div className="PackingSpace" style={{width: width, height: height}}>
       </div>
     );
   }
@@ -18,6 +18,6 @@ PackingSpace.propTypes = {
   width: PropTypes.number.isRequired
 };
 
-PackingSpace.defaultProps = {height: 500, width: 450}
+PackingSpace.defaultProps = {height: 400, width: 450}
 
 export default PackingSpace

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './UnpackedObjectSpace.css';
 import PackingObject from '../PackingObject/PackingObject'
 
@@ -31,7 +30,5 @@ class UnpackedObjectSpace extends Component {
     );
   }
 }
-
-UnpackedObjectSpace.propTypes = {}
 
 export default UnpackedObjectSpace
