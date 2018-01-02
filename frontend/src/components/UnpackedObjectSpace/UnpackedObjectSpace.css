@@ -1,4 +1,5 @@
 .UnpackedObjectSpace {
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
+  padding-right: 2em;
 }
