@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './UnpackedObjectSpace.css';
-import {renderPackingObject} from '../PlacedPackingObject/PlacedPackingObject'
+import PackingObject from '../PackingObject/PackingObject'
 
 
 class UnpackedObjectSpace extends Component {
+  renderPackingObject(obj) {
+    return <PackingObject height={obj.height}
+                          width={obj.width}
+                          packed={false}
+                          key={obj.id}/>
+  }
+
   render() {
     const packingObjects = this.props.objects.map(
-      obj => renderPackingObject(obj)
+      obj => this.renderPackingObject(obj)
     )
     return (
       <div className="UnpackedObjectSpace">
@@ -23,7 +30,6 @@ UnpackedObjectSpace.propTypes = {
       id: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
       width: PropTypes.number.isRequired,
-      packed: PropTypes.bool.isRequired
     }).isRequired
   )
 };

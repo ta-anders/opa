@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './PackingSpace.css';
-import {renderPackingObject} from '../PlacedPackingObject/PlacedPackingObject'
+import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject'
 
 class PackingSpace extends Component {
+  renderPlacedPackingObject(obj) {
+    return <PlacedPackingObject xCoordinate={obj.xCoordinate}
+                                yCoordinate={obj.yCoordinate}
+                                height={obj.height}
+                                width={obj.width}
+                                key={obj.id}/>
+  }
+
   render() {
     const { height, width, objects} = this.props;
-    const packingObjects = this.props.objects.map(
-      obj => renderPackingObject(obj)
+    const packingObjects = objects.map(
+      obj => this.renderPlacedPackingObject(obj)
     )
     return (
       <div className="PackingSpace" style={{width: width, height: height}}>
@@ -25,7 +33,8 @@ PackingSpace.propTypes = {
       id: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
       width: PropTypes.number.isRequired,
-      packed: PropTypes.bool.isRequired
+      xCoordinate: PropTypes.number.isRequired,
+      yCoordinate: PropTypes.number.isRequired,
     }).isRequired
   )
 };
