@@ -6,7 +6,7 @@ from pyramid.view import view_config
 from webargs.pyramidparser import use_kwargs
 
 from opa.models import PackingObject
-from opa.schemas.opa import PackingObjectSchema
+from opa.schemas.packing_object import PackingObjectSchema
 
 
 logger = logging.getLogger(__name__)
