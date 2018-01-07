@@ -1,9 +1,4 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    Float,
-    CheckConstraint
-)
+from sqlalchemy import CheckConstraint, Column, Float, Integer
 
 from opa.models.meta import Base
 
