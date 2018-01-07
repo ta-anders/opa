@@ -22,3 +22,7 @@ class PackingObject(Base):
             'none_or_both_coordinates_null'
         ),
     )
+
+    @property
+    def packed(self):
+        return self.x_coordinate is not None or self.y_coordinate is not None

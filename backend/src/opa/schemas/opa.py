@@ -9,3 +9,5 @@ class PackingObjectSchema(Schema):
 
     x_coordinate = fields.Integer(required=True, allow_none=True)
     y_coordinate = fields.Integer(required=True, allow_none=True)
+
+    packed = fields.Boolean(required=True)

@@ -14,6 +14,23 @@ logger = logging.getLogger(__name__)
 
 @view_config(
     route_name='packing_objects',
+    request_method='GET',
+    renderer='json'
+)
+def packing_objects_get(request):
+    db = request.dbsession
+
+    packing_objs = db.query(PackingObject).all()
+
+    schema = PackingObjectSchema(strict=True, many=True)
+
+    result = schema.dump(packing_objs)
+
+    return result.data
+
+
+@view_config(
+    route_name='packing_objects',
     request_method='POST',
     renderer='json'
 )

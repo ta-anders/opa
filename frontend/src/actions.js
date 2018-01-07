@@ -14,10 +14,9 @@ export function getPackingObjects(packingObjects) {
 
 export function fetchPackingObjects() {
     return function (dispatch) {
-        return fetch('http://localhost:6543/packing_objects')
+        return fetch('/packing_objects')
             .then(
-                response => response.json(),
-                error => console.log("Something went wrong")
+                response => response.json()
             )
             .then(
                 json => dispatch(getPackingObjects(json))
