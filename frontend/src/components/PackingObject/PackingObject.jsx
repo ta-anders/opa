@@ -4,9 +4,13 @@ import './PackingObject.css';
 
 class PackingObject extends Component {
   render() {
-    const { height, width } = this.props;
+    const { height, width, packed } = this.props;
+    const fill = packed ? 'green': 'purple';
     return (
-      <div className="PackingObject" style={{width: width, height: height}}>
+      <div className="PackingObject"
+           style={
+             {width: width, height: height, backgroundColor: fill}
+           }>
       </div>
     )
   }
@@ -15,11 +19,13 @@ class PackingObject extends Component {
 PackingObject.propTypes = {
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
+  packed: PropTypes.bool.isRequired
 };
 
 PackingObject.defaultProps = {
   height: 10,
   width: 10,
+  packed: false
 }
 
 export default PackingObject

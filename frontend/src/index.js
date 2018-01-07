@@ -1,25 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from './reducers'
 import './index.css';
-import PackingSpace from './components/PackingSpace/PackingSpace';
-import UnpackedObjectSpace from './components/UnpackedObjectSpace/UnpackedObjectSpace'
+import AppContainer from './App'
 
 import registerServiceWorker from './registerServiceWorker';
 
-
-function App() {
+function renderApp() {
+  let store = createStore(rootReducer);
   return(
-    <div className="OuterWrapper">
-      <h1 align="center">Packer</h1>
-      <div className="InnerWrapper">
-        <PackingSpace/>
-        <UnpackedObjectSpace/>
+    <Provider store={store}>
+      <div className="OuterWrapper">
+        <h1 align="center">Packer</h1>
+        < AppContainer />
       </div>
-    </div>
+    </Provider>
   )
 }
 
 ReactDOM.render(
-  <App />,
+  renderApp(),
   document.getElementById('root'));
 registerServiceWorker();

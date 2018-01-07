@@ -17,9 +17,3 @@ html, body, #root {
   height: 100%;
   overflow: hidden;
 }
-
-.InnerWrapper {
-  width: 90%;
-  height: 100%;
-  margin: auto;
-}
