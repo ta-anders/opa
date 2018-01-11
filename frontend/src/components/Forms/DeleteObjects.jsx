@@ -4,10 +4,10 @@ import { deletePackingObjects } from '../../actions'
 
 const DeleteObjectsButton = (props) => {
   return (
-    <button className="DeleteButton"
-            onClick={props.deleteObjects}>
-      Delete All
-    </button>
+    <div class="ui right floated button"
+         onClick={props.deleteObjects}>
+      <i class="trash icon"></i> clear all
+    </div>
   )
 }
 

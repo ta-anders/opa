@@ -28,7 +28,7 @@ function renderApp() {
   return(
     <Provider store={store}>
       <div className="OuterWrapper">
-        <h1 align="center">Packer</h1>
+        <h1 align="center">packer</h1>
         <AppContainer />
       </div>
     </Provider>

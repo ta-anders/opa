@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux'
+import { Form } from 'semantic-ui-react'
+
 import { createPackingObjects } from '../../actions'
 import './index.css'
 
@@ -26,21 +28,39 @@ class CreateObjectsForm extends Component {
   }
 
   render() {
+    const { unpackedObjects } = this.props;
     return (
-      <form className="CreateForm" onSubmit={this.handleSubmit}>
-        <label>
-          Create More:
-          <input className="CreateInput" type="text" value={this.state.objects} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit"/>
-      </form>
-    );
+      <div className="CreateForm">
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group class="inline fields">
+            <Form.Field>
+                <input className="CreateInput"
+                       type="text"
+                       value={this.state.objects}
+                       onChange={this.handleChange}
+                       placeholder="add more"/>
+            </Form.Field>
+            <a class="ui basic blue label" style={{fontSize: "inherit"}}>
+              {unpackedObjects.length}
+            </a>
+          </Form.Group>
+        </Form>
+      </div>
+    )
   }
 }
 
 CreateObjectsForm.propTypes = {
-  createObjects: PropTypes.func.isRequired
+  createObjects: PropTypes.func.isRequired,
+  unpackedObjects: PropTypes.array.isRequired
 };
+
+
+const mapStateToProps = state => {
+  return {
+    unpackedObjects: state.packingObjects.unpackedObjects
+  }
+}
 
 
 const mapDispatchToProps = dispatch => ({
@@ -48,4 +68,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(null, mapDispatchToProps)(CreateObjectsForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateObjectsForm)

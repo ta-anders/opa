@@ -1,21 +1,25 @@
 .FormBar {
-  overflow: auto;
+  overflow: hidden;
   margin: 0 auto;
+  margin-bottom: 20px;
   text-align: center;
   horiz-align: center;
+  height: 35px;
 }
 
 .CreateForm {
   display: inline-block;
+  height: 35px;
   margin: 0 auto;
 }
 
 
 .CreateInput {
   width: 20%;
-  vertical-align: center;
+  height: 35px;
   margin-left: auto;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 
