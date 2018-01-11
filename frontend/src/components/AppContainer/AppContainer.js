@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-import './App.css'
-import PackingSpace from './components/PackingSpace/PackingSpace';
-import UnpackedObjectSpace from './components/UnpackedObjectSpace/UnpackedObjectSpace'
-import { fetchPackingObjects } from './actions'
+import './AppContainer.css'
+import PackingSpace from '../PackingSpace/PackingSpace';
+import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace'
+import FormBar from '../Forms/index'
+import { fetchPackingObjects } from '../../actions.js'
 
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
     return (
       <div className="App">
         <PackingSpace objects={packedObjects}/>
+        <FormBar/>
         <UnpackedObjectSpace objects={unpackedObjects}/>
       </div>
     )

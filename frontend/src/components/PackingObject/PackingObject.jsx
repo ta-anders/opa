@@ -5,7 +5,7 @@ import './PackingObject.css';
 class PackingObject extends Component {
   render() {
     const { height, width, packed } = this.props;
-    const fill = packed ? 'green': 'purple';
+    const fill = packed ? 'green': '#2b01a0';
     return (
       <div className="PackingObject"
            style={
