@@ -1,0 +1,5 @@
+Sort by volume/width/height
+Implement drag and drop with snap
+Think about potential other endpoints
+Scenario/User management
+Write packing algorithm!
