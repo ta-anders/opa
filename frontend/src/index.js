@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
+import 'semantic-ui-css/semantic.min.css';
+
 import rootReducer from './reducers';
 import './index.css';
 import AppContainer from './components/AppContainer/AppContainer';
