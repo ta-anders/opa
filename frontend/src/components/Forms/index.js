@@ -7,8 +7,14 @@ import DeleteObjectsButtonContainer from './DeleteObjects'
 const FormBar = (props) => {
   return (
     <div className="FormBar">
-      <CreateObjectsFormContainer/>
-      <DeleteObjectsButtonContainer/>
+      <div className="UnpackedForms">
+          <div style={{margin: "auto"}}>
+            <CreateObjectsFormContainer/>
+          </div>
+          <div>
+            <DeleteObjectsButtonContainer/>
+          </div>
+      </div>
     </div>
   )
 }

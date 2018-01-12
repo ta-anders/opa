@@ -1,38 +1,23 @@
 .FormBar {
-  overflow: hidden;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  text-align: center;
-  horiz-align: center;
-  height: 35px;
-}
+  margin-bottom: 10px;
+  height: 35px; }
 
-.CreateForm {
-  display: inline-block;
-  height: 35px;
-  margin: 0 auto;
-}
+  .FormBar .UnpackedForms {
+    height: inherit;
+    width: 50%;
+    display: flex;
+    float: right; }
+    /*.FormBar .UnpackedForms .DeleteButton {*/
+      /*float: right; }*/
+
+    /*.FormBar .UnpackedForms .CreateForm {*/
+      /*float: left;*/
+      /*margin-left: 40px; }*/
 
 
 .CreateInput {
-  width: 20%;
   height: 35px;
   margin-left: auto;
   margin-bottom: 10px;
   text-align: center;
-}
-
-
-.DeleteButton {
-  float: right;
-  font-size: 15px;
-  background-color: #2b77f2;
-  color: white;
-  -webkit-transition-duration: 0.4s;
-  padding:5px 5px;
-}
-
-.DeleteButton:hover {
-  background-color: white;
-  color: black;
 }

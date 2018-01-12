@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux'
-import './AppContainer.css'
+
+import FormBar from '../Forms/index'
 import PackingSpace from '../PackingSpace/PackingSpace';
 import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace'
-import FormBar from '../Forms/index'
-import { fetchPackingObjects } from '../../actions.js'
+
+import './OpaApp.css'
 
 
-class App extends Component {
+class OpaApp extends Component {
   componentDidMount() {
     this.props.loadData();
   }
@@ -17,16 +17,16 @@ class App extends Component {
     const {packedObjects, unpackedObjects} = this.props;
 
     return (
-      <div className="App">
-        <PackingSpace objects={packedObjects}/>
+      <div className="OpaApp">
         <FormBar/>
+        <PackingSpace objects={packedObjects}/>
         <UnpackedObjectSpace objects={unpackedObjects}/>
       </div>
     )
   }
 }
 
-App.propTypes = {
+OpaApp.propTypes = {
   packedObjects: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -47,18 +47,4 @@ App.propTypes = {
 };
 
 
-const mapStateToProps = state => {
-  return {
-    packedObjects: state.packingObjects.packedObjects,
-    unpackedObjects: state.packingObjects.unpackedObjects
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  loadData: () => dispatch(fetchPackingObjects()),
-});
-
-
-const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App)
-
-export default AppContainer
+export default OpaApp

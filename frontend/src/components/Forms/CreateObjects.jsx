@@ -30,9 +30,11 @@ class CreateObjectsForm extends Component {
   render() {
     const { unpackedObjects } = this.props;
     return (
-      <div className="CreateForm">
         <Form onSubmit={this.handleSubmit}>
           <Form.Group class="inline fields">
+            <a class="ui basic blue label" style={{fontSize: "inherit"}}>
+              {unpackedObjects.length}
+            </a>
             <Form.Field>
                 <input className="CreateInput"
                        type="text"
@@ -40,12 +42,11 @@ class CreateObjectsForm extends Component {
                        onChange={this.handleChange}
                        placeholder="add more"/>
             </Form.Field>
-            <a class="ui basic blue label" style={{fontSize: "inherit"}}>
-              {unpackedObjects.length}
-            </a>
+            <button class="circular ui icon button">
+              <i class="icon plus"></i>
+            </button>
           </Form.Group>
         </Form>
-      </div>
     )
   }
 }
