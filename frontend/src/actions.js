@@ -15,11 +15,10 @@ export function getPackingObjectsSuccess(packingObjects) {
 }
 
 
-export function updatePackingObjectSuccess(payload, prevPacked) {
+export function updatePackingObjectSuccess(payload) {
   return {
     type: UPDATE_PACKING_OBJECT,
     payload,
-    prevPacked
   }
 }
 

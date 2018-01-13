@@ -16,12 +16,15 @@ const packingSpaceTarget = {
     const offset = monitor.getSourceClientOffset();
     const packingSpace = document.getElementsByClassName("PackingSpace")[0];
     const packingSpaceOffset = packingSpace.getBoundingClientRect();
+    const item = monitor.getItem();
+
+    const maxWidth = packingSpaceOffset.width - item.width;
+    const maxHeight = packingSpaceOffset.height - item.height;
 
     const newPos = {
-      x_coordinate: offset.x - packingSpaceOffset.left,
-      y_coordinate: offset.y - packingSpaceOffset.top
+      x_coordinate: Math.min(Math.max(offset.x - packingSpaceOffset.left, 0), maxWidth),
+      y_coordinate: Math.min(Math.max(offset.y - packingSpaceOffset.top, 0), maxHeight)
     }
-    const item = monitor.getItem();
 
     props.updatePackingObject(newPos, item);
   }

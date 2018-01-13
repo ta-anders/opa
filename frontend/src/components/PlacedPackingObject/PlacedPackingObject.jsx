@@ -18,7 +18,6 @@ const getStyles = (props) => {
 class PlacedPackingObject extends Component {
   render() {
     const { height, width, id } = this.props;
-    console.log(getStyles(this.props));
     return (
       <div style={getStyles(this.props)}>
         <PackingObject height={height}
