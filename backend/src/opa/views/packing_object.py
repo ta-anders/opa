@@ -74,3 +74,25 @@ def packing_objects_delete_all(request):
     db.flush()
 
     return 'Deleted everything'
+
+
+@view_config(
+    route_name='packing_object_item',
+    request_method='PUT',
+    renderer='json'
+)
+@use_kwargs({'packing_object_id': fields.Integer(required=True, location='matchdict')})
+def packing_object_post(request, packing_object_id):
+
+    db = request.dbsession
+
+    # packing_obj = db.query(PackingObject).get(packing_object_id)
+
+    print(packing_obj, packing_object_id)
+
+    # schema = PackingObjectSchema(strict=True, many=True)
+
+    # result = schema.dump(packing_objs)
+
+    # return result.data
+
