@@ -81,18 +81,24 @@ def packing_objects_delete_all(request):
     request_method='PUT',
     renderer='json'
 )
-@use_kwargs({'packing_object_id': fields.Integer(required=True, location='matchdict')})
-def packing_object_post(request, packing_object_id):
+@use_kwargs(
+    {
+        'packing_object_id': fields.Integer(required=True, location='matchdict'),
+        'x_coordinate': fields.Integer(required=True),
+        'y_coordinate': fields.Integer(required=True)
+    }
+)
+def packing_object_post(request, packing_object_id, x_coordinate, y_coordinate):
 
     db = request.dbsession
 
-    # packing_obj = db.query(PackingObject).get(packing_object_id)
+    packing_obj = db.query(PackingObject).get(packing_object_id)
+    packing_obj.x_coordinate = x_coordinate
+    packing_obj.y_coordinate = y_coordinate
 
-    print(packing_obj, packing_object_id)
+    schema = PackingObjectSchema(strict=True)
 
-    # schema = PackingObjectSchema(strict=True, many=True)
+    result = schema.dump(packing_obj)
 
-    # result = schema.dump(packing_objs)
-
-    # return result.data
+    return result.data
 
