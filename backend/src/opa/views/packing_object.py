@@ -91,8 +91,8 @@ def packing_objects_delete_unpacked(request):
 @use_kwargs(
     {
         'packing_object_id': fields.Integer(required=True, location='matchdict'),
-        'x_coordinate': fields.Integer(required=True),
-        'y_coordinate': fields.Integer(required=True)
+        'x_coordinate': fields.Integer(required=True, allow_none=True),
+        'y_coordinate': fields.Integer(required=True, allow_none=True)
     }
 )
 def packing_object_post(request, packing_object_id, x_coordinate, y_coordinate):
