@@ -5,9 +5,22 @@ import { fetchPackingObjects } from '../../actions.js'
 
 
 const mapStateToProps = state => {
+  const packedObjects = [];
+  const unpackedObjects = [];
+
+  for (let i = 0; i < state.packingObjects.length; i++) {
+    const obj = state.packingObjects[i];
+    if (obj.packed) {
+      packedObjects.push(obj);
+    }
+    else {
+      unpackedObjects.push(obj);
+    }
+  }
+
   return {
-    packedObjects: state.packingObjects.packedObjects,
-    unpackedObjects: state.packingObjects.unpackedObjects
+    packedObjects: packedObjects,
+    unpackedObjects: unpackedObjects,
   }
 }
 

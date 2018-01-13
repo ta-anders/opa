@@ -6,7 +6,7 @@ const DeleteObjectsButton = (props) => {
   return (
     <div class="ui button" style={{fontSize: "14px"}}
          onClick={props.deleteObjects}>
-      <i class="trash icon"></i> clear all
+      <i class="trash icon"></i> clear
     </div>
   )
 }

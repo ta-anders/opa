@@ -1,7 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './PackingSpace.css';
+import { DropTarget } from 'react-dnd'
+
 import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject'
+import ItemTypes from '../../ItemTypes'
+
+
+import './PackingSpace.css';
+import { connect } from 'react-redux'
+import { updatePackingObject } from '../../actions'
+
+
+const packingSpaceTarget = {
+  drop (props, monitor, component) {
+    const offset = monitor.getSourceClientOffset();
+    const packingSpace = document.getElementsByClassName("PackingSpace")[0];
+    const packingSpaceOffset = packingSpace.getBoundingClientRect();
+
+    const newPos = {
+      x_coordinate: offset.x - packingSpaceOffset.left,
+      y_coordinate: offset.y - packingSpaceOffset.top
+    }
+    const item = monitor.getItem();
+
+    props.updatePackingObject(newPos, item);
+  }
+}
+
+
+const collect = (connect, monitor) => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+  };
+}
+
 
 class PackingSpace extends Component {
   renderPlacedPackingObject(obj) {
@@ -9,15 +41,17 @@ class PackingSpace extends Component {
                                 yCoordinate={obj.yCoordinate}
                                 height={obj.height}
                                 width={obj.width}
-                                key={obj.id}/>
+                                key={obj.id}
+                                id={obj.id}
+    />
   }
 
   render() {
-    const { height, width, objects} = this.props;
+    const { height, width, objects, connectDropTarget} = this.props;
     const packingObjects = objects.map(
       obj => this.renderPlacedPackingObject(obj)
     )
-    return (
+    return connectDropTarget(
       <div className="PackingSpace" style={{width: width, height: height}}>
         {packingObjects}
       </div>
@@ -36,9 +70,21 @@ PackingSpace.propTypes = {
       xCoordinate: PropTypes.number.isRequired,
       yCoordinate: PropTypes.number.isRequired,
     }).isRequired
-  )
+  ),
+  connectDropTarget: PropTypes.func.isRequired,
+  updatePackingObject: PropTypes.func.isRequired
 };
 
 PackingSpace.defaultProps = {height: 400, width: 450, objects: []}
 
-export default PackingSpace
+const PackingSpaceTarget = DropTarget(ItemTypes.PACKING_OBJECT, packingSpaceTarget, collect)(PackingSpace);
+
+
+const mapDispatchToProps = dispatch => ({
+  updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
+});
+
+
+const PackingSpaceTargetContainer = connect(null, mapDispatchToProps)(PackingSpaceTarget);
+
+export default PackingSpaceTargetContainer;

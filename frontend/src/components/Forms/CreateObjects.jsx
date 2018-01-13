@@ -40,10 +40,12 @@ class CreateObjectsForm extends Component {
                        type="text"
                        value={this.state.objects}
                        onChange={this.handleChange}
-                       placeholder="add more"/>
+                       />
             </Form.Field>
-            <button class="circular ui icon button">
-              <i class="icon plus"></i>
+            <button class="circular ui icon button"
+                    data-tooltip="create more objects"
+                    data-variation="tiny">
+                <i class="icon plus"></i>
             </button>
           </Form.Group>
         </Form>
@@ -59,7 +61,7 @@ CreateObjectsForm.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    unpackedObjects: state.packingObjects.unpackedObjects
+    unpackedObjects: state.packingObjects.filter(record => (!record.packed))
   }
 }
 

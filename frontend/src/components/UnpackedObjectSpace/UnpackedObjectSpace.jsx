@@ -9,6 +9,7 @@ class UnpackedObjectSpace extends Component {
     return <PackingObject height={obj.height}
                           width={obj.width}
                           packed={false}
+                          id={obj.id}
                           key={obj.id}/>
   }
 

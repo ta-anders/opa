@@ -5,6 +5,10 @@ import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import 'semantic-ui-css/semantic.min.css';
 
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
+
 import rootReducer from './reducers';
 import './index.css';
 import OpaAppContainer from './components/OpaAppContainer/OpaAppContainer';
@@ -39,4 +43,4 @@ class App extends Component {
 }
 
 
-export default App
+export default DragDropContext(HTML5Backend)(App)

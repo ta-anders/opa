@@ -1,15 +1,25 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 
 
-export const GET_PACKING_OBJECTS = 'GET_PACKING_OBJECTS'
-export const CREATE_PACKING_OBJECTS = 'CREATE_PACKING_OBJECTS'
-export const DELETE_PACKING_OBJECTS = 'DELETE_PACKING_OBJECTS'
+export const GET_PACKING_OBJECTS = 'GET_PACKING_OBJECTS';
+export const CREATE_PACKING_OBJECTS = 'CREATE_PACKING_OBJECTS';
+export const DELETE_PACKING_OBJECTS = 'DELETE_PACKING_OBJECTS';
+export const UPDATE_PACKING_OBJECT = 'UPDATE_PACKING_OBJECT';
 
 
 export function getPackingObjectsSuccess(packingObjects) {
   return {
     type: GET_PACKING_OBJECTS,
     response: packingObjects
+  }
+}
+
+
+export function updatePackingObjectSuccess(payload, prevPacked) {
+  return {
+    type: UPDATE_PACKING_OBJECT,
+    payload,
+    prevPacked
   }
 }
 
@@ -40,6 +50,16 @@ export function fetchPackingObjects() {
         return fetchWrapper('/packing_objects').then(
           json => dispatch(getPackingObjectsSuccess(json))
         )
+    }
+}
+
+
+export function updatePackingObject(body, packingObject) {
+  return function(dispatch) {
+    return fetchWrapper(
+        `/packing_objects/${packingObject.id}`,
+        {method: 'PUT', body: JSON.stringify(body)}
+      ).then(data => dispatch(updatePackingObjectSuccess(data)))
     }
 }
 

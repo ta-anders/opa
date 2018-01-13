@@ -1,49 +1,26 @@
-import { CREATE_PACKING_OBJECTS, DELETE_PACKING_OBJECTS, GET_PACKING_OBJECTS } from '../actions'
+import { CREATE_PACKING_OBJECTS, DELETE_PACKING_OBJECTS, GET_PACKING_OBJECTS, UPDATE_PACKING_OBJECT } from '../actions'
 
-const initialState = {unpackedObjects: [], packedObjects: []};
-
-
-function stripFields(packingObj) {
-  const {id, width, height, xCoordinate, yCoordinate, packed} = packingObj;
-  if (!packed) {
-    return {id: id, width: width, height: height}
-  }
-  else {
-    return {
-      id: id,
-      width: width,
-      height: height,
-      xCoordinate: xCoordinate,
-      yCoordinate: yCoordinate
-    }
-  }
-}
+const initialState = [];
 
 
 const packingObjects = (state = initialState, action) => {
   switch (action.type) {
     case GET_PACKING_OBJECTS:
-      let newState = {unpackedObjects: [], packedObjects: []};
-      for (let i = 0; i < action.response.length; i++) {
-        let obj = action.response[i];
-        if (obj.packed) {
-          newState.packedObjects.push(stripFields(obj))
-        }
-        else {
-          newState.unpackedObjects.push(stripFields(obj))
-        }
-      }
-      return newState
+      return action.response
     case CREATE_PACKING_OBJECTS:
-        return ({
+        return ([
           ...state,
-          unpackedObjects: [
-            ...state.unpackedObjects,
-            ...action.payload
-          ]
-        })
+          ...action.payload,
+        ])
     case DELETE_PACKING_OBJECTS:
-      return {unpackedObjects: [], packedObjects: []}
+      return [];
+    case UPDATE_PACKING_OBJECT:
+      const indexToUpdate = state.findIndex(entity => entity.id === action.payload.id);
+      return ([
+        ...state.slice(0, indexToUpdate),
+        action.payload,
+        ...state.slice(indexToUpdate + 1, state.length),
+      ])
     default:
       return state
   }
