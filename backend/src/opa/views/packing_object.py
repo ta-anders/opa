@@ -3,6 +3,7 @@ import random
 
 from marshmallow import fields
 from pyramid.view import view_config
+from sqlalchemy import or_
 from webargs.pyramidparser import use_kwargs
 
 from opa.models import PackingObject
@@ -67,10 +68,44 @@ def packing_objects_post(request, num_objects):
     request_method='DELETE',
     renderer='json'
 )
-def packing_objects_delete_all(request):
+def packing_objects_delete_unpacked(request):
     db = request.dbsession
 
-    db.query(PackingObject).delete()
+    unpacked = (
+        db.query(PackingObject)
+        # .filter(or_(PackingObject.x_coordinate.is_(None), PackingObject.y_coordinate.is_(None)))
+    )
+    ret = {'deleted': [p.id for p in unpacked]}
+
+    unpacked.delete()
     db.flush()
 
-    return 'Deleted everything'
+    return ret
+
+
+@view_config(
+    route_name='packing_object_item',
+    request_method='PUT',
+    renderer='json'
+)
+@use_kwargs(
+    {
+        'packing_object_id': fields.Integer(required=True, location='matchdict'),
+        'x_coordinate': fields.Integer(required=True, allow_none=True),
+        'y_coordinate': fields.Integer(required=True, allow_none=True)
+    }
+)
+def packing_object_post(request, packing_object_id, x_coordinate, y_coordinate):
+
+    db = request.dbsession
+
+    packing_obj = db.query(PackingObject).get(packing_object_id)
+    packing_obj.x_coordinate = x_coordinate
+    packing_obj.y_coordinate = y_coordinate
+
+    schema = PackingObjectSchema(strict=True)
+
+    result = schema.dump(packing_obj)
+
+    return result.data
+

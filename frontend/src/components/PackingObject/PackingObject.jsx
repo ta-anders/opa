@@ -9,7 +9,7 @@ import './PackingObject.css';
 
 const packingObjectSource = {
 	beginDrag(props) {
-		return {id: props.id};
+		return {id: props.id, width: props.width, height: props.height};
 	},
 }
 
@@ -48,8 +48,7 @@ PackingObject.propTypes = {
   width: PropTypes.number.isRequired,
   packed: PropTypes.bool.isRequired,
   connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired,
-  updatePackingObject: PropTypes.func.isRequired
+  isDragging: PropTypes.bool.isRequired
 };
 
 

@@ -11,17 +11,34 @@ import { connect } from 'react-redux'
 import { updatePackingObject } from '../../actions'
 
 
+function snapToGrid(x, y) {
+	const snappedX = Math.round(x / 32) * 32
+	const snappedY = Math.round(y / 32) * 32
+
+	return [snappedX, snappedY]
+}
+
+
 const packingSpaceTarget = {
-  drop (props, monitor, component) {
+  drop(props, monitor, component) {
     const offset = monitor.getSourceClientOffset();
     const packingSpace = document.getElementsByClassName("PackingSpace")[0];
     const packingSpaceOffset = packingSpace.getBoundingClientRect();
-
-    const newPos = {
-      x_coordinate: offset.x - packingSpaceOffset.left,
-      y_coordinate: offset.y - packingSpaceOffset.top
-    }
     const item = monitor.getItem();
+
+    const maxWidth = packingSpaceOffset.width - item.width;
+    const maxHeight = packingSpaceOffset.height - item.height;
+
+    let x = offset.x - packingSpaceOffset.left;
+    let y = offset.y - packingSpaceOffset.top;
+
+    // let x = Math.min(Math.max(offset.x - packingSpaceOffset.left, 0), maxWidth);
+    // let y = Math.min(Math.max(offset.y - packingSpaceOffset.top, 0), maxHeight);
+    [x, y] = snapToGrid(x, y);
+    const newPos = {
+      x_coordinate: Math.min(Math.max(x, 0), maxWidth),
+      y_coordinate: Math.min(Math.max(y, 0), maxHeight)
+    }
 
     props.updatePackingObject(newPos, item);
   }
