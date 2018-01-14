@@ -32,9 +32,8 @@ const packingSpaceTarget = {
     let x = offset.x - packingSpaceOffset.left;
     let y = offset.y - packingSpaceOffset.top;
 
-    // let x = Math.min(Math.max(offset.x - packingSpaceOffset.left, 0), maxWidth);
-    // let y = Math.min(Math.max(offset.y - packingSpaceOffset.top, 0), maxHeight);
     [x, y] = snapToGrid(x, y);
+
     const newPos = {
       x_coordinate: Math.min(Math.max(x, 0), maxWidth),
       y_coordinate: Math.min(Math.max(y, 0), maxHeight)
