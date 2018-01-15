@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd'
+import { DropTarget } from 'react-dnd';
 
-import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject'
-import ItemTypes from '../../ItemTypes'
+import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject';
+import ItemTypes from '../../ItemTypes';
 
 
 import './PackingSpace.css';
-import { connect } from 'react-redux'
-import { updatePackingObject } from '../../actions'
+import { connect } from 'react-redux';
+import { updatePackingObject } from '../../actions';
 
 
 function snapToGrid(x, y) {
-	const snappedX = Math.round(x / 32) * 32
-	const snappedY = Math.round(y / 32) * 32
+	const snappedX = Math.round(x / 16) * 16
+	const snappedY = Math.round(y / 16) * 16
 
 	return [snappedX, snappedY]
 }
@@ -32,7 +32,9 @@ const packingSpaceTarget = {
     let x = offset.x - packingSpaceOffset.left;
     let y = offset.y - packingSpaceOffset.top;
 
-    [x, y] = snapToGrid(x, y);
+    // [x, y] = snapToGrid(x, y);
+
+
 
     const newPos = {
       x_coordinate: Math.min(Math.max(x, 0), maxWidth),
@@ -91,9 +93,13 @@ PackingSpace.propTypes = {
   updatePackingObject: PropTypes.func.isRequired
 };
 
-PackingSpace.defaultProps = {height: 400, width: 450, objects: []}
 
 const PackingSpaceTarget = DropTarget(ItemTypes.PACKING_OBJECT, packingSpaceTarget, collect)(PackingSpace);
+
+
+const mapStateToProps = state => {
+  return state.packingSpace;
+}
 
 
 const mapDispatchToProps = dispatch => ({
@@ -101,6 +107,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-const PackingSpaceTargetContainer = connect(null, mapDispatchToProps)(PackingSpaceTarget);
+const PackingSpaceTargetContainer = connect(mapStateToProps, mapDispatchToProps)(PackingSpaceTarget);
 
 export default PackingSpaceTargetContainer;

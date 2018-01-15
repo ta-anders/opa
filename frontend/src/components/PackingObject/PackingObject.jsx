@@ -21,6 +21,7 @@ const collect = (connect, monitor) => {
   }
 }
 
+
 class PackingObject extends Component {
   render() {
     const { height, width, packed, connectDragSource, isDragging } = this.props;
@@ -31,7 +32,7 @@ class PackingObject extends Component {
       style.marginLeft = "20px";
     }
     else {
-      style.backgroundColor = "green";
+      style.backgroundColor = getRandomColor();
     }
     style.opacity = isDragging ? 0.25 : 1;
 
@@ -55,3 +56,12 @@ PackingObject.propTypes = {
 const DraggablePackingObject = DragSource(ItemTypes.PACKING_OBJECT, packingObjectSource, collect)(PackingObject);
 export default DraggablePackingObject
 
+
+const getRandomColor = () => {
+  let letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
