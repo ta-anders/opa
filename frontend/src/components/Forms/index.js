@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './index.css'
-import CreateObjectsFormContainer from './CreateObjects'
-import DeleteObjectsButtonContainer from './DeleteObjects'
-import Utilisation from './Utilisation'
+import ClearObjectsButton from './ClearObjects';
+import CreateObjectsFormContainer from './CreateObjects';
+import DeleteObjectsButtonContainer from './DeleteObjects';
+import Utilisation from './Utilisation';
 
 
 const FormBar = (props) => {
   return (
     <div className="FormBar">
-      <div style={{width: props.width, height: "100%", float: "left"}}>
+      <div style={{width: props.width, height: "100%", float: "left", textAlign: "center"}}>
         <Utilisation/>
+        <ClearObjectsButton/>
       </div>
       <div className="UnpackedForms">
         <div style={{float: "left", paddingLeft: "30%"}}>

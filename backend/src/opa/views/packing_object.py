@@ -73,7 +73,7 @@ def packing_objects_delete_unpacked(request):
 
     unpacked = (
         db.query(PackingObject)
-        # .filter(or_(PackingObject.x_coordinate.is_(None), PackingObject.y_coordinate.is_(None)))
+        .filter(or_(PackingObject.x_coordinate.is_(None), PackingObject.y_coordinate.is_(None)))
     )
     ret = {'deleted': [p.id for p in unpacked]}
 

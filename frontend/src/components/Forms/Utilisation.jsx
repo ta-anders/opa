@@ -18,7 +18,7 @@ class Utilisation extends Component {
     utilisation = Math.round(utilisation * 100) / 100;
 
     return (
-      <h2 align="center">Utilisation: {utilisation}%</h2>
+      <h2 style={{display: "inline-block"}} align="center">Utilisation: {utilisation}%</h2>
     );
   }
 }
