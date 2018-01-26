@@ -1,4 +1,4 @@
-from sqlalchemy import CheckConstraint, Column, Float, Integer
+from sqlalchemy import CheckConstraint, Column, Float, Integer, String
 
 from opa.models.meta import Base
 
@@ -12,6 +12,8 @@ class PackingObject(Base):
 
     x_coordinate = Column(Integer, nullable=True)
     y_coordinate = Column(Integer, nullable=True)
+
+    background_color = Column(String, nullable=True)
 
     __table_args__ = (
         CheckConstraint(

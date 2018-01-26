@@ -24,17 +24,15 @@ const collect = (connect, monitor) => {
 
 class PackingObject extends Component {
   render() {
-    const { height, width, packed, connectDragSource, isDragging } = this.props;
+    const { height, width, packed, backgroundColor, connectDragSource, isDragging } = this.props;
     let style = {width: width, height: height};
     if (!packed) {
       style.display = "inline-block";
-      style.backgroundColor = "#2b01a0";
       style.marginLeft = "20px";
     }
-    else {
-      style.backgroundColor = getRandomColor();
-    }
     style.opacity = isDragging ? 0.25 : 1;
+    console.log(backgroundColor)
+    style.backgroundColor = backgroundColor;
 
     return connectDragSource(
       <div style={style}>
@@ -47,6 +45,7 @@ PackingObject.propTypes = {
   id: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
   packed: PropTypes.bool.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
@@ -55,13 +54,3 @@ PackingObject.propTypes = {
 
 const DraggablePackingObject = DragSource(ItemTypes.PACKING_OBJECT, packingObjectSource, collect)(PackingObject);
 export default DraggablePackingObject
-
-
-const getRandomColor = () => {
-  let letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}

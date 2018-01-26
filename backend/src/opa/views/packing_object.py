@@ -8,7 +8,7 @@ from webargs.pyramidparser import use_kwargs
 
 from opa.models import PackingObject
 from opa.schemas.packing_object import PackingObjectSchema
-
+from opa.utils import get_random_color
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,8 @@ def packing_objects_post(request, num_objects):
             width=10 + int(200 * random.random()),
             height=10 + int(50 * random.random()),
             x_coordinate=None,
-            y_coordinate=None
+            y_coordinate=None,
+            background_color=get_random_color()
         )
         for _ in range(num_objects)
     ]

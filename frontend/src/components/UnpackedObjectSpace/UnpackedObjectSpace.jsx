@@ -29,6 +29,7 @@ class UnpackedObjectSpace extends Component {
     return <PackingObject height={obj.height}
                           width={obj.width}
                           packed={false}
+                          backgroundColor={obj.backgroundColor}
                           id={obj.id}
                           key={obj.id}/>
   }
@@ -51,6 +52,7 @@ UnpackedObjectSpace.propTypes = {
       id: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
       width: PropTypes.number.isRequired,
+      backgroundColor: PropTypes.string.isRequired,
     }).isRequired
   ),
   connectDropTarget: PropTypes.func.isRequired,
