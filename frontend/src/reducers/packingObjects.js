@@ -14,8 +14,6 @@ const mapBackendReturnToFrontend = (backendPackingObject) => {
   delete ret["y_coordinate"];
   delete ret["background_color"];
 
-  console.log(ret);
-
   return ret
 }
 

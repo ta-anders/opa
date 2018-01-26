@@ -31,7 +31,6 @@ class PackingObject extends Component {
       style.marginLeft = "20px";
     }
     style.opacity = isDragging ? 0.25 : 1;
-    console.log(backgroundColor)
     style.backgroundColor = backgroundColor;
 
     return connectDragSource(
