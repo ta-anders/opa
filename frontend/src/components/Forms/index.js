@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import './index.css'
-import CreateObjectsFormContainer from './CreateObjects'
-import DeleteObjectsButtonContainer from './DeleteObjects'
+import ClearObjectsButton from './ClearObjects';
+import CreateObjectsFormContainer from './CreateObjects';
+import DeleteObjectsButtonContainer from './DeleteObjects';
+import Utilisation from './Utilisation';
+import SolveButton from './SolveButton'
 
 
 const FormBar = (props) => {
   return (
     <div className="FormBar">
+      <div style={{width: props.width, height: "100%", float: "left", textAlign: "center"}}>
+        <Utilisation/>
+        <ClearObjectsButton/>
+        <SolveButton/>
+      </div>
       <div className="UnpackedForms">
-          <div style={{margin: "auto"}}>
-            <CreateObjectsFormContainer/>
-          </div>
-          <div>
-            <DeleteObjectsButtonContainer/>
-          </div>
+        <div style={{float: "left", paddingLeft: "30%"}}>
+          <CreateObjectsFormContainer/>
+        </div>
+        <div style={{float: "right"}}>
+          <DeleteObjectsButtonContainer/>
+        </div>
       </div>
     </div>
   )
 }
 
 
-export default FormBar
+const mapStateToProps = state => {
+  return state.packingSpace;
+}
+
+
+export default connect(mapStateToProps, null)(FormBar)

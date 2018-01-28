@@ -5,6 +5,8 @@ export const GET_PACKING_OBJECTS = 'GET_PACKING_OBJECTS';
 export const CREATE_PACKING_OBJECTS = 'CREATE_PACKING_OBJECTS';
 export const DELETE_PACKING_OBJECTS = 'DELETE_PACKING_OBJECTS';
 export const UPDATE_PACKING_OBJECT = 'UPDATE_PACKING_OBJECT';
+export const CLEAR_PACKED_OBJECTS = 'CLEAR_PACKED_OBJECTS';
+export const SOLVER_SUCCESS = 'SOLVER_SUCCESS';
 
 
 export function getPackingObjectsSuccess(packingObjects) {
@@ -23,6 +25,14 @@ export function updatePackingObjectSuccess(payload) {
 }
 
 
+export function clearPackedObjectsSuccess(payload) {
+  return {
+    type: CLEAR_PACKED_OBJECTS,
+    payload,
+  }
+}
+
+
 export function createPackingObjectsSuccess(payload) {
   return {
     type: CREATE_PACKING_OBJECTS,
@@ -35,6 +45,14 @@ export function deletePackingObjectsSuccess(payload) {
   return {
     type: DELETE_PACKING_OBJECTS,
     payload,
+  }
+}
+
+
+export function callSolverSuccess(payload) {
+  return {
+    type: SOLVER_SUCCESS,
+    payload
   }
 }
 
@@ -63,6 +81,16 @@ export function updatePackingObject(body, packingObject) {
 }
 
 
+export function clearPackedObjects(body) {
+  return function(dispatch) {
+    return fetchWrapper(
+        `/packing_objects/clear`,
+        {method: 'PUT', body: JSON.stringify(body)}
+      ).then(data => dispatch(clearPackedObjectsSuccess(data)))
+    }
+}
+
+
 export function createPackingObjects(body) {
   return function(dispatch) {
     return fetchWrapper(
@@ -79,5 +107,15 @@ export function deletePackingObjects(body) {
       '/packing_objects',
       {method: 'DELETE', body: JSON.stringify(body)}
     ).then(data => dispatch(deletePackingObjectsSuccess(data)))
+  }
+}
+
+
+export function callSolver(body) {
+  return function(dispatch) {
+    return fetchWrapper(
+      '/solve',
+      {method: 'POST', body: JSON.stringify(body)}
+    ).then(data => dispatch(callSolverSuccess(data)))
   }
 }

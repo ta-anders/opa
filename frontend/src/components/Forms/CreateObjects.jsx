@@ -42,10 +42,8 @@ class CreateObjectsForm extends Component {
                        onChange={this.handleChange}
                        />
             </Form.Field>
-            <button class="circular ui icon button"
-                    data-tooltip="create more objects"
-                    data-variation="tiny">
-                <i class="icon plus"></i>
+            <button className="circular ui icon button">
+                <i className="icon plus"></i>
             </button>
           </Form.Group>
         </Form>

@@ -34,7 +34,6 @@ class App extends Component {
     return(
       <Provider store={this.store}>
         <div className="OuterWrapper">
-          <h1 align="center">OPA</h1>
           <OpaAppContainer />
         </div>
       </Provider>

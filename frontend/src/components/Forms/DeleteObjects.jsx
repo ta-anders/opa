@@ -4,12 +4,13 @@ import { deletePackingObjects } from '../../actions'
 
 const DeleteObjectsButton = (props) => {
   return (
-    <div class="ui button" style={{fontSize: "14px"}}
+    <div className="ui button" style={{fontSize: "14px"}}
          onClick={props.deleteObjects}>
-      <i class="trash icon"></i> clear
+      <i className="trash icon"></i> clear
     </div>
   )
-}
+};
+
 
 const mapDispatchToProps = dispatch => ({
   deleteObjects: () => dispatch(deletePackingObjects()),

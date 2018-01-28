@@ -1,18 +1,13 @@
 .FormBar {
   margin-bottom: 10px;
-  height: 35px; }
+  height: 40px; }
 
   .FormBar .UnpackedForms {
     height: inherit;
-    width: 50%;
-    display: flex;
-    float: right; }
-    /*.FormBar .UnpackedForms .DeleteButton {*/
-      /*float: right; }*/
-
-    /*.FormBar .UnpackedForms .CreateForm {*/
-      /*float: left;*/
-      /*margin-left: 40px; }*/
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;}
 
 
 .CreateInput {
