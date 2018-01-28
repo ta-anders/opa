@@ -17,6 +17,12 @@ typedef struct {
 } PackingSpace;
 
 
+PackingObject *placeObject(PackingObject *packingObject,
+                           int *upToX,
+                           int *upToY,
+                           int *maxRowHeight);
+
+
 PackingObject *doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObjects);
 
 

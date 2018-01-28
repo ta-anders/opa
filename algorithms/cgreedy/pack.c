@@ -35,6 +35,33 @@ pobjSort(const void *elem1, const void *elem2)
 }
 
 
+PackingObject *
+placeObject(PackingObject *packingObject,
+            int *upToX,
+            int *upToY,
+            int *maxRowHeight)
+{
+    packingObject->xCoordinate = *upToX;
+    packingObject->yCoordinate = *upToY;
+
+    printf("Packed object %d at (x:%d, y:%d)\n",
+           packingObject->id,
+           *upToX,
+           *upToY);
+
+    *upToX += packingObject->width;
+
+    int height = packingObject->height;
+    // Only update the max row height if this object is taller than the current height
+    if (height > *maxRowHeight) {
+        *maxRowHeight = height;
+    }
+
+    return packingObject;
+}
+
+
+
 /*
  * Greedy algorithm to place the packing objects into the packing space.
  *
@@ -71,18 +98,23 @@ doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObj
         if (width + upToX <= totalWidth &&
             height + upToY <= totalHeight)
         {
-            packingObjects[i].xCoordinate = upToX;
-            packingObjects[i].yCoordinate = upToY;
+            placeObject(&packingObjects[i],
+                        &upToX,
+                        &upToY,
+                        &maxRowHeight);
+        }
+        else {
+            upToY += maxRowHeight;
+            maxRowHeight = 0;
+            upToX = 0;
 
-            printf("Packed object %d at (x:%d, y:%d)\n",
-                   packingObjects[i].id,
-                   upToX,
-                   upToY);
-
-            upToX += width;
-            // Only update the max row height if this object is taller than the current height
-            if (height > maxRowHeight) {
-                maxRowHeight = height;
+            if (width + upToX <= totalWidth &&
+                height + upToY <= totalHeight)
+            {
+                placeObject(&packingObjects[i],
+                            &upToX,
+                            &upToY,
+                            &maxRowHeight);
             }
         }
     }
