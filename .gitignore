@@ -28,5 +28,6 @@ cmake-build-debug/
 CMakeLists.txt
 
 *.so
+*.o
 
 .cache/
