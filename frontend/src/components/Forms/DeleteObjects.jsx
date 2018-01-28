@@ -9,7 +9,8 @@ const DeleteObjectsButton = (props) => {
       <i className="trash icon"></i> clear
     </div>
   )
-}
+};
+
 
 const mapDispatchToProps = dispatch => ({
   deleteObjects: () => dispatch(deletePackingObjects()),

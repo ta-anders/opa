@@ -85,6 +85,21 @@ def packing_objects_delete_unpacked(request):
 
 
 @view_config(
+    route_name='clear_packed',
+    request_method='PUT',
+    renderer='json'
+)
+def packing_objects_clear_packed(request):
+    db = request.dbsession
+
+    db.query(PackingObject.id).filter(PackingObject.x_coordinate.isnot(None)).update(
+        {'x_coordinate': None, 'y_coordinate': None}
+    )
+
+    db.flush()
+
+
+@view_config(
     route_name='packing_object_item',
     request_method='PUT',
     renderer='json'
@@ -110,3 +125,25 @@ def packing_object_post(request, packing_object_id, x_coordinate, y_coordinate):
 
     return result.data
 
+
+@view_config(
+    route_name='solve',
+    request_method='POST',
+    renderer='json'
+)
+def packing_objects_solve(request):
+    db = request.dbsession
+
+    packing_objs = db.query(PackingObject).all()
+
+    for p_obj in packing_objs:
+        p_obj.x_coordinate = random.randint(0, 600 - p_obj.width)
+        p_obj.y_coordinate = random.randint(0, 500 - p_obj.height)
+
+    db.flush()
+
+    schema = PackingObjectSchema(strict=True, many=True)
+
+    result = schema.dump(packing_objs)
+
+    return result.data

@@ -5,6 +5,7 @@ import ClearObjectsButton from './ClearObjects';
 import CreateObjectsFormContainer from './CreateObjects';
 import DeleteObjectsButtonContainer from './DeleteObjects';
 import Utilisation from './Utilisation';
+import SolveButton from './SolveButton'
 
 
 const FormBar = (props) => {
@@ -13,6 +14,7 @@ const FormBar = (props) => {
       <div style={{width: props.width, height: "100%", float: "left", textAlign: "center"}}>
         <Utilisation/>
         <ClearObjectsButton/>
+        <SolveButton/>
       </div>
       <div className="UnpackedForms">
         <div style={{float: "left", paddingLeft: "30%"}}>

@@ -1,4 +1,4 @@
-const initialState = {height: 400, width: 450};
+const initialState = {height: 500, width: 600};
 
 
 const packingSpace = (state = initialState, action) => {
