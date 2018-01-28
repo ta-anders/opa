@@ -6,7 +6,10 @@ def make_input(db):
 
     keys = ['id', 'width', 'height']
 
-    return [{k: getattr(p, k) for k in keys} for p in packing_objs]
+    return {
+        'packing_objects': [{k: getattr(p, k) for k in keys} for p in packing_objs],
+        'packing_space': {'totalWidth': 600, 'totalHeight': 500}
+    }
 
 
 

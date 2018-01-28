@@ -1,5 +1,4 @@
 import logging
-import time
 
 from ctypes import CDLL, POINTER, Structure, byref, c_int, c_uint
 
@@ -23,7 +22,8 @@ class PackingObject(Structure):
     ]
 
 
-packer = CDLL('packer.so')
+# TODO: sort this thing out
+packer = CDLL('../algorithms/cgreedy/cgreedy.so')
 func = packer.doPack
 
 func.restype = POINTER(PackingObject)
@@ -34,9 +34,7 @@ def packing_object_array_type_factory(num):
     return PackingObject * num
 
 
-def call_creedy(packing_space, packing_objects):
-    st = time.time()
-
+def call_cgreedy(packing_space, packing_objects):
     num_objects = len(packing_objects)
     space = PackingSpace(**packing_space)
 
@@ -53,18 +51,11 @@ def call_creedy(packing_space, packing_objects):
 
     answer = func(byref(space), packing_objects, num_objects)
 
-    et = time.time()
-
-    print('Python wrapper took {} seconds'.format((et - st)))
-
-    return [a for a in answer[:num_objects]]
-
-
-if __name__ == '__main__':
-    space = {'totalWidth': 500, 'totalHeight': 450}
-    objs = [
-        {'id': i, 'width': 50, 'height': 50}
-        for i in range(50)
+    return [
+        {
+            'id': r.id,
+            'x_coordinate': r.xCoordinate,
+            'y_coordinate': r.yCoordinate
+        }
+        for r in answer[:num_objects]
     ]
-
-    call_creedy(space, objs)

@@ -6,11 +6,11 @@ OBJ = main.o pack.o
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-creedy: $(OBJ)
-	gcc -o creedy.so $^ $(CFLAGS)
+cgreedy: $(OBJ)
+	gcc -o cgreedy.so $^ $(CFLAGS)
 
 .PHONY : clean
 
 clean :
-	rm -f creedy *.o *.d
-	rm -f creedy.so
+	rm -f cgreedy *.o *.d
+	rm -f cgreedy.so

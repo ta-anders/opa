@@ -1,5 +1,5 @@
-#ifndef CREEDY_PACK_H
-#define CREEDY_PACK_H
+#ifndef CGREEDY_PACK_H
+#define CGREEDY_PACK_H
 
 
 typedef struct {
@@ -20,4 +20,4 @@ typedef struct {
 PackingObject *doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObjects);
 
 
-#endif //CREEDY_PACK_H
+#endif //CGREEDY_PACK_H
