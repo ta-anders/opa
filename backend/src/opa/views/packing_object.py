@@ -6,8 +6,11 @@ from pyramid.view import view_config
 from sqlalchemy import or_
 from webargs.pyramidparser import use_kwargs
 
+from opa.make_input import make_input
 from opa.models import PackingObject
+from opa.read_result import read_result
 from opa.schemas.packing_object import PackingObjectSchema
+from opa.solvers.cgreedy_wrapper import call_cgreedy
 from opa.utils import get_random_color
 
 logger = logging.getLogger(__name__)
@@ -111,7 +114,7 @@ def packing_objects_clear_packed(request):
         'y_coordinate': fields.Integer(required=True, allow_none=True)
     }
 )
-def packing_object_post(request, packing_object_id, x_coordinate, y_coordinate):
+def packing_object_put(request, packing_object_id, x_coordinate, y_coordinate):
 
     db = request.dbsession
 
@@ -134,16 +137,15 @@ def packing_object_post(request, packing_object_id, x_coordinate, y_coordinate):
 def packing_objects_solve(request):
     db = request.dbsession
 
-    packing_objs = db.query(PackingObject).all()
+    input = make_input(db)
 
-    for p_obj in packing_objs:
-        p_obj.x_coordinate = random.randint(0, 600 - p_obj.width)
-        p_obj.y_coordinate = random.randint(0, 500 - p_obj.height)
+    result = call_cgreedy(**input)
 
-    db.flush()
+    data = read_result(db, result)
 
     schema = PackingObjectSchema(strict=True, many=True)
+    
+    return schema.dump(data).data
 
-    result = schema.dump(packing_objs)
 
-    return result.data
+

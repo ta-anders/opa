@@ -23,4 +23,11 @@ yarn-error.log*
 # PyCharm
 .idea/
 
+# cmake
+cmake-build-debug/
+CMakeLists.txt
+
+*.so
+*.o
+
 .cache/
