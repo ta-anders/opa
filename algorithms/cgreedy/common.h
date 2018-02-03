@@ -15,6 +15,10 @@ typedef struct {
     int totalWidth;
 } PackingSpace;
 
+typedef struct {
+    int allowRotation;
+} PackingParameters;
+
 int getVolume (PackingObject *pobj);
 
 int pobjSort(const void *elem1, const void *elem2);

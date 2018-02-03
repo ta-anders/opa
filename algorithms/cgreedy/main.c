@@ -18,6 +18,8 @@ main(int argc, char** argv)
 
     PackingSpace packingSpace = {500, 450};
 
+    PackingParameters packingParameters = {1};
+
     srand(time(NULL));
 
     PackingObject packingObjects[numObjects];
@@ -33,7 +35,7 @@ main(int argc, char** argv)
         packingObjects[i].yCoordinate = -1;
     }
 
-    doFirstFitPack(&packingSpace, packingObjects, numObjects);
+    doFirstFitPack(&packingSpace, packingObjects, &packingParameters, numObjects);
 //    doShelfPack(&packingSpace, packingObjects, numObjects);
 
     return 0;

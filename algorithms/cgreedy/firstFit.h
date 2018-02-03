@@ -15,10 +15,11 @@ typedef struct Node {
     struct Node* rightChild;
 } Node;
 
-Node *insert(Node *node, PackingObject *packingObject);
+Node *insert(Node *node, PackingObject *packingObject, int allowRotation);
 
 PackingObject *doFirstFitPack(PackingSpace *packingSpace,
                               PackingObject packingObjects[],
+                              PackingParameters *packingParameters,
                               size_t numObjects);
 
 void initNodeChildren(Node *node);

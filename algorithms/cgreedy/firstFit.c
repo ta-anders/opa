@@ -3,8 +3,7 @@
 #include <time.h>
 
 #include "firstFit.h"
-
-const int allowRotation = 1;
+#include "common.h"
 
 
 /*
@@ -13,18 +12,18 @@ const int allowRotation = 1;
  * Once the object is placed, the parent node is split into two children which can then be utilised
  * by later objects to be packed.
  */
-Node *insert(Node *node, PackingObject *packingObject) {
+Node *insert(Node *node, PackingObject *packingObject, int allowRotation) {
     // Check if this node is a leaf or not
     if (node->leftChild || node->rightChild) {
         if (node->leftChild) {
-            Node *newlNode = insert(node->leftChild, packingObject);
+            Node *newlNode = insert(node->leftChild, packingObject, allowRotation);
             if (newlNode) {
                 return newlNode;
             }
         }
 
         if (node->rightChild) {
-            Node *newrNode = insert(node->rightChild, packingObject);
+            Node *newrNode = insert(node->rightChild, packingObject, allowRotation);
             if (newrNode) {
                 return newrNode;
             }
@@ -145,6 +144,7 @@ Node *setNodeData(Node *node,
 
 PackingObject *doFirstFitPack(PackingSpace *packingSpace,
                               PackingObject packingObjects[],
+                              PackingParameters *packingParameters,
                               size_t numObjects)
 {
 
@@ -166,7 +166,7 @@ PackingObject *doFirstFitPack(PackingSpace *packingSpace,
     qsort(packingObjects, numObjects, sizeof(*packingObjects), pobjSort);
 
     for (int i = 0; i < numObjects; i++) {
-        Node * thisAns = insert(rootNode, &packingObjects[i]);
+        Node * thisAns = insert(rootNode, &packingObjects[i], packingParameters->allowRotation);
 
         if (thisAns) {
             placeObject(&packingObjects[i],
