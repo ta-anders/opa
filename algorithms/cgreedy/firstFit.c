@@ -4,7 +4,12 @@
 
 #include "firstFit.h"
 
-
+/*
+ * Function responsible for finding a place to put a packing object within a given rectangle.
+ *
+ * Once the object is placed, the parent node is split into two children which can then be utilised
+ * by later objects to be packed.
+ */
 Node *insert(Node *node, PackingObject *packingObject) {
     // Check if this node is a leaf or not
     if (node->leftChild || node->rightChild) {
@@ -37,35 +42,37 @@ Node *insert(Node *node, PackingObject *packingObject) {
         Node *newLeft = malloc(sizeof(Node));
         Node *newRight = malloc(sizeof(Node));
 
-        newLeft->leftChild = NULL;
-        newLeft->rightChild = NULL;
-        newRight->leftChild = NULL;
-        newRight->rightChild = NULL;
+        initNodeChildren(newLeft);
+        initNodeChildren(newRight);
 
         node->leftChild = newLeft;
         node->rightChild = newRight;
 
         if (axisWidth <= axisHeight) {
-            node->leftChild->xCoordinate = node->xCoordinate + packingObject->width;
-            node->leftChild->yCoordinate = node->yCoordinate;
-            node->leftChild->width = axisWidth;
-            node->leftChild->height = packingObject->height;
+            setNodeData(node->leftChild,
+                        node->xCoordinate + packingObject->width,
+                        node->yCoordinate,
+                        axisWidth,
+                        packingObject->height);
 
-            node->rightChild->xCoordinate = node->xCoordinate;
-            node->rightChild->yCoordinate = node->yCoordinate + packingObject->height;
-            node->rightChild->width = node->width;
-            node->rightChild->height = axisHeight;
+            setNodeData(node->rightChild,
+                        node->xCoordinate,
+                        node->yCoordinate + packingObject->height,
+                        node->width,
+                        axisHeight);
         }
         else {
-            node->leftChild->xCoordinate = node->xCoordinate;
-            node->leftChild->yCoordinate = node->yCoordinate + packingObject->height;
-            node->leftChild->width = packingObject->width;
-            node->leftChild->height = axisHeight;
+            setNodeData(node->leftChild,
+                        node->xCoordinate,
+                        node->yCoordinate + packingObject->height,
+                        packingObject->width,
+                        axisHeight);
 
-            node->rightChild->xCoordinate = node->xCoordinate + packingObject->width;
-            node->rightChild->yCoordinate = node->yCoordinate;
-            node->rightChild->width = axisWidth;
-            node->rightChild->height = node->height;
+            setNodeData(node->rightChild,
+                        node->xCoordinate + packingObject->width,
+                        node->yCoordinate,
+                        axisWidth,
+                        node->height);
         }
 
         node->height = packingObject->height;
@@ -73,6 +80,46 @@ Node *insert(Node *node, PackingObject *packingObject) {
 
         return node;
     }
+}
+
+/*
+ * Traverses through the binary tree and releases all malloc'd pointers.
+ */
+void freeMemory(Node *root) {
+    if (root->rightChild) {
+        freeMemory(root->rightChild);
+    }
+    if (root->leftChild) {
+        freeMemory(root->leftChild);
+    }
+    free(root);
+}
+
+
+/*
+ * Initialises the children of a node to point at nothing.
+ */
+void initNodeChildren(Node *node) {
+    node->leftChild = NULL;
+    node->rightChild = NULL;
+}
+
+
+/*
+ * Sets a bunch of data on a blank node pointer.
+ */
+Node *setNodeData(Node *node,
+                  int xCoordinate,
+                  int yCoordinate,
+                  int width,
+                  int height)
+{
+    node->xCoordinate = xCoordinate;
+    node->yCoordinate = yCoordinate;
+    node->width = width;
+    node->height = height;
+
+    return node;
 }
 
 
@@ -83,23 +130,23 @@ PackingObject *doFirstFitPack(PackingSpace *packingSpace,
 
     clock_t begin = clock();
 
-    Node rootNode;
-    rootNode.xCoordinate = 0;
-    rootNode.yCoordinate = 0;
-    rootNode.width = packingSpace->totalWidth;
-    rootNode.height = packingSpace->totalHeight;
+    Node *rootNode = malloc(sizeof(Node));
+    rootNode->xCoordinate = 0;
+    rootNode->yCoordinate = 0;
+    rootNode->width = packingSpace->totalWidth;
+    rootNode->height = packingSpace->totalHeight;
 
-    rootNode.leftChild = NULL;
-    rootNode.rightChild = NULL;
+    initNodeChildren(rootNode);
 
     printf("Packing space has dimensions (h:%d, w:%d)\n",
            packingSpace->totalHeight,
            packingSpace->totalWidth);
 
+    // Sort the objects in order of decreasing volume
     qsort(packingObjects, numObjects, sizeof(*packingObjects), pobjSort);
 
     for (int i = 0; i < numObjects; i++) {
-        Node * thisAns = insert(&rootNode, &packingObjects[i]);
+        Node * thisAns = insert(rootNode, &packingObjects[i]);
 
         if (thisAns) {
             placeObject(&packingObjects[i],
@@ -107,6 +154,8 @@ PackingObject *doFirstFitPack(PackingSpace *packingSpace,
                         thisAns->yCoordinate);
         }
     }
+
+    freeMemory(rootNode);
 
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

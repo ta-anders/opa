@@ -21,4 +21,14 @@ PackingObject *doFirstFitPack(PackingSpace *packingSpace,
                               PackingObject packingObjects[],
                               size_t numObjects);
 
+void initNodeChildren(Node *node);
+
+Node *setNodeData(Node *node,
+                  int xCoordinate,
+                  int yCoordinate,
+                  int width,
+                  int height);
+
+void freeMemory(Node *root);
+
 #endif //CGREEDY_FIRSTFIT_H

@@ -30,6 +30,7 @@ doShelfPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t n
     // maxRowHeight tracks the maximum height of the current row
     int maxRowHeight = 0;
 
+    // Sort the objects in order of decreasing volume
     qsort(packingObjects, numObjects, sizeof(*packingObjects), pobjSort);
 
     for (size_t i = 0; i < numObjects; i++) {
