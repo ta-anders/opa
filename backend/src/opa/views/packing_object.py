@@ -95,11 +95,22 @@ def packing_objects_delete_unpacked(request):
 def packing_objects_clear_packed(request):
     db = request.dbsession
 
-    db.query(PackingObject.id).filter(PackingObject.x_coordinate.isnot(None)).update(
-        {'x_coordinate': None, 'y_coordinate': None}
+    (
+        db.query(PackingObject.id)
+        .filter(
+            or_(
+                PackingObject.x_coordinate.isnot(None),
+                PackingObject.rotated.is_(True)
+            )
+        ).update(
+            {'x_coordinate': None, 'y_coordinate': None, 'rotated': False}
+        )
     )
 
     db.flush()
+
+    # TODO: lazy return of everything here - how do I get which rows have been updated above?
+    return PackingObjectSchema(many=True, strict=True).dump(db.query(PackingObject).all()).data
 
 
 @view_config(
@@ -109,18 +120,17 @@ def packing_objects_clear_packed(request):
 )
 @use_kwargs(
     {
-        'packing_object_id': fields.Integer(required=True, location='matchdict'),
-        'x_coordinate': fields.Integer(required=True, allow_none=True),
-        'y_coordinate': fields.Integer(required=True, allow_none=True)
+        'packing_object_id': fields.Integer(required=True, location='matchdict')
     }
 )
-def packing_object_put(request, packing_object_id, x_coordinate, y_coordinate):
+def packing_object_put(request, packing_object_id):
 
     db = request.dbsession
 
     packing_obj = db.query(PackingObject).get(packing_object_id)
-    packing_obj.x_coordinate = x_coordinate
-    packing_obj.y_coordinate = y_coordinate
+
+    for k, v in request.json.items():
+        setattr(packing_obj, k, v)
 
     schema = PackingObjectSchema(strict=True)
 

@@ -59,6 +59,7 @@ class PackingSpace extends Component {
                                 yCoordinate={obj.yCoordinate}
                                 height={obj.height}
                                 width={obj.width}
+                                rotated={obj.rotated}
                                 backgroundColor={obj.backgroundColor}
                                 key={obj.id}
                                 id={obj.id}
@@ -89,6 +90,7 @@ PackingSpace.propTypes = {
       xCoordinate: PropTypes.number.isRequired,
       yCoordinate: PropTypes.number.isRequired,
       backgroundColor: PropTypes.string.isRequired,
+      rotated: PropTypes.bool.isRequired
     }).isRequired
   ),
   connectDropTarget: PropTypes.func.isRequired,

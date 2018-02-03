@@ -7,6 +7,7 @@ typedef struct {
     int width;
     int xCoordinate;
     int yCoordinate;
+    int rotated;
 } PackingObject;
 
 typedef struct {

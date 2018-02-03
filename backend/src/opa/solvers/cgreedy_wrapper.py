@@ -18,7 +18,8 @@ class PackingObject(Structure):
         ("height", c_int),
         ("width", c_int),
         ("xCoordinate", c_int),
-        ("yCoordinate", c_int)
+        ("yCoordinate", c_int),
+        ("rotated", c_int)
     ]
 
 
@@ -55,7 +56,8 @@ def call_cgreedy(packing_space, packing_objects):
         {
             'id': r.id,
             'x_coordinate': r.xCoordinate,
-            'y_coordinate': r.yCoordinate
+            'y_coordinate': r.yCoordinate,
+            'rotated': r.rotated
         }
         for r in answer[:num_objects]
     ]

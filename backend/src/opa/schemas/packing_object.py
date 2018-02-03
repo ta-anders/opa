@@ -7,9 +7,11 @@ class PackingObjectSchema(Schema):
     width = fields.Integer(required=True)
     height = fields.Integer(required=True)
 
-    x_coordinate = fields.Integer(required=True, allow_none=True)
-    y_coordinate = fields.Integer(required=True, allow_none=True)
+    x_coordinate = fields.Integer(required=True, allow_none=True, dump_to='xCoordinate')
+    y_coordinate = fields.Integer(required=True, allow_none=True, dump_to='yCoordinate')
 
-    background_color = fields.String(required=True, allow_none=True)
+    background_color = fields.String(required=True, allow_none=True, dump_to='backgroundColor')
+
+    rotated = fields.Boolean(required=True)
 
     packed = fields.Boolean(required=True)

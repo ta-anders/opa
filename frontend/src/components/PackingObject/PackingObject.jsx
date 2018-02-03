@@ -5,6 +5,8 @@ import { DragSource } from 'react-dnd'
 import ItemTypes from '../../ItemTypes'
 
 import './PackingObject.css';
+import { connect } from 'react-redux'
+import { updatePackingObject } from '../../actions'
 
 
 const packingObjectSource = {
@@ -23,8 +25,18 @@ const collect = (connect, monitor) => {
 
 
 class PackingObject extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleDoubleClick = this.handleDoubleClick.bind(this);
+  }
+
+  handleDoubleClick() {
+    this.props.updatePackingObject({rotated: (!this.props.rotated)}, this.props);
+  }
+
   render() {
-    const { height, width, packed, backgroundColor, connectDragSource, isDragging } = this.props;
+    const { height, width, packed, rotated, backgroundColor, connectDragSource, isDragging } = this.props;
     let style = {width: width, height: height};
     if (!packed) {
       style.display = "inline-block";
@@ -33,8 +45,12 @@ class PackingObject extends Component {
     style.opacity = isDragging ? 0.25 : 1;
     style.backgroundColor = backgroundColor;
 
+    if (rotated) {
+      style.border = "2.5px solid black";
+    }
+
     return connectDragSource(
-      <div style={style}>
+      <div style={style} onDoubleClick={this.handleDoubleClick}>
       </div>
     )
   }
@@ -46,10 +62,18 @@ PackingObject.propTypes = {
   width: PropTypes.number.isRequired,
   backgroundColor: PropTypes.string.isRequired,
   packed: PropTypes.bool.isRequired,
+  rotated: PropTypes.bool.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
 };
 
 
 const DraggablePackingObject = DragSource(ItemTypes.PACKING_OBJECT, packingObjectSource, collect)(PackingObject);
-export default DraggablePackingObject
+
+
+const mapDispatchToProps = dispatch => ({
+  updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
+});
+
+
+export default connect(null, mapDispatchToProps)(DraggablePackingObject)

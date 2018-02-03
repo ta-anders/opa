@@ -17,12 +17,13 @@ const getStyles = (props) => {
 
 class PlacedPackingObject extends Component {
   render() {
-    const { height, width, backgroundColor, id } = this.props;
+    const { height, width, rotated, backgroundColor, id } = this.props;
     return (
       <div style={getStyles(this.props)}>
         <PackingObject height={height}
                        width={width}
                        packed={true}
+                       rotated={rotated}
                        backgroundColor={backgroundColor}
                        id={id}>
         </PackingObject>
@@ -38,6 +39,7 @@ PlacedPackingObject.propTypes = {
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   backgroundColor: PropTypes.string.isRequired,
+  rotated: PropTypes.bool.isRequired
 };
 
 export default PlacedPackingObject
