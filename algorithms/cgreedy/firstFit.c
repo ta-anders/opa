@@ -95,9 +95,6 @@ Node *insert(Node *node, PackingObject *packingObject, int allowRotation) {
                     node->height);
     }
 
-    node->height = packingObject->height;
-    node->width = packingObject->width;
-
     return node;
 }
 

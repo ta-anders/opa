@@ -41,7 +41,7 @@ def packing_object_array_type_factory(num):
     return PackingObject * num
 
 
-def call_cgreedy(packing_space, packing_objects, allow_rotation=False):
+def call_cgreedy(packing_space, packing_objects, allow_rotation=True):
     num_objects = len(packing_objects)
     space = PackingSpace(**packing_space)
 
