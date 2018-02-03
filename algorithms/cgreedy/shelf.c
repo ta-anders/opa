@@ -3,64 +3,7 @@
 #include <ntsid.h>
 #include <time.h>
 
-#include "pack.h"
-
-
-int
-getVolume (PackingObject *pobj)
-{
-    return pobj->width * pobj->height;
-}
-
-
-/*
- * Comparison function used for sorting two packing objects.
- * A packing object is greater than another if it has a larger volume.
-*/
-int
-pobjSort(const void *elem1, const void *elem2)
-{
-    PackingObject *f = (PackingObject*)elem1;
-    PackingObject *s = (PackingObject*)elem2;
-
-    const int v1 = getVolume(f);
-    const int v2 = getVolume(s);
-
-    if (v1 >= v2) {
-        return -1;
-    }
-    else {
-        return 1;
-    }
-}
-
-
-PackingObject *
-placeObject(PackingObject *packingObject,
-            int *upToX,
-            int *upToY,
-            int *maxRowHeight)
-{
-    packingObject->xCoordinate = *upToX;
-    packingObject->yCoordinate = *upToY;
-
-    printf("Packed object %d at (x:%d, y:%d)\n",
-           packingObject->id,
-           *upToX,
-           *upToY);
-
-    *upToX += packingObject->width;
-
-    int height = packingObject->height;
-    // Only update the max row height if this object is taller than the current height
-    if (height > *maxRowHeight) {
-        *maxRowHeight = height;
-    }
-
-    return packingObject;
-}
-
-
+#include "shelf.h"
 
 /*
  * Greedy algorithm to place the packing objects into the packing space.
@@ -69,7 +12,7 @@ placeObject(PackingObject *packingObject,
  * If an object is not packed, this value will not be changed.
  */
 PackingObject *
-doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObjects)
+doShelfPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObjects)
 {
     clock_t begin = clock();
 
@@ -87,7 +30,6 @@ doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObj
     // maxRowHeight tracks the maximum height of the current row
     int maxRowHeight = 0;
 
-
     qsort(packingObjects, numObjects, sizeof(*packingObjects), pobjSort);
 
     for (size_t i = 0; i < numObjects; i++) {
@@ -99,9 +41,15 @@ doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObj
             height + upToY <= totalHeight)
         {
             placeObject(&packingObjects[i],
-                        &upToX,
-                        &upToY,
-                        &maxRowHeight);
+                        upToX,
+                        upToY);
+
+            upToX += packingObjects[i].width;
+
+            // Only update the max row height if this object is taller than the current height
+            if (height > maxRowHeight) {
+                maxRowHeight = height;
+            }
         }
         else {
             upToY += maxRowHeight;
@@ -112,9 +60,15 @@ doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObj
                 height + upToY <= totalHeight)
             {
                 placeObject(&packingObjects[i],
-                            &upToX,
-                            &upToY,
-                            &maxRowHeight);
+                            upToX,
+                            upToY);
+
+                upToX += packingObjects[i].width;
+
+                // Only update the max row height if this object is taller than the current height
+                if (height > maxRowHeight) {
+                    maxRowHeight = height;
+                }
             }
         }
     }
@@ -122,7 +76,7 @@ doPack(PackingSpace *packingSpace, PackingObject packingObjects[], size_t numObj
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-    printf("Algorithm ran in %f seconds\n", time_spent);
+    printf("Shelf algorithm ran in %f seconds\n", time_spent);
 
     return packingObjects;
 }

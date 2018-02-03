@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "pack.h"
+#include "shelf.h"
+#include "firstFit.h"
 
 
 int
@@ -32,7 +33,8 @@ main(int argc, char** argv)
         packingObjects[i].yCoordinate = -1;
     }
 
-    doPack(&packingSpace, packingObjects, numObjects);
+    doFirstFitPack(&packingSpace, packingObjects, numObjects);
+//    doShelfPack(&packingSpace, packingObjects, numObjects);
 
     return 0;
 }

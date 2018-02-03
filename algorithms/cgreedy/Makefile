@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I.
-DEPS = pack.h
-OBJ = main.o pack.o
+DEPS = common.h firstFit.h shelf.h
+OBJ = main.o firstFit.o shelf.o common.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

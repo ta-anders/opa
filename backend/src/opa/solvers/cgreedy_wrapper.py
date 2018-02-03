@@ -24,7 +24,7 @@ class PackingObject(Structure):
 
 # TODO: sort this thing out
 packer = CDLL('../algorithms/cgreedy/cgreedy.so')
-func = packer.doPack
+func = packer.doFirstFitPack
 
 func.restype = POINTER(PackingObject)
 func.argtypes = (POINTER(PackingSpace), POINTER(PackingObject), c_int)
