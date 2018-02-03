@@ -13,12 +13,26 @@ getVolume (PackingObject *pobj)
 }
 
 
+int
+getPackingObjectSortKey (PackingObject *pobj)
+{
+    int ret = -1;
+
+    if (pobj->width > ret) {
+        ret = pobj->width;
+    }
+    if (pobj->height > ret) {
+        ret = pobj->height;
+    }
+
+    return ret;
+}
+
+
 /*
  * Comparison function used for sorting two packing objects.
- * Returns:
- *     -1 if p1 has greater volume than p2
- *     1 if p1 has lesser volume than p2
- *     0 if p1 has the same volume as p2
+ * Work in progress as to what measure is best to use here.
+ * Generally want to put the 'difficult' packing objects in first.
 */
 int
 pobjSort(const void *elem1, const void *elem2)
@@ -26,8 +40,8 @@ pobjSort(const void *elem1, const void *elem2)
     PackingObject *f = (PackingObject*)elem1;
     PackingObject *s = (PackingObject*)elem2;
 
-    const int v1 = getVolume(f);
-    const int v2 = getVolume(s);
+    const int v1 = getPackingObjectSortKey(f);
+    const int v2 = getPackingObjectSortKey(s);
 
     if (v1 == v2) {
         return 0;
