@@ -16,7 +16,8 @@ from opa.models import (
     get_engine,
     get_session_factory,
     get_tm_session,
-    PackingObject
+    PackingObject,
+    PackingSpace
 )
 
 
@@ -44,8 +45,9 @@ def main(argv=sys.argv):
         dbsession = get_tm_session(session_factory, transaction.manager)
 
         model = PackingObject(width=10, height=10)
-        print(model)
+        space = PackingSpace(height=500, width=600)
         dbsession.add(model)
+        dbsession.add(space)
 
 
 if __name__ == '__main__':

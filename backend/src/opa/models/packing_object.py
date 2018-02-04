@@ -1,4 +1,5 @@
-from sqlalchemy import CheckConstraint, Column, Integer, String, Boolean
+from sqlalchemy import Boolean, CheckConstraint, Column, Integer, String, case, func
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from opa.models.meta import Base
 
@@ -28,11 +29,11 @@ class PackingObject(Base):
         ),
     )
 
-    @property
+    @hybrid_property
     def packed(self):
         return self.x_coordinate is not None or self.y_coordinate is not None
 
-    @property
+    @hybrid_property
     def width(self):
         return self._width if not self.rotated else self._height
 
@@ -40,10 +41,18 @@ class PackingObject(Base):
     def width(self, val):
         self._width = val
 
-    @property
+    @width.expression
+    def width(cls):
+        return case([(cls.rotated.isnot(True), cls._width)], else_=cls._height)
+
+    @hybrid_property
     def height(self):
         return self._height if not self.rotated else self._width
 
     @height.setter
     def height(self, val):
         self._height = val
+
+    @height.expression
+    def height(cls):
+        return case([(cls.rotated.isnot(True), cls._height)], else_=cls._width)

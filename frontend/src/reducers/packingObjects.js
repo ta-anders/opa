@@ -5,6 +5,7 @@ import {
   UPDATE_PACKING_OBJECT,
   SOLVER_SUCCESS,
   CLEAR_PACKED_OBJECTS,
+  UPDATE_PACKING_SPACE,
 } from '../actions'
 
 const initialState = [];
@@ -32,6 +33,12 @@ const packingObjects = (state = initialState, action) => {
       return action.payload;
     case SOLVER_SUCCESS:
       return action.payload;
+    case UPDATE_PACKING_SPACE:
+      let updated = action.payload.modified_packing_objects.map(i => i.id);
+      return ([
+        ...state.filter(entity => updated.indexOf(entity.id) === -1),
+        ...action.payload.modified_packing_objects
+      ]);
     default:
       return state;
   }

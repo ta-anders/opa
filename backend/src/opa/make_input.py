@@ -1,8 +1,9 @@
-from opa.models import PackingObject
+from opa.models import PackingObject, PackingSpace
 
 
 def make_input(db):
     packing_objs = db.query(PackingObject).all()
+    packing_space = db.query(PackingSpace).one()
 
     packing_objs_data = [
         {
@@ -16,7 +17,7 @@ def make_input(db):
 
     return {
         'packing_objects': packing_objs_data,
-        'packing_space': {'totalWidth': 600, 'totalHeight': 500}
+        'packing_space': {'totalWidth': packing_space.width, 'totalHeight': packing_space.height}
     }
 
 

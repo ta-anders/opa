@@ -10,7 +10,8 @@ import './OpaApp.css'
 
 class OpaApp extends Component {
   componentDidMount() {
-    this.props.loadData();
+    this.props.loadPackingObjects();
+    this.props.loadPackingSpace();
   }
 
   render() {
@@ -45,7 +46,8 @@ OpaApp.propTypes = {
       width: PropTypes.number.isRequired,
     }).isRequired
   ),
-  loadData: PropTypes.func.isRequired
+  loadPackingObjects: PropTypes.func.isRequired,
+  loadPackingSpace: PropTypes.func.isRequired
 };
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import Resizable from 're-resizable';
 
 import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject';
 import ItemTypes from '../../ItemTypes';
@@ -8,15 +9,7 @@ import ItemTypes from '../../ItemTypes';
 
 import './PackingSpace.css';
 import { connect } from 'react-redux';
-import { updatePackingObject } from '../../actions';
-
-
-function snapToGrid(x, y) {
-	const snappedX = Math.round(x / 16) * 16
-	const snappedY = Math.round(y / 16) * 16
-
-	return [snappedX, snappedY]
-}
+import { updatePackingObject, updatePackingSpace } from '../../actions';
 
 
 const packingSpaceTarget = {
@@ -31,9 +24,6 @@ const packingSpaceTarget = {
 
     let x = offset.x - packingSpaceOffset.left;
     let y = offset.y - packingSpaceOffset.top;
-
-    // [x, y] = snapToGrid(x, y);
-
 
 
     const newPos = {
@@ -72,8 +62,16 @@ class PackingSpace extends Component {
       obj => this.renderPlacedPackingObject(obj)
     )
     return connectDropTarget(
-      <div className="PackingSpace" style={{width: width, height: height}}>
-        {packingObjects}
+      <div className="PackingSpace">
+        <Resizable size={{width: width, height: height}}
+                   onResizeStop={(e, direction, ref, d) => {
+                      this.props.updatePackingSpace({
+                        width: d.width + width,
+                        height: d.height + height,
+                      });
+                  }}>
+            {packingObjects}
+        </Resizable>
       </div>
     );
   }
@@ -94,7 +92,8 @@ PackingSpace.propTypes = {
     }).isRequired
   ),
   connectDropTarget: PropTypes.func.isRequired,
-  updatePackingObject: PropTypes.func.isRequired
+  updatePackingObject: PropTypes.func.isRequired,
+  updatePackingSpace: PropTypes.func.isRequired
 };
 
 
@@ -108,6 +107,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
+  updatePackingSpace: (body) => dispatch(updatePackingSpace(body))
 });
 
 

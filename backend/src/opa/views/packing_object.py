@@ -46,6 +46,8 @@ def packing_objects_post(request, num_objects):
 
     logger.debug('Creating %s new packing objects', num_objects)
 
+    import time
+    st = time.time()
     # Create a random selection of new packing objects
     new = [
         PackingObject(
@@ -63,6 +65,9 @@ def packing_objects_post(request, num_objects):
     schema = PackingObjectSchema(strict=True, many=True)
 
     result = schema.dump(new)
+
+    et = time.time()
+    logger.debug('Done, took %s seconds', et - st)
 
     return result.data
 

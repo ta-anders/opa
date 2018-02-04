@@ -2,6 +2,8 @@ import fetch from 'isomorphic-fetch';
 
 
 export const GET_PACKING_OBJECTS = 'GET_PACKING_OBJECTS';
+export const GET_PACKING_SPACE = 'GET_PACKING_SPACE';
+export const UPDATE_PACKING_SPACE = 'UPDATE_PACKING_SPACE';
 export const CREATE_PACKING_OBJECTS = 'CREATE_PACKING_OBJECTS';
 export const DELETE_PACKING_OBJECTS = 'DELETE_PACKING_OBJECTS';
 export const UPDATE_PACKING_OBJECT = 'UPDATE_PACKING_OBJECT';
@@ -13,6 +15,22 @@ export function getPackingObjectsSuccess(packingObjects) {
   return {
     type: GET_PACKING_OBJECTS,
     response: packingObjects
+  }
+}
+
+
+export function getPackingSpaceSuccess(packingSpace) {
+  return {
+    type: GET_PACKING_SPACE,
+    response: packingSpace
+  }
+}
+
+
+export function updatePackingSpaceSuccess(payload) {
+  return {
+    type: UPDATE_PACKING_SPACE,
+    payload
   }
 }
 
@@ -67,6 +85,25 @@ export function fetchPackingObjects() {
         return fetchWrapper('/packing_objects').then(
           json => dispatch(getPackingObjectsSuccess(json))
         )
+    }
+}
+
+
+export function fetchPackingSpace() {
+    return function (dispatch) {
+        return fetchWrapper('/packing_spaces').then(
+          json => dispatch(getPackingSpaceSuccess(json))
+        )
+    }
+}
+
+
+export function updatePackingSpace(body) {
+  return function(dispatch) {
+    return fetchWrapper(
+        '/packing_spaces',
+        {method: 'PUT', body: JSON.stringify(body)}
+      ).then(data => dispatch(updatePackingSpaceSuccess(data)))
     }
 }
 
