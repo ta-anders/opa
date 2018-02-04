@@ -10,10 +10,7 @@ const mapStateToProps = state => {
 
   for (let i = 0; i < state.packingObjects.length; i++) {
     const obj = state.packingObjects[i];
-    if (obj.packed)
-        // obj.xCoordinate + obj.width <= state.packingSpace.width &&
-        // obj.yCoordinate + obj.height <= state.packingSpace.height)
-    {
+    if (obj.packed) {
       packedObjects.push(obj);
     }
     else {
