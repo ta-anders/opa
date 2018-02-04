@@ -17,10 +17,12 @@ class OpaApp extends Component {
     const {packedObjects, unpackedObjects} = this.props;
 
     return (
-      <div className="OpaApp">
-        <FormBar/>
-        <PackingSpace objects={packedObjects}/>
-        <UnpackedObjectSpace objects={unpackedObjects}/>
+      <div className="OuterWrapper">
+        <div className="OpaApp">
+          <FormBar/>
+          <PackingSpace objects={packedObjects}/>
+          <UnpackedObjectSpace objects={unpackedObjects}/>
+        </div>
       </div>
     )
   }

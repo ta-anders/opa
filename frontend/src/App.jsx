@@ -3,6 +3,11 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css';
 
 import { DragDropContext } from 'react-dnd';
@@ -33,9 +38,17 @@ class App extends Component {
   render() {
     return(
       <Provider store={this.store}>
-        <div className="OuterWrapper">
-          <OpaAppContainer />
-        </div>
+        <Router>
+          <div>
+            {/*<ul>*/}
+              {/*<li><Link to="/">Home</Link></li>*/}
+              {/*<li><Link to="/about">About</Link></li>*/}
+              {/*<li><Link to="/topics">Topics</Link></li>*/}
+            {/*</ul>*/}
+
+            <Route exact path="/" component={OpaAppContainer}/>
+          </div>
+        </Router>
       </Provider>
     )
   }
