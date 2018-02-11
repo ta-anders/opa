@@ -9,7 +9,7 @@ const SolveButton = (props) => {
                 data-tooltip="pack"
                 data-variation="tiny"
                 data-position="left center"
-                onClick={props.callSolver}>
+                onClick={() => props.callSolver(props.sessionId)}>
           <i className="cubes icon"></i>
         </button>
     )
@@ -17,7 +17,7 @@ const SolveButton = (props) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  callSolver: () => dispatch(callSolver()),
+  callSolver: (sessionId) => dispatch(callSolver(sessionId)),
 });
 
 

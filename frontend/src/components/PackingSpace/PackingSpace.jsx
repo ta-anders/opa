@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import Resizable from 're-resizable';
 
@@ -31,7 +30,7 @@ const packingSpaceTarget = {
       y_coordinate: Math.min(Math.max(y, 0), maxHeight)
     }
 
-    props.updatePackingObject(newPos, item);
+    props.updatePackingObject(props.sessionId, newPos, item);
   }
 }
 
@@ -65,7 +64,7 @@ class PackingSpace extends Component {
       <div className="PackingSpace">
         <Resizable size={{width: width, height: height}}
                    onResizeStop={(e, direction, ref, d) => {
-                      this.props.updatePackingSpace({
+                      this.props.updatePackingSpace(this.props.sessionId, {
                         width: d.width + width,
                         height: d.height + height,
                       });
@@ -77,37 +76,20 @@ class PackingSpace extends Component {
   }
 }
 
-PackingSpace.propTypes = {
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  objects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-      xCoordinate: PropTypes.number.isRequired,
-      yCoordinate: PropTypes.number.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      rotated: PropTypes.bool.isRequired
-    }).isRequired
-  ),
-  connectDropTarget: PropTypes.func.isRequired,
-  updatePackingObject: PropTypes.func.isRequired,
-  updatePackingSpace: PropTypes.func.isRequired
-};
-
 
 const PackingSpaceTarget = DropTarget(ItemTypes.PACKING_OBJECT, packingSpaceTarget, collect)(PackingSpace);
 
 
 const mapStateToProps = state => {
-  return state.packingSpace;
+  return {
+    ...state.packingSpace
+  }
 }
 
 
 const mapDispatchToProps = dispatch => ({
-  updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
-  updatePackingSpace: (body) => dispatch(updatePackingSpace(body))
+  updatePackingObject: (sessionId, body, id) => dispatch(updatePackingObject(sessionId, body, id)),
+  updatePackingSpace: (sessionId, body) => dispatch(updatePackingSpace(sessionId, body))
 });
 
 

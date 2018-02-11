@@ -23,7 +23,7 @@ class CreateObjectsForm extends Component {
 
   handleSubmit(event) {
     const body = {num_objects: this.state.numObjects};
-    this.props.createObjects(body);
+    this.props.createObjects(this.props.sessionId, body);
     event.preventDefault();
   }
 
@@ -31,8 +31,8 @@ class CreateObjectsForm extends Component {
     const { unpackedObjects } = this.props;
     return (
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group class="inline fields">
-            <a class="ui basic blue label" style={{fontSize: "inherit"}}>
+          <Form.Group className="inline fields">
+            <a className="ui basic blue label" style={{fontSize: "inherit"}}>
               {unpackedObjects.length}
             </a>
             <Form.Field>
@@ -51,21 +51,16 @@ class CreateObjectsForm extends Component {
   }
 }
 
-CreateObjectsForm.propTypes = {
-  createObjects: PropTypes.func.isRequired,
-  unpackedObjects: PropTypes.array.isRequired
-};
-
 
 const mapStateToProps = state => {
   return {
-    unpackedObjects: state.packingObjects.filter(record => (!record.packed))
+    unpackedObjects: state.packingObjects.filter(record => (!record.packed)),
   }
 }
 
 
 const mapDispatchToProps = dispatch => ({
-  createObjects: (body) => dispatch(createPackingObjects(body)),
+  createObjects: (sessionId, body) => dispatch(createPackingObjects(sessionId, body)),
 });
 
 

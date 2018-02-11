@@ -10,15 +10,15 @@ const ClearObjectsButton = (props) => {
                   data-tooltip="erase progress"
                   data-variation="tiny"
                   data-position="right center"
-                  onClick={props.clearPackedObjects}>
-              <i class="erase icon"></i>
+                  onClick={() => props.clearPackedObjects(props.sessionId)}>
+              <i className="erase icon"></i>
       </button>
   )
 }
 
 
 const mapDispatchToProps = dispatch => ({
-  clearPackedObjects: () => dispatch(clearPackedObjects()),
+  clearPackedObjects: (sessionId) => dispatch(clearPackedObjects(sessionId)),
 });
 
 

@@ -5,7 +5,7 @@ import { deletePackingObjects } from '../../actions'
 const DeleteObjectsButton = (props) => {
   return (
     <div className="ui button" style={{fontSize: "14px"}}
-         onClick={props.deleteObjects}>
+         onClick={() => props.deleteObjects(props.sessionId)}>
       <i className="trash icon"></i> clear
     </div>
   )
@@ -13,7 +13,7 @@ const DeleteObjectsButton = (props) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  deleteObjects: () => dispatch(deletePackingObjects()),
+  deleteObjects: (sessionId) => dispatch(deletePackingObjects(sessionId)),
 });
 
 

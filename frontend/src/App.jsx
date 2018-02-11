@@ -6,7 +6,7 @@ import { createLogger } from 'redux-logger'
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Redirect
 } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css';
 
@@ -17,6 +17,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import rootReducer from './reducers';
 import './index.css';
 import OpaAppContainer from './components/OpaAppContainer/OpaAppContainer';
+import SessionsList from './components/Sessions/SessionsList';
 
 
 class App extends Component {
@@ -40,13 +41,11 @@ class App extends Component {
       <Provider store={this.store}>
         <Router>
           <div>
-            {/*<ul>*/}
-              {/*<li><Link to="/">Home</Link></li>*/}
-              {/*<li><Link to="/about">About</Link></li>*/}
-              {/*<li><Link to="/topics">Topics</Link></li>*/}
-            {/*</ul>*/}
-
-            <Route exact path="/" component={OpaAppContainer}/>
+            <Route exact path="/" render = {() => (
+              <Redirect to={{pathname: "/sessions"}}/>
+              )}/>
+            <Route exact path="/sessions" component={SessionsList}/>
+            <Route path="/sessions/:sessionId" component={OpaAppContainer} />
           </div>
         </Router>
       </Provider>
@@ -55,4 +54,4 @@ class App extends Component {
 }
 
 
-export default DragDropContext(HTML5Backend)(App)
+export default DragDropContext(HTML5Backend)(App);

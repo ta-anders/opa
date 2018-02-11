@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 
 export const GET_PACKING_OBJECTS = 'GET_PACKING_OBJECTS';
+export const GET_SESSIONS = 'GET_SESSIONS';
 export const GET_PACKING_SPACE = 'GET_PACKING_SPACE';
 export const UPDATE_PACKING_SPACE = 'UPDATE_PACKING_SPACE';
 export const CREATE_PACKING_OBJECTS = 'CREATE_PACKING_OBJECTS';
@@ -15,6 +16,14 @@ export function getPackingObjectsSuccess(packingObjects) {
   return {
     type: GET_PACKING_OBJECTS,
     response: packingObjects
+  }
+}
+
+
+export function getSessionsSuccess(sessions) {
+  return {
+    type: GET_SESSIONS,
+    response: sessions
   }
 }
 
@@ -75,83 +84,104 @@ export function callSolverSuccess(payload) {
 }
 
 
-export function fetchWrapper(url, config = {}) {
+function _fetchWrapper(url, config = {}) {
   return fetch(url, { ...config }).then(response => response.json())
 }
 
 
-export function fetchPackingObjects() {
+export function fetchWrapper(sessionId, url, config = {}) {
+  const urlWithSession = `/sessions/${sessionId}/${url}`;
+  return _fetchWrapper(urlWithSession, config);
+}
+
+
+export function fetchPackingObjects(sessionId) {
     return function (dispatch) {
-        return fetchWrapper('/packing_objects').then(
+        return fetchWrapper(sessionId, 'packing_objects').then(
           json => dispatch(getPackingObjectsSuccess(json))
         )
     }
 }
 
 
-export function fetchPackingSpace() {
+export function fetchSessions() {
     return function (dispatch) {
-        return fetchWrapper('/packing_spaces').then(
+        return _fetchWrapper('/sessions').then(
+          json => dispatch(getSessionsSuccess(json))
+        )
+    }
+}
+
+
+export function fetchPackingSpace(sessionId) {
+    return function (dispatch) {
+        return fetchWrapper(sessionId, 'packing_spaces').then(
           json => dispatch(getPackingSpaceSuccess(json))
         )
     }
 }
 
 
-export function updatePackingSpace(body) {
+export function updatePackingSpace(sessionId, body) {
   return function(dispatch) {
     return fetchWrapper(
-        '/packing_spaces',
+        sessionId,
+        'packing_spaces',
         {method: 'PUT', body: JSON.stringify(body)}
       ).then(data => dispatch(updatePackingSpaceSuccess(data)))
     }
 }
 
 
-export function updatePackingObject(body, packingObject) {
+export function updatePackingObject(sessionId, body, packingObject) {
   return function(dispatch) {
     return fetchWrapper(
-        `/packing_objects/${packingObject.id}`,
+        sessionId,
+        `packing_objects/${packingObject.id}`,
         {method: 'PUT', body: JSON.stringify(body)}
       ).then(data => dispatch(updatePackingObjectSuccess(data)))
     }
 }
 
 
-export function clearPackedObjects(body) {
+export function clearPackedObjects(sessionId, body) {
   return function(dispatch) {
     return fetchWrapper(
-        `/packing_objects/clear`,
+        sessionId,
+        `packing_objects/clear`,
         {method: 'PUT', body: JSON.stringify(body)}
       ).then(data => dispatch(clearPackedObjectsSuccess(data)))
     }
 }
 
 
-export function createPackingObjects(body) {
+export function createPackingObjects(sessionId, body) {
   return function(dispatch) {
     return fetchWrapper(
-      '/packing_objects',
+      sessionId,
+      'packing_objects',
       {method: 'POST', body: JSON.stringify(body)}
     ).then(data => dispatch(createPackingObjectsSuccess(data)))
   }
 }
 
 
-export function deletePackingObjects(body) {
+export function deletePackingObjects(sessionId, body) {
   return function(dispatch) {
     return fetchWrapper(
-      '/packing_objects',
+      sessionId,
+      'packing_objects',
       {method: 'DELETE', body: JSON.stringify(body)}
     ).then(data => dispatch(deletePackingObjectsSuccess(data)))
   }
 }
 
 
-export function callSolver(body) {
+export function callSolver(sessionId, body) {
   return function(dispatch) {
     return fetchWrapper(
-      '/solve',
+      sessionId,
+      'solve',
       {method: 'POST', body: JSON.stringify(body)}
     ).then(data => dispatch(callSolverSuccess(data)))
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd'
 
 import ItemTypes from '../../ItemTypes'
@@ -55,17 +54,6 @@ class PackingObject extends Component {
     )
   }
 }
-
-PackingObject.propTypes = {
-  id: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
-  packed: PropTypes.bool.isRequired,
-  rotated: PropTypes.bool.isRequired,
-  connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired
-};
 
 
 const DraggablePackingObject = DragSource(ItemTypes.PACKING_OBJECT, packingObjectSource, collect)(PackingObject);

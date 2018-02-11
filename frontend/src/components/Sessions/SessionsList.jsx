@@ -1,18 +1,50 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
+import { Link, withRouter } from "react-router-dom";
+
+
+import { fetchSessions } from '../../actions'
 
 
 class SessionsList extends Component {
-  render() {
+  componentDidMount() {
+    this.props.loadSessions();
+  }
+
+  renderSession(session) {
+    const {id, name, createdAt} = session;
     return (
-      <div class="ui list">
-        <div class="item">What is a FAQ?</div>
-        <div class="item">Who is our user?</div>
-        <div class="item">Where is our office located?</div>
+      <li
+        className="item"
+        key={id}>
+        <Link to={`${this.props.match.url}/${id}`}>Session {name} created at {createdAt}</Link>
+      </li>
+    )
+  }
+
+  render() {
+    const renderedSessions = this.props.sessions.map(s => this.renderSession(s));
+
+    return (
+      <div>
+        <h2>Sessions</h2>
+        <ul>
+          {renderedSessions}
+        </ul>
       </div>
     )
   }
 }
 
 
-export default SessionsList
+const mapStateToProps = state => ({
+    sessions: state.sessions
+})
+
+
+const mapDispatchToProps = dispatch => ({
+  loadSessions: () => dispatch(fetchSessions()),
+});
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SessionsList))

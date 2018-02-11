@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './UnpackedObjectSpace.css';
 import PackingObject from '../PackingObject/PackingObject'
 import { DropTarget } from 'react-dnd'
@@ -12,7 +11,7 @@ const unpackedSpaceTarget = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
 
-    props.updatePackingObject({x_coordinate: null, y_coordinate: null}, item);
+    props.updatePackingObject(props.sessionId, {x_coordinate: null, y_coordinate: null}, item);
   }
 }
 
@@ -47,28 +46,14 @@ class UnpackedObjectSpace extends Component {
   }
 }
 
-UnpackedObjectSpace.propTypes = {
-  objects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      rotated: PropTypes.bool.isRequired
-    }).isRequired
-  ),
-  connectDropTarget: PropTypes.func.isRequired,
-  updatePackingObject: PropTypes.func.isRequired
-};
-
-UnpackedObjectSpace.defaultProps = {objects: []}
 
 const UnpackedObjectSpaceTarget = (
   DropTarget(ItemTypes.PACKING_OBJECT, unpackedSpaceTarget, collect)(UnpackedObjectSpace)
 );
 
+
 const mapDispatchToProps = dispatch => ({
-  updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
+  updatePackingObject: (sessionId, body, id) => dispatch(updatePackingObject(sessionId, body, id)),
 });
 
 

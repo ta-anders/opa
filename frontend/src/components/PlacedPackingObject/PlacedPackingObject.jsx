@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import PackingObject from '../PackingObject/PackingObject';
 
 const getStyles = (props) => {
@@ -32,14 +31,5 @@ class PlacedPackingObject extends Component {
   }
 }
 
-PlacedPackingObject.propTypes = {
-  id: PropTypes.number.isRequired,
-  xCoordinate: PropTypes.number.isRequired,
-  yCoordinate: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
-  rotated: PropTypes.bool.isRequired
-};
 
 export default PlacedPackingObject

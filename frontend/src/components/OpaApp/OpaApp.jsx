@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 
 import FormBar from '../Forms/index'
 import PackingSpace from '../PackingSpace/PackingSpace';
@@ -10,45 +9,28 @@ import './OpaApp.css'
 
 class OpaApp extends Component {
   componentDidMount() {
-    this.props.loadPackingObjects();
-    this.props.loadPackingSpace();
+    const {loadPackingObjects, loadPackingSpace, match} = this.props;
+    const sessionId = match.params.sessionId;
+
+    loadPackingObjects(sessionId);
+    loadPackingSpace(sessionId);
   }
 
   render() {
-    const {packedObjects, unpackedObjects} = this.props;
+    const {packedObjects, unpackedObjects, match} = this.props;
+    const sessionId = match.params.sessionId;
 
     return (
       <div className="OuterWrapper">
         <div className="OpaApp">
-          <FormBar/>
-          <PackingSpace objects={packedObjects}/>
-          <UnpackedObjectSpace objects={unpackedObjects}/>
+          <FormBar sessionId={sessionId}/>
+          <PackingSpace objects={packedObjects} sessionId={sessionId}/>
+          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId}/>
         </div>
       </div>
     )
   }
 }
-
-OpaApp.propTypes = {
-  packedObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-      xCoordinate: PropTypes.number.isRequired,
-      yCoordinate: PropTypes.number.isRequired,
-    }).isRequired
-  ),
-  unpackedObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-    }).isRequired
-  ),
-  loadPackingObjects: PropTypes.func.isRequired,
-  loadPackingSpace: PropTypes.func.isRequired
-};
 
 
 export default OpaApp

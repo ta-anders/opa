@@ -11,7 +11,7 @@ from opa.models import PackingObject
 from opa.read_result import read_result
 from opa.schemas.packing_object import PackingObjectSchema
 from opa.solvers.cgreedy_wrapper import call_cgreedy
-from opa.utils import get_random_color
+from opa.utils import get_random_color, query_by_session
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 def packing_objects_get(request):
     db = request.dbsession
 
-    packing_objs = db.query(PackingObject).all()
+    packing_objs = query_by_session(db, request.context.session_id, PackingObject).all()
 
     schema = PackingObjectSchema(strict=True, many=True)
 
@@ -49,6 +49,7 @@ def packing_objects_post(request, num_objects):
     # Create a random selection of new packing objects
     new = [
         PackingObject(
+            session_id=request.context.session_id,
             width=10 + int(200 * random.random()),
             height=10 + int(50 * random.random()),
             x_coordinate=None,
@@ -76,7 +77,7 @@ def packing_objects_delete_unpacked(request):
     db = request.dbsession
 
     unpacked = (
-        db.query(PackingObject)
+        query_by_session(db, request.context.session_id, PackingObject)
         .filter(or_(PackingObject.x_coordinate.is_(None), PackingObject.y_coordinate.is_(None)))
     )
     ret = {'deleted': [p.id for p in unpacked]}
@@ -96,7 +97,7 @@ def packing_objects_clear_packed(request):
     db = request.dbsession
 
     (
-        db.query(PackingObject.id)
+        query_by_session(db, request.context.session_id, PackingObject.id)
         .filter(
             or_(
                 PackingObject.x_coordinate.isnot(None),
@@ -147,7 +148,7 @@ def packing_object_put(request, packing_object_id):
 def packing_objects_solve(request):
     db = request.dbsession
 
-    input = make_input(db)
+    input = make_input(db, request.context.session_id)
 
     result = call_cgreedy(**input)
 
