@@ -24,19 +24,20 @@ const collect = (connect, monitor) => {
 
 
 class UnpackedObjectSpace extends Component {
-  renderPackingObject(obj) {
+  renderPackingObject(obj, sessionId) {
     return <PackingObject height={obj.height}
                           width={obj.width}
                           packed={false}
                           rotated={obj.rotated}
                           backgroundColor={obj.backgroundColor}
+                          sessionId={sessionId}
                           id={obj.id}
                           key={obj.id}/>
   }
 
   render() {
     const packingObjects = this.props.objects.map(
-      obj => this.renderPackingObject(obj)
+      obj => this.renderPackingObject(obj, this.props.sessionId)
     )
     return this.props.connectDropTarget(
       <div className="UnpackedObjectSpace">

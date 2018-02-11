@@ -10,14 +10,15 @@ class Session(Base):
 
     id = Column(Integer, primary_key=True)
 
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, unique=True)
     created_at = Column(DateTime, nullable=False)
+    status = Column(String, nullable=True)
 
 
 class SessionIDMixin(object):
     @declared_attr
     def session_id(cls):
-        return Column('session_id', Integer, ForeignKey('sessions.id'), nullable=False)
+        return Column('session_id', Integer, ForeignKey('sessions.id', ondelete='CASCADE'), nullable=False)
 
     @declared_attr
     def session(cls):

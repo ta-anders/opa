@@ -6,4 +6,4 @@ class SessionSchema(Schema):
 
     name = fields.String(required=True)
     created_at = fields.DateTime(requred=True, dump_to='createdAt')
-
+    status = fields.String(required=True, allow_none=True)

@@ -95,9 +95,10 @@ def packing_objects_delete_unpacked(request):
 )
 def packing_objects_clear_packed(request):
     db = request.dbsession
+    session_id = request.context.session_id
 
     (
-        query_by_session(db, request.context.session_id, PackingObject.id)
+        query_by_session(db, session_id, PackingObject.id)
         .filter(
             or_(
                 PackingObject.x_coordinate.isnot(None),
@@ -111,7 +112,7 @@ def packing_objects_clear_packed(request):
     db.flush()
 
     # TODO: lazy return of everything here - how do I get which rows have been updated above?
-    return PackingObjectSchema(many=True, strict=True).dump(db.query(PackingObject).all()).data
+    return PackingObjectSchema(many=True, strict=True).dump(query_by_session(db, session_id, PackingObject)).data
 
 
 @view_config(

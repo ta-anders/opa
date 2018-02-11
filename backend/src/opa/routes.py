@@ -5,6 +5,7 @@ SESSION_STUB = r'/sessions/{session_id}'
 
 def includeme(config):
     config.add_route('sessions', r'/sessions')
+    config.add_route('session_item', r'/sessions/{session_id:\d+}')
 
     def route_factory(name, route):
         config.add_route(name, SESSION_STUB + route, factory=OpaContext)

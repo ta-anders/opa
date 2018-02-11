@@ -43,22 +43,23 @@ const collect = (connect, monitor) => {
 
 
 class PackingSpace extends Component {
-  renderPlacedPackingObject(obj) {
+  renderPlacedPackingObject(obj, sessionId) {
     return <PlacedPackingObject xCoordinate={obj.xCoordinate}
                                 yCoordinate={obj.yCoordinate}
                                 height={obj.height}
                                 width={obj.width}
                                 rotated={obj.rotated}
                                 backgroundColor={obj.backgroundColor}
+                                sessionId={sessionId}
                                 key={obj.id}
                                 id={obj.id}
     />
   }
 
   render() {
-    const { height, width, objects, connectDropTarget} = this.props;
+    const { height, width, objects, connectDropTarget, sessionId} = this.props;
     const packingObjects = objects.map(
-      obj => this.renderPlacedPackingObject(obj)
+      obj => this.renderPlacedPackingObject(obj, sessionId)
     )
     return connectDropTarget(
       <div className="PackingSpace">

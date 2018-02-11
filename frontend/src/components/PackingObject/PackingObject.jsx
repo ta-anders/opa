@@ -31,7 +31,7 @@ class PackingObject extends Component {
   }
 
   handleDoubleClick() {
-    this.props.updatePackingObject({rotated: (!this.props.rotated)}, this.props);
+    this.props.updatePackingObject(this.props.sessionId, {rotated: (!this.props.rotated)}, this.props);
   }
 
   render() {
@@ -60,7 +60,7 @@ const DraggablePackingObject = DragSource(ItemTypes.PACKING_OBJECT, packingObjec
 
 
 const mapDispatchToProps = dispatch => ({
-  updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
+  updatePackingObject: (sessionId, body, id) => dispatch(updatePackingObject(sessionId, body, id)),
 });
 
 

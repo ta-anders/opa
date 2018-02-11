@@ -45,13 +45,18 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        session = Session(name='test', created_at=datetime.datetime.now())
-        dbsession.add(session)
+        session1 = Session(name='test 1', created_at=datetime.datetime.now())
+        session2 = Session(name='test 2', created_at=datetime.datetime.now())
+        dbsession.add(session1)
+        dbsession.add(session2)
 
-        model = PackingObject(width=10, height=10, session=session)
-        space = PackingSpace(height=500, width=600, session=session)
+        space = PackingSpace(height=500, width=600, session=session1)
+        model = PackingObject(width=10, height=10, session=session1)
+
+        space2 = PackingSpace(height=500, width=600, session=session2)
         dbsession.add(model)
         dbsession.add(space)
+        dbsession.add(space2)
 
 
 if __name__ == '__main__':

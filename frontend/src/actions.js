@@ -5,8 +5,11 @@ export const GET_PACKING_OBJECTS = 'GET_PACKING_OBJECTS';
 export const GET_SESSIONS = 'GET_SESSIONS';
 export const GET_PACKING_SPACE = 'GET_PACKING_SPACE';
 export const UPDATE_PACKING_SPACE = 'UPDATE_PACKING_SPACE';
+export const UPDATE_SESSION = 'UPDATE_SESSION';
 export const CREATE_PACKING_OBJECTS = 'CREATE_PACKING_OBJECTS';
+export const CREATE_SESSION = 'CREATE_SESSION';
 export const DELETE_PACKING_OBJECTS = 'DELETE_PACKING_OBJECTS';
+export const DELETE_SESSION = 'DELETE_SESSION';
 export const UPDATE_PACKING_OBJECT = 'UPDATE_PACKING_OBJECT';
 export const CLEAR_PACKED_OBJECTS = 'CLEAR_PACKED_OBJECTS';
 export const SOLVER_SUCCESS = 'SOLVER_SUCCESS';
@@ -68,9 +71,33 @@ export function createPackingObjectsSuccess(payload) {
 }
 
 
+export function createSessionSuccess(payload) {
+  return {
+    type: CREATE_SESSION,
+    payload
+  }
+}
+
+
+export function updateSessionSuccess(payload) {
+  return {
+    type: UPDATE_SESSION,
+    payload
+  }
+}
+
+
 export function deletePackingObjectsSuccess(payload) {
   return {
     type: DELETE_PACKING_OBJECTS,
+    payload,
+  }
+}
+
+
+export function deleteSessionSuccess(payload) {
+  return {
+    type: DELETE_SESSION,
     payload,
   }
 }
@@ -166,6 +193,26 @@ export function createPackingObjects(sessionId, body) {
 }
 
 
+export function createSession(body) {
+  return function(dispatch) {
+    return _fetchWrapper(
+      'sessions',
+      {method: 'POST', body: JSON.stringify(body)}
+    ).then(data => dispatch(createSessionSuccess(data)))
+  }
+}
+
+
+export function updateSession(sessionId, body) {
+  return function(dispatch) {
+    return _fetchWrapper(
+        `sessions/${sessionId}`,
+        {method: 'PUT', body: JSON.stringify(body)}
+      ).then(data => dispatch(updateSessionSuccess(data)))
+    }
+}
+
+
 export function deletePackingObjects(sessionId, body) {
   return function(dispatch) {
     return fetchWrapper(
@@ -173,6 +220,16 @@ export function deletePackingObjects(sessionId, body) {
       'packing_objects',
       {method: 'DELETE', body: JSON.stringify(body)}
     ).then(data => dispatch(deletePackingObjectsSuccess(data)))
+  }
+}
+
+
+export function deleteSession(sessionId) {
+  return function(dispatch) {
+    return _fetchWrapper(
+      `sessions/${sessionId}`,
+      {method: 'DELETE'}
+    ).then(data => dispatch(deleteSessionSuccess(data)))
   }
 }
 
