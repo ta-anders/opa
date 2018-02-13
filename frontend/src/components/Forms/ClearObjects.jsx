@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { clearPackedObjects } from '../../actions'
-
+import { clearPackedObjects } from '../../actions/packingObjects';
 
 const ClearObjectsButton = (props) => {
   return (

@@ -5,8 +5,7 @@ import ItemTypes from '../../ItemTypes'
 
 import './PackingObject.css';
 import { connect } from 'react-redux'
-import { updatePackingObject } from '../../actions'
-
+import { updatePackingObject } from '../../actions/packingObjects';
 
 const packingObjectSource = {
 	beginDrag(props) {
@@ -31,7 +30,7 @@ class PackingObject extends Component {
   }
 
   handleDoubleClick() {
-    this.props.updatePackingObject(this.props.sessionId, {rotated: (!this.props.rotated)}, this.props);
+    this.props.updatePackingObject(this.props.sessionId, {rotated: (!this.props.rotated)}, this.props.id);
   }
 
   render() {

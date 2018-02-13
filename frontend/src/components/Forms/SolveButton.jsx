@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { callSolver } from '../../actions'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import callSolver from '../../actions/solves';
 
 
 const SolveButton = (props) => {
@@ -17,7 +17,7 @@ const SolveButton = (props) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  callSolver: (sessionId) => dispatch(callSolver(sessionId)),
+  callSolver: (sessionId, body) => dispatch(callSolver(sessionId, body)),
 });
 
 

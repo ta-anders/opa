@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
+import { DropTarget } from 'react-dnd';
+import { connect } from 'react-redux';
+import { updatePackingObject } from '../../actions/packingObjects';
+import ItemTypes from '../../ItemTypes';
+import PackingObject from '../PackingObject/PackingObject';
 import './UnpackedObjectSpace.css';
-import PackingObject from '../PackingObject/PackingObject'
-import { DropTarget } from 'react-dnd'
-import ItemTypes from '../../ItemTypes'
-import { connect } from 'react-redux'
-import { updatePackingObject } from '../../actions'
-
 
 const unpackedSpaceTarget = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
 
-    props.updatePackingObject(props.sessionId, {x_coordinate: null, y_coordinate: null}, item);
+    props.updatePackingObject(props.sessionId, {x_coordinate: null, y_coordinate: null}, item.id);
   }
 }
 

@@ -3,7 +3,12 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from "react-router-dom";
 import { Button, Form, Icon, Modal, Message, List } from 'semantic-ui-react'
 
-import { fetchSessions, createSession, deleteSession, updateSession } from '../../actions'
+import {
+  getSessions,
+  createSession,
+  deleteSession,
+  updateSession }
+  from '../../actions/sessions';
 
 class CreateSessionModal extends Component {
   constructor(props) {
@@ -163,7 +168,7 @@ const mapStateToProps = state => ({
 
 
 const mapDispatchToProps = dispatch => ({
-  loadSessions: () => dispatch(fetchSessions()),
+  loadSessions: () => dispatch(getSessions()),
   addNewSession: (body) => dispatch(createSession(body)),
   deleteSession: (sessionId) => dispatch(deleteSession(sessionId)),
   updateSession: (sessionId, body) => dispatch(updateSession(sessionId, body))

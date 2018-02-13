@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Form } from 'semantic-ui-react'
 
-import { createPackingObjects } from '../../actions'
+import { createPackingObjects } from '../../actions/packingObjects';
 import './index.css'
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { deletePackingObjects } from '../../actions'
+import { deletePackingObjects } from '../../actions/packingObjects';
 
 const DeleteObjectsButton = (props) => {
   return (
@@ -13,7 +13,7 @@ const DeleteObjectsButton = (props) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  deleteObjects: (sessionId) => dispatch(deletePackingObjects(sessionId)),
+  deleteObjects: sessionId => dispatch(deletePackingObjects(sessionId, {})),
 });
 
 

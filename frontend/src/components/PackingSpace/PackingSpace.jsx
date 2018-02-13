@@ -5,11 +5,10 @@ import Resizable from 're-resizable';
 import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject';
 import ItemTypes from '../../ItemTypes';
 
-
 import './PackingSpace.css';
 import { connect } from 'react-redux';
-import { updatePackingObject, updatePackingSpace } from '../../actions';
-
+import { updatePackingObject } from '../../actions/packingObjects';
+import { updatePackingSpace } from '../../actions/packingSpace';
 
 const packingSpaceTarget = {
   drop(props, monitor, component) {
@@ -30,7 +29,7 @@ const packingSpaceTarget = {
       y_coordinate: Math.min(Math.max(y, 0), maxHeight)
     }
 
-    props.updatePackingObject(props.sessionId, newPos, item);
+    props.updatePackingObject(props.sessionId, newPos, item.id);
   }
 }
 
