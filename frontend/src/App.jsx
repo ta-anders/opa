@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect
-} from 'react-router-dom'
-import 'semantic-ui-css/semantic.min.css';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
-
-import rootReducer from './reducers';
-import './index.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 import OpaAppContainer from './components/OpaAppContainer/OpaAppContainer';
 import SessionsList from './components/Sessions/SessionsList';
 
+import rootReducer from './reducers';
+
+const redirectToSessions = () => {
+  window.location = '/sessions';
+};
 
 class App extends Component {
   constructor() {
@@ -28,28 +24,26 @@ class App extends Component {
     this.store = createStore(
       rootReducer,
       composeEnhancers(
-          applyMiddleware(
-              thunkMiddleware,
-              loggerMiddleware
-          )
-      )
-    )
+        applyMiddleware(
+          thunkMiddleware,
+          loggerMiddleware,
+        ),
+      ),
+    );
   }
 
   render() {
-    return(
+    return (
       <Provider store={this.store}>
         <Router>
           <div>
-            <Route exact path="/" render = {() => (
-              <Redirect to={{pathname: "/sessions"}}/>
-              )}/>
-            <Route exact path="/sessions" component={SessionsList}/>
+            <Route exact path="/" render={() => redirectToSessions()} />
+            <Route exact path="/sessions" component={SessionsList} />
             <Route path="/sessions/:sessionId" component={OpaAppContainer} />
           </div>
         </Router>
       </Provider>
-    )
+    );
   }
 }
 

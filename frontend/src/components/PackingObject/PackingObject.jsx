@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { DragSource } from 'react-dnd'
+import { DragSource } from 'react-dnd';
+import { connect } from 'react-redux';
+import { updatePackingObject } from '../../actions/packingObjects';
 
-import ItemTypes from '../../ItemTypes'
+import ItemTypes from '../../ItemTypes';
 
 import './PackingObject.css';
-import { connect } from 'react-redux'
-import { updatePackingObject } from '../../actions/packingObjects';
 
 const packingObjectSource = {
 	beginDrag(props) {
@@ -34,7 +34,12 @@ class PackingObject extends Component {
   }
 
   render() {
-    const { height, width, packed, rotated, backgroundColor, connectDragSource, isDragging } = this.props;
+
+    const { id, height, width, packed, rotated, backgroundColor, connectDragSource, isDragging, updatingObjects } = this.props;
+
+    if (updatingObjects.indexOf(id) !== -1) {
+      return null;
+    }
     let style = {width: width, height: height};
     if (!packed) {
       style.display = "inline-block";
@@ -47,20 +52,25 @@ class PackingObject extends Component {
       style.border = "2.5px solid black";
     }
 
-    return connectDragSource(
-      <div style={style} onDoubleClick={this.handleDoubleClick}>
-      </div>
-    )
+    const ele = (
+      <div style={style} onDoubleClick={this.handleDoubleClick} />
+    );
+
+    return connectDragSource(ele);
   }
 }
 
-
 const DraggablePackingObject = DragSource(ItemTypes.PACKING_OBJECT, packingObjectSource, collect)(PackingObject);
 
+const mapStateToProps = state => ({
+  updatingObjects: state.ui.updatingObjects,
+});
 
 const mapDispatchToProps = dispatch => ({
   updatePackingObject: (sessionId, body, id) => dispatch(updatePackingObject(sessionId, body, id)),
 });
 
 
-export default connect(null, mapDispatchToProps)(DraggablePackingObject)
+export default connect(
+  mapStateToProps, mapDispatchToProps,
+)(DraggablePackingObject);

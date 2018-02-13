@@ -1,21 +1,18 @@
 import * as ACTION_CONSTANTS from './constants';
 
 import {
-  fetchAndDispatch, getActionFactory, sessionFetch,
+  fetchAndDispatch, sessionFetch,
   updateActionFactory,
 } from './index';
 
 // Get actions
-const getPackingSpaceSuccess = getActionFactory(
-  ACTION_CONSTANTS.GET_PACKING_SPACE,
-);
+/* Not currently needed as being done in the base load */
+// const getPackingSpaceSuccess = getActionFactory(
+//   ACTION_CONSTANTS.GET_PACKING_SPACE,
+// );
 
-export function getPackingSpace(sessionId) {
-  return fetchAndDispatch(
-    sessionFetch,
-    [sessionId, 'packing_spaces'],
-    getPackingSpaceSuccess,
-  );
+export function fetchPackingSpace(sessionId) {
+  return sessionFetch(sessionId, 'packing_spaces');
 }
 
 // Update actions

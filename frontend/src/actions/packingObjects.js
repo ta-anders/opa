@@ -2,20 +2,18 @@ import * as ACTION_CONSTANTS from './constants';
 
 import {
   createActionFactory, deleteActionFactory, fetchAndDispatch,
-  getActionFactory, sessionFetch, updateActionFactory,
+  sessionFetch, updateActionFactory,
 } from './index';
 
 // Get actions
-const getPackingObjectSuccess = getActionFactory(
-  ACTION_CONSTANTS.GET_PACKING_OBJECTS,
-);
 
-export function getPackingObjects(sessionId) {
-  return fetchAndDispatch(
-    sessionFetch,
-    [sessionId, 'packing_objects'],
-    getPackingObjectSuccess,
-  );
+/* Not currently needed as being done in the base load */
+// const getPackingObjectSuccess = getActionFactory(
+//   ACTION_CONSTANTS.GET_PACKING_OBJECTS,
+// );
+
+export function fetchPackingObject(sessionId) {
+  return sessionFetch(sessionId, 'packing_objects');
 }
 
 // Create Actions
@@ -40,6 +38,11 @@ const updatePackingObjectSuccess = updateActionFactory(
   ACTION_CONSTANTS.UPDATE_PACKING_OBJECT,
 );
 
+export const startObjectUpdateSuccess = (objectId) => (
+  { type: ACTION_CONSTANTS.START_UPDATE_PACKING_OBJECT, objectId }
+);
+
+
 export function updatePackingObject(sessionId, body, id) {
   return fetchAndDispatch(
     sessionFetch,
@@ -49,6 +52,7 @@ export function updatePackingObject(sessionId, body, id) {
       { method: 'PUT', body: JSON.stringify(body) },
     ],
     updatePackingObjectSuccess,
+    [startObjectUpdateSuccess(id)],
   );
 }
 

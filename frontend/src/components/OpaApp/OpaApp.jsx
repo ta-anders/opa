@@ -1,36 +1,35 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import FormBar from '../Forms/index'
+import FormBar from '../Forms/index';
 import PackingSpace from '../PackingSpace/PackingSpace';
-import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace'
+import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace';
 
-import './OpaApp.css'
-
+import './OpaApp.css';
 
 class OpaApp extends Component {
   componentDidMount() {
-    const {loadPackingObjects, loadPackingSpace, match} = this.props;
+    const { loadData, match } = this.props;
     const sessionId = match.params.sessionId;
 
-    loadPackingObjects(sessionId);
-    loadPackingSpace(sessionId);
+    loadData(sessionId);
   }
 
   render() {
-    const {packedObjects, unpackedObjects, match} = this.props;
+    const { packedObjects, unpackedObjects, loading, match } = this.props;
     const sessionId = match.params.sessionId;
 
     return (
+      !loading &&
       <div className="OuterWrapper">
         <div className="OpaApp">
-          <FormBar sessionId={sessionId}/>
-          <PackingSpace objects={packedObjects} sessionId={sessionId}/>
-          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId}/>
+          <FormBar sessionId={sessionId} />
+          <PackingSpace objects={packedObjects} sessionId={sessionId} />
+          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
         </div>
       </div>
-    )
+    );
   }
 }
 
 
-export default OpaApp
+export default OpaApp;

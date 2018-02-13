@@ -1,11 +1,9 @@
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { loadData } from '../../actions/app';
 
-import OpaApp from '../OpaApp/OpaApp'
-import { getPackingObjects } from '../../actions/packingObjects';
-import { getPackingSpace } from '../../actions/packingSpace';
+import OpaApp from '../OpaApp/OpaApp';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const packedObjects = [];
   const unpackedObjects = [];
 
@@ -20,18 +18,17 @@ const mapStateToProps = state => {
   }
 
   return {
-    packedObjects: packedObjects,
-    unpackedObjects: unpackedObjects
-  }
-}
-
+    loading: state.ui.loadingBaseData,
+    packedObjects,
+    unpackedObjects,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
-  loadPackingObjects: sessionId => dispatch(getPackingObjects(sessionId)),
-  loadPackingSpace: sessionId => dispatch(getPackingSpace(sessionId)),
+  loadData: sessionId => dispatch(loadData(sessionId)),
 });
 
 
-const OpaAppContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(OpaApp))
+const OpaAppContainer = connect(mapStateToProps, mapDispatchToProps)(OpaApp);
 
-export default OpaAppContainer
+export default OpaAppContainer;

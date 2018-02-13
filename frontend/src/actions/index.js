@@ -20,10 +20,16 @@ export function sessionFetch(sessionId, url, config = {}) {
   return fetchWrapper(urlWithSession, config);
 }
 
-export function fetchAndDispatch(fetcher, args, actionCreator) {
+export function fetchAndDispatch(
+  fetcher,
+  args,
+  responseActionCreator,
+  preFetchActionCreators = [],
+) {
   return (dispatch) => {
+    preFetchActionCreators.map(i => dispatch(i));
     fetcher(...args).then((jsonResponse) => {
-      dispatch(actionCreator(jsonResponse));
+      dispatch(responseActionCreator(jsonResponse));
     });
   };
 }

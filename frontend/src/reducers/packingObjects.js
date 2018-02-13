@@ -4,8 +4,8 @@ const initialState = [];
 
 const packingObjects = (state = initialState, action) => {
   switch (action.type) {
-    case ACTION_CONSTANTS.GET_PACKING_OBJECTS:
-      return action.response;
+    case ACTION_CONSTANTS.END_LOAD:
+      return action.packingObjects;
     case ACTION_CONSTANTS.CREATE_PACKING_OBJECTS:
       return ([
         ...state,
