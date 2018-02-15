@@ -46,16 +46,13 @@ class PackingObject extends Component {
       updatingObjects,
     } = this.props;
 
-    if (updatingObjects.indexOf(id) !== -1) {
-      return null;
-    }
-
     const style = { width, height };
     if (!packed) {
       style.display = 'inline-block';
       style.marginLeft = '20px';
     }
-    style.opacity = isDragging ? 0.25 : 1;
+    const fadeOut = isDragging || updatingObjects.indexOf(id) !== -1;
+    style.opacity = fadeOut ? 0.25 : 1;
     style.backgroundColor = backgroundColor;
 
     if (rotated) {
