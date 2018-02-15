@@ -28,7 +28,6 @@ class UnpackedObjectSpace extends Component {
       <PackingObject
         height={obj.height}
         width={obj.width}
-        packed
         rotated={obj.rotated}
         backgroundColor={obj.backgroundColor}
         sessionId={sessionId}
