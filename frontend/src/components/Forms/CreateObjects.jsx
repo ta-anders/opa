@@ -32,9 +32,9 @@ class CreateObjectsForm extends Component {
     return (
         <Form onSubmit={this.handleSubmit}>
           <Form.Group className="inline fields">
-            <a className="ui basic blue label" style={{fontSize: "inherit"}}>
+            <div className="ui basic blue label" style={{fontSize: "inherit"}}>
               {unpackedObjects.length}
-            </a>
+            </div>
             <Form.Field>
                 <input className="CreateInput"
                        type="text"

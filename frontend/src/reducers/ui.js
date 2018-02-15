@@ -17,6 +17,10 @@ const ui = (state = initialState, action) => {
       };
     case ACTION_CONSTANTS.UPDATE_PACKING_OBJECT:
       return { ...state, updatingObjects: [] };
+    case ACTION_CONSTANTS.START_UPDATE_PACKING_SPACE:
+      return { ...state, updatingSpace: true };
+    case ACTION_CONSTANTS.UPDATE_PACKING_SPACE:
+      return { ...state, updatingSpace: false };
     default:
       return state;
   }

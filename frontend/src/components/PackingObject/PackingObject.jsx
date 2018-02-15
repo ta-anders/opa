@@ -24,7 +24,7 @@ const collect = (connect, monitor) => {
 
 class PackingObject extends Component {
   constructor(props) {
-    super(props);
+    super(...props);
 
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
   }

@@ -16,9 +16,17 @@ export function fetchPackingSpace(sessionId) {
 }
 
 // Update actions
-const updatePackingSpaceSuccess = updateActionFactory(
+export const updatePackingSpaceSuccess = updateActionFactory(
   ACTION_CONSTANTS.UPDATE_PACKING_SPACE,
 );
+
+export const startSpaceUpdateSuccess = () => (
+  { type: ACTION_CONSTANTS.START_UPDATE_PACKING_SPACE }
+);
+
+export function startSpaceUpdate() {
+  return dispatch => dispatch(startSpaceUpdateSuccess());
+}
 
 export function updatePackingSpace(sessionId, body) {
   return fetchAndDispatch(
@@ -29,5 +37,6 @@ export function updatePackingSpace(sessionId, body) {
       { method: 'PUT', body: JSON.stringify(body) },
     ],
     updatePackingSpaceSuccess,
+    // [startSpaceUpdateSuccess()],
   );
 }

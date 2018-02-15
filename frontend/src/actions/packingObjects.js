@@ -17,7 +17,7 @@ export function fetchPackingObject(sessionId) {
 }
 
 // Create Actions
-const createPackingObjectsSuccess = createActionFactory(
+export const createPackingObjectsSuccess = createActionFactory(
   ACTION_CONSTANTS.CREATE_PACKING_OBJECTS,
 );
 
@@ -34,14 +34,13 @@ export function createPackingObjects(sessionId, body) {
 }
 
 // Update actions
-const updatePackingObjectSuccess = updateActionFactory(
+export const updatePackingObjectSuccess = updateActionFactory(
   ACTION_CONSTANTS.UPDATE_PACKING_OBJECT,
 );
 
-export const startObjectUpdateSuccess = (objectId) => (
+export const startObjectUpdateSuccess = objectId => (
   { type: ACTION_CONSTANTS.START_UPDATE_PACKING_OBJECT, objectId }
 );
-
 
 export function updatePackingObject(sessionId, body, id) {
   return fetchAndDispatch(
