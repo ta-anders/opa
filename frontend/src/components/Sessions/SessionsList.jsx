@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Link, withRouter } from "react-router-dom";
-import { Button, Form, Icon, Modal, Message, List } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button, Form, Icon, List, Message, Modal } from 'semantic-ui-react';
 
 import {
-  getSessions,
-  createSession,
-  deleteSession,
-  updateSession }
-  from '../../actions/sessions';
+  createSession, deleteSession, getSessions,
+  updateSession,
+} from '../../actions/sessions';
 
 class CreateSessionModal extends Component {
   constructor(props) {
@@ -27,76 +25,93 @@ class CreateSessionModal extends Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  handleOpen = () => this.setState({ modalOpen: true, errors: false })
-  handleClose = () => this.setState({ modalOpen: false, errors: false })
+  handleOpen() {
+    this.setState({ modalOpen: true, errors: false });
+  }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleClose() {
+    this.setState({ modalOpen: false, errors: false });
+  }
 
-  handleSubmit = () => {
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit() {
     const { name, height, width } = this.state;
 
-    if (name === "") {
-      this.setState({...this.state, errors: true})
+    if (name === '') {
+      this.setState({ ...this.state, errors: true });
       return false;
     }
 
-    this.props.addNewSession({name: name, height: height, width: width, status: "New"});
+    this.props.addNewSession(
+      { name: name, height: height, width: width, status: 'New' },
+    );
 
-    this.setState({name: '', height: 500, width: 600, modalOpen: false, errors: false});
+    this.setState(
+      { name: '', height: 500, width: 600, modalOpen: false, errors: false },
+    );
   }
-
 
   render() {
     return (
-      <Modal trigger={<Button onClick={this.handleOpen}>Create New</Button>}
-             open={this.state.modalOpen}
-             onClose={this.handleClose}>
+      <Modal
+        trigger={<Button onClick={this.handleOpen}>Create New</Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>Create A New Session</Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit} error={this.state.errors}>
             <Form.Field>
               <label>Name</label>
-              <Form.Input placeholder='Session Name'
-                     onChange={this.handleChange}
-                     name='name'
-                     value={this.state.name}
-                     required/>
+              <Form.Input
+                placeholder="Session Name"
+                onChange={this.handleChange}
+                name="name"
+                value={this.state.name}
+                required
+              />
               <label>Height</label>
-              <Form.Input placeholder='Height'
-                     onChange={this.handleChange}
-                     name='height'
-                     value={this.state.height}/>
+              <Form.Input
+                placeholder="Height"
+                onChange={this.handleChange}
+                name="height"
+                value={this.state.height}
+              />
               <label>Width</label>
-              <Form.Input placeholder='Width'
-                     onChange={this.handleChange}
-                     name='width'
-                     value={this.state.width}/>
+              <Form.Input
+                placeholder="Width"
+                onChange={this.handleChange}
+                name="width"
+                value={this.state.width}
+              />
               <Message
                 error
-                content='Enter a name!'
+                content="Enter a name!"
               />
             </Form.Field>
           </Form>
         </Modal.Content>
         <Modal.Actions>
           <Button primary onClick={this.handleSubmit}>
-            Submit <Icon name='right chevron'/>
+            Submit <Icon name="right chevron" />
           </Button>
         </Modal.Actions>
       </Modal>
-    )
+    );
   }
 }
 
-const DeleteSessionButton = (props) => {
-  return (
-    <Button negative
-            onClick={() => props.deleteSession(props.sessionId)}>
-      Delete
-    </Button>
-  )
-};
-
+const DeleteSessionButton = (props) => (
+  <Button
+    negative
+    onClick={() => props.deleteSession(props.sessionId)}
+  >
+    Delete
+  </Button>
+);
 
 class SessionsList extends Component {
   constructor(props) {
@@ -110,69 +125,72 @@ class SessionsList extends Component {
 
   onSessionStart(session) {
     if (session.status === 'New') {
-      this.props.updateSession(session.id, {status: "Started"})
+      this.props.updateSession(session.id, { status: 'Started' });
     }
   }
 
   renderSession(session) {
-    const {id, name} = session;
-    let createdAt = (new Date(session.createdAt)).toString();
+    const { id, name } = session;
+    const createdAt = (new Date(session.createdAt)).toString();
 
-    let text = null, color = null;
-    if (session.status === "New") {
-      text = "Start";
-      color = "blue";
+    let text = null;
+    let color = null;
+    if (session.status === 'New') {
+      text = 'Start';
+      color = 'blue';
     }
     else {
-      text = "Resume";
-      color = "green";
+      text = 'Resume';
+      color = 'green';
     }
     return (
-        <List.Item key={session.id}>
-          <List.Content floated='right'>
-            <Link to={`${this.props.match.url}/${id}`}>
-              <Button onClick={() => this.onSessionStart(session)}
-                      color={color}>
-                {text}
-              </Button>
-            </Link>
-            <DeleteSessionButton sessionId={id} deleteSession={this.props.deleteSession}/>
-          </List.Content>
-          <List.Content>
-            <List.Header>{name}</List.Header>
-            <List.Description>Created on {createdAt}</List.Description>
-          </List.Content>
-        </List.Item>
-    )
+      <List.Item key={session.id}>
+        <List.Content floated="right">
+          <Link to={`${this.props.match.url}/${id}`}>
+            <Button
+              onClick={() => this.onSessionStart(session)}
+              color={color}
+            >
+              {text}
+            </Button>
+          </Link>
+          <DeleteSessionButton
+            sessionId={id}
+            deleteSession={this.props.deleteSession}
+          />
+        </List.Content>
+        <List.Content>
+          <List.Header>{name}</List.Header>
+          <List.Description>Created on {createdAt}</List.Description>
+        </List.Content>
+      </List.Item>
+    );
   }
 
   render() {
     const renderedSessions = this.props.sessions.map(s => this.renderSession(s));
 
     return (
-      <div style={{padding: "2.5em"}}>
+      <div style={{ padding: "2.5em" }}>
         <h2 align="center">Sessions</h2>
-        <CreateSessionModal addNewSession={this.props.addNewSession}/>
-        <List divided verticalAlign='middle'>
+        <CreateSessionModal addNewSession={this.props.addNewSession} />
+        <List divided verticalAlign="middle" >
           {renderedSessions}
         </List>
       </div>
-    )
+    );
   }
 }
 
-
 const mapStateToProps = state => ({
-    sessions: state.sessions
-})
-
+  sessions: state.sessions,
+});
 
 const mapDispatchToProps = dispatch => ({
   loadSessions: () => dispatch(getSessions()),
-  addNewSession: (body) => dispatch(createSession(body)),
-  deleteSession: (sessionId) => dispatch(deleteSession(sessionId)),
-  updateSession: (sessionId, body) => dispatch(updateSession(sessionId, body))
+  addNewSession: body => dispatch(createSession(body)),
+  deleteSession: sessionId => dispatch(deleteSession(sessionId)),
+  updateSession: (sessionId, body) => dispatch(updateSession(sessionId, body)),
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SessionsList)
+export default connect(mapStateToProps, mapDispatchToProps)(SessionsList);

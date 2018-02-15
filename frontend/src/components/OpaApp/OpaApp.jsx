@@ -31,5 +31,4 @@ class OpaApp extends Component {
   }
 }
 
-
 export default OpaApp;

@@ -28,7 +28,6 @@ const mapDispatchToProps = dispatch => ({
   loadData: sessionId => dispatch(loadData(sessionId)),
 });
 
-
 const OpaAppContainer = connect(mapStateToProps, mapDispatchToProps)(OpaApp);
 
 export default OpaAppContainer;

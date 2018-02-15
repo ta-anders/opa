@@ -39,7 +39,6 @@ const collectFunc = c => ({
 });
 
 class PackingSpace extends Component {
-
   constructor(props) {
     super(...props);
 
