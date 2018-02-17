@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
-import 'semantic-ui-css/semantic.min.css';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import OpaAppContainer from './components/OpaAppContainer/OpaAppContainer';
+import SessionsList from './components/Sessions/SessionsList';
 
 import rootReducer from './reducers';
-import './index.css';
-import OpaAppContainer from './components/OpaAppContainer/OpaAppContainer';
 
+const redirectToSessions = () => {
+  window.location = '/sessions';
+};
 
 class App extends Component {
   constructor() {
@@ -27,32 +24,28 @@ class App extends Component {
     this.store = createStore(
       rootReducer,
       composeEnhancers(
-          applyMiddleware(
-              thunkMiddleware,
-              loggerMiddleware
-          )
-      )
-    )
+        applyMiddleware(
+          thunkMiddleware,
+          loggerMiddleware,
+        ),
+      ),
+    );
   }
 
   render() {
-    return(
+    return (
       <Provider store={this.store}>
         <Router>
           <div>
-            {/*<ul>*/}
-              {/*<li><Link to="/">Home</Link></li>*/}
-              {/*<li><Link to="/about">About</Link></li>*/}
-              {/*<li><Link to="/topics">Topics</Link></li>*/}
-            {/*</ul>*/}
-
-            <Route exact path="/" component={OpaAppContainer}/>
+            <Route exact path="/" render={() => redirectToSessions()} />
+            <Route exact path="/sessions" component={SessionsList} />
+            <Route path="/sessions/:sessionId" component={OpaAppContainer} />
           </div>
         </Router>
       </Provider>
-    )
+    );
   }
 }
 
 
-export default DragDropContext(HTML5Backend)(App)
+export default DragDropContext(HTML5Backend)(App);

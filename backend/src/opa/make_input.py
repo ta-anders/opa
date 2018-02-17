@@ -1,9 +1,10 @@
 from opa.models import PackingObject, PackingSpace
+from opa.utils import query_by_session
 
 
-def make_input(db):
-    packing_objs = db.query(PackingObject).all()
-    packing_space = db.query(PackingSpace).one()
+def make_input(db, session_id):
+    packing_objs = query_by_session(db, session_id, PackingObject).all()
+    packing_space = query_by_session(db, session_id, PackingSpace).one()
 
     packing_objs_data = [
         {

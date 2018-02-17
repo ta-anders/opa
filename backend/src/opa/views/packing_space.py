@@ -3,12 +3,12 @@ import logging
 from marshmallow import fields
 from pyramid.view import view_config
 from sqlalchemy import and_, or_
-from sqlalchemy.dialects import postgresql
 from webargs.pyramidparser import use_kwargs
 
 from opa.models import PackingObject, PackingSpace
 from opa.schemas.packing_object import PackingObjectSchema
 from opa.schemas.packing_space import PackingSpaceSchema
+from opa.utils import query_by_session
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 def packing_space_get(request):
     db = request.dbsession
 
-    packing_space = db.query(PackingSpace).one()
+    packing_space = query_by_session(db, request.context.session_id, PackingSpace).one()
 
     schema = PackingSpaceSchema(strict=True)
 
@@ -44,7 +44,7 @@ def packing_space_get(request):
 def packing_space_put(request, width, height):
     db = request.dbsession
 
-    packing_space = db.query(PackingSpace).one()
+    packing_space = query_by_session(db, request.context.session_id, PackingSpace).one()
 
     packing_space.width = width
     packing_space.height = height

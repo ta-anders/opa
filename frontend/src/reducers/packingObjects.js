@@ -1,47 +1,44 @@
-import {
-  CREATE_PACKING_OBJECTS,
-  DELETE_PACKING_OBJECTS,
-  GET_PACKING_OBJECTS,
-  UPDATE_PACKING_OBJECT,
-  SOLVER_SUCCESS,
-  CLEAR_PACKED_OBJECTS,
-  UPDATE_PACKING_SPACE,
-} from '../actions'
+import * as ACTION_CONSTANTS from '../actions/constants';
 
 const initialState = [];
 
-
 const packingObjects = (state = initialState, action) => {
   switch (action.type) {
-    case GET_PACKING_OBJECTS:
-      return action.response;
-    case CREATE_PACKING_OBJECTS:
-        return ([
-          ...state,
-          ...action.payload
-        ]);
-    case DELETE_PACKING_OBJECTS:
-      return state.filter(entity => action.payload["deleted"].indexOf(entity.id) === -1);
-    case UPDATE_PACKING_OBJECT:
-      const indexToUpdate = state.findIndex(entity => entity.id === action.payload.id);
+    case ACTION_CONSTANTS.END_LOAD:
+      return action.packingObjects;
+    case ACTION_CONSTANTS.CREATE_PACKING_OBJECTS:
+      return ([
+        ...state,
+        ...action.payload,
+      ]);
+    case ACTION_CONSTANTS.DELETE_PACKING_OBJECTS:
+      return state.filter(
+        entity => action.payload.deleted.indexOf(entity.id) === -1,
+      );
+    case ACTION_CONSTANTS.UPDATE_PACKING_OBJECT: {
+      const indexToUpdate = state.findIndex(
+        entity => entity.id === action.payload.id,
+      );
       return ([
         ...state.slice(0, indexToUpdate),
         action.payload,
         ...state.slice(indexToUpdate + 1, state.length),
       ]);
-    case CLEAR_PACKED_OBJECTS:
+    }
+    case ACTION_CONSTANTS.CLEAR_PACKED_OBJECTS:
       return action.payload;
-    case SOLVER_SUCCESS:
+    case ACTION_CONSTANTS.SOLVER_SUCCESS:
       return action.payload;
-    case UPDATE_PACKING_SPACE:
-      let updated = action.payload.modified_packing_objects.map(i => i.id);
+    case ACTION_CONSTANTS.UPDATE_PACKING_SPACE: {
+      const updated = action.payload.modified_packing_objects.map(i => i.id);
       return ([
         ...state.filter(entity => updated.indexOf(entity.id) === -1),
         ...action.payload.modified_packing_objects
       ]);
+    }
     default:
       return state;
   }
-}
+};
 
-export default packingObjects
+export default packingObjects;

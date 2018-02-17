@@ -2,9 +2,10 @@ from sqlalchemy import Boolean, CheckConstraint, Column, Integer, String, case, 
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from opa.models.meta import Base
+from opa.models.session import SessionIDMixin
 
 
-class PackingObject(Base):
+class PackingObject(Base, SessionIDMixin):
     __tablename__ = 'packing_objects'
 
     id = Column(Integer, primary_key=True)

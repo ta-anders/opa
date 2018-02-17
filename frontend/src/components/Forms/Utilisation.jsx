@@ -1,46 +1,32 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import React from 'react';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
+const Utilisation = (props) => {
+  const vols = props.packedObjects.map(obj => obj.width * obj.height);
 
-class Utilisation extends Component {
-  render () {
-    const vols = this.props.packedObjects.map(obj => obj.width * obj.height);
-
-    let tot = 0;
-    for (let i = 0; i < vols.length; i++) {
-      tot += vols[i];
-    }
-
-    let utilisation = 100 * (tot / this.props.totalVolume);
-
-    utilisation = Math.round(utilisation * 100) / 100;
-
-    return (
-      <h2 style={{display: "inline-block"}} align="center">Utilisation: {utilisation}%</h2>
-    );
+  let tot = 0;
+  for (let i = 0; i < vols.length; i++) {
+    tot += vols[i];
   }
-}
 
-Utilisation.propTypes = {
-  packedObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-    }).isRequired,
-  ),
-  totalVolume: PropTypes.number.isRequired
-}
+  let utilisation = 100 * (tot / props.totalVolume);
 
+  utilisation = Math.round(utilisation * 100) / 100;
 
-const mapStateToProps = state => {
-  return {
-    packedObjects: state.packingObjects.filter(entity => entity.packed),
-    totalVolume: state.packingSpace.width * state.packingSpace.height
-  }
-}
+  return (
+    <h2
+      style={{ display: 'inline-block' }}
+      align="center"
+    >
+      Utilisation: { utilisation }%
+    </h2>
+  );
+};
 
+const mapStateToProps = (state) => ({
+  packedObjects: state.packingObjects.filter(entity => entity.packed),
+  totalVolume: state.packingSpace.width * state.packingSpace.height,
+});
 
-export default connect(mapStateToProps, null)(Utilisation)
+export default connect(mapStateToProps, null)(Utilisation);

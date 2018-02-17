@@ -1,77 +1,69 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { DropTarget } from 'react-dnd';
+import { connect } from 'react-redux';
+import { updatePackingObject } from '../../actions/packingObjects';
+import ItemTypes from '../../ItemTypes';
+import PackingObject from '../PackingObject/PackingObject';
 import './UnpackedObjectSpace.css';
-import PackingObject from '../PackingObject/PackingObject'
-import { DropTarget } from 'react-dnd'
-import ItemTypes from '../../ItemTypes'
-import { connect } from 'react-redux'
-import { updatePackingObject } from '../../actions'
-
 
 const unpackedSpaceTarget = {
-  drop(props, monitor, component) {
+  drop(props, monitor) {
     const item = monitor.getItem();
 
-    props.updatePackingObject({x_coordinate: null, y_coordinate: null}, item);
-  }
-}
+    props.updatePackingObject(
+      props.sessionId,
+      { x_coordinate: null, y_coordinate: null },
+      item.id,
+    );
+  },
+};
 
-
-const collect = (connect, monitor) => {
-  return {
-    connectDropTarget: connect.dropTarget(),
-  };
-}
-
+const collect = conn => ({
+  connectDropTarget: conn.dropTarget(),
+});
 
 class UnpackedObjectSpace extends Component {
-  renderPackingObject(obj) {
-    return <PackingObject height={obj.height}
-                          width={obj.width}
-                          packed={false}
-                          rotated={obj.rotated}
-                          backgroundColor={obj.backgroundColor}
-                          id={obj.id}
-                          key={obj.id}/>
+  renderPackingObject(obj, sessionId) {
+    return (
+      <PackingObject
+        height={obj.height}
+        width={obj.width}
+        rotated={obj.rotated}
+        backgroundColor={obj.backgroundColor}
+        sessionId={sessionId}
+        id={obj.id}
+        key={obj.id}
+      />
+    );
   }
 
   render() {
     const packingObjects = this.props.objects.map(
-      obj => this.renderPackingObject(obj)
-    )
+      obj => this.renderPackingObject(obj, this.props.sessionId),
+    );
     return this.props.connectDropTarget(
       <div className="UnpackedObjectSpace">
         {packingObjects}
-      </div>
+      </div>,
     );
   }
 }
 
-UnpackedObjectSpace.propTypes = {
-  objects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      rotated: PropTypes.bool.isRequired
-    }).isRequired
-  ),
-  connectDropTarget: PropTypes.func.isRequired,
-  updatePackingObject: PropTypes.func.isRequired
-};
-
-UnpackedObjectSpace.defaultProps = {objects: []}
-
 const UnpackedObjectSpaceTarget = (
-  DropTarget(ItemTypes.PACKING_OBJECT, unpackedSpaceTarget, collect)(UnpackedObjectSpace)
+  DropTarget(
+    ItemTypes.PACKING_OBJECT,
+    unpackedSpaceTarget,
+    collect,
+  )(UnpackedObjectSpace)
 );
 
 const mapDispatchToProps = dispatch => ({
-  updatePackingObject: (body, id) => dispatch(updatePackingObject(body, id)),
+  updatePackingObject: (sessionId, body, id) => dispatch(
+    updatePackingObject(sessionId, body, id),
+  ),
 });
 
-
-const UnpackedObjectSpaceTargetContainer = connect(null, mapDispatchToProps)(UnpackedObjectSpaceTarget);
+const UnpackedObjectSpaceTargetContainer = connect(
+  null, mapDispatchToProps)(UnpackedObjectSpaceTarget);
 
 export default UnpackedObjectSpaceTargetContainer;
