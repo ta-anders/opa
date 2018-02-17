@@ -1,11 +1,15 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-import packingObjects from '../reducers/packingObjects'
-import packingSpace from '../reducers/packingSpace'
+import packingObjects from '../reducers/packingObjects';
+import packingSpace from '../reducers/packingSpace';
+import sessions from '../reducers/sessions';
+import ui from '../reducers/ui';
 
 const rootReducer = combineReducers({
   packingObjects,
-  packingSpace
-})
+  packingSpace,
+  sessions,
+  ui,
+});
 
-export default rootReducer
+export default rootReducer;

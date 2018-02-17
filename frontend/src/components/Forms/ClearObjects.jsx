@@ -1,25 +1,23 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'semantic-ui-react';
 
-import { clearPackedObjects } from '../../actions'
+import { clearPackedObjects } from '../../actions/packingObjects';
 
-
-const ClearObjectsButton = (props) => {
-  return (
-      <button className="circular ui left floated icon button"
-                  data-tooltip="erase progress"
-                  data-variation="tiny"
-                  data-position="right center"
-                  onClick={props.clearPackedObjects}>
-              <i class="erase icon"></i>
-      </button>
-  )
-}
-
+const ClearObjectsButton = props => (
+  <Button
+    circular
+    floated="left"
+    icon="erase"
+    data-tooltip="erase progress"
+    data-variation="tiny"
+    data-position="right center"
+    onClick={() => props.clearPackedObjects(props.sessionId)}
+  />
+);
 
 const mapDispatchToProps = dispatch => ({
-  clearPackedObjects: () => dispatch(clearPackedObjects()),
+  clearPackedObjects: sessionId => dispatch(clearPackedObjects(sessionId)),
 });
 
-
-export default connect(null, mapDispatchToProps)(ClearObjectsButton)
+export default connect(null, mapDispatchToProps)(ClearObjectsButton);

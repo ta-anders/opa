@@ -1,24 +1,22 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { callSolver } from '../../actions'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'semantic-ui-react';
+import callSolver from '../../actions/solves';
 
-
-const SolveButton = (props) => {
-    return (
-        <button className="circular ui right floated icon button"
-                data-tooltip="pack"
-                data-variation="tiny"
-                data-position="left center"
-                onClick={props.callSolver}>
-          <i className="cubes icon"></i>
-        </button>
-    )
-};
-
+const SolveButton = props => (
+  <Button
+    circular
+    floated="right"
+    icon="cubes"
+    data-tooltip="pack"
+    data-variation="tiny"
+    data-position="left center"
+    onClick={() => props.callSolver(props.sessionId)}
+  />
+);
 
 const mapDispatchToProps = dispatch => ({
-  callSolver: () => dispatch(callSolver()),
+  callSolver: (sessionId, body) => dispatch(callSolver(sessionId, body)),
 });
 
-
-export default connect(null, mapDispatchToProps)(SolveButton)
+export default connect(null, mapDispatchToProps)(SolveButton);

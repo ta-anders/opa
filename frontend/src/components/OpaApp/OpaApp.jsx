@@ -1,50 +1,34 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import FormBar from '../Forms/index'
+import FormBar from '../Forms/index';
 import PackingSpace from '../PackingSpace/PackingSpace';
-import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace'
+import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace';
 
-import './OpaApp.css'
-
+import './OpaApp.css';
 
 class OpaApp extends Component {
   componentDidMount() {
-    this.props.loadData();
+    const { loadData, match } = this.props;
+    const sessionId = match.params.sessionId;
+
+    loadData(sessionId);
   }
 
   render() {
-    const {packedObjects, unpackedObjects} = this.props;
+    const { packedObjects, unpackedObjects, loading, match } = this.props;
+    const sessionId = match.params.sessionId;
 
     return (
-      <div className="OpaApp">
-        <FormBar/>
-        <PackingSpace objects={packedObjects}/>
-        <UnpackedObjectSpace objects={unpackedObjects}/>
+      !loading &&
+      <div className="OuterWrapper">
+        <div className="OpaApp">
+          <FormBar sessionId={sessionId} />
+          <PackingSpace objects={packedObjects} sessionId={sessionId} />
+          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
+        </div>
       </div>
-    )
+    );
   }
 }
 
-OpaApp.propTypes = {
-  packedObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-      xCoordinate: PropTypes.number.isRequired,
-      yCoordinate: PropTypes.number.isRequired,
-    }).isRequired
-  ),
-  unpackedObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      width: PropTypes.number.isRequired,
-    }).isRequired
-  ),
-  loadData: PropTypes.func.isRequired
-};
-
-
-export default OpaApp
+export default OpaApp;

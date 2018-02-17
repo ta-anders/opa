@@ -11,7 +11,7 @@ from opa.models import PackingObject
 from opa.read_result import read_result
 from opa.schemas.packing_object import PackingObjectSchema
 from opa.solvers.cgreedy_wrapper import call_cgreedy
-from opa.utils import get_random_color
+from opa.utils import get_random_color, query_by_session
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 def packing_objects_get(request):
     db = request.dbsession
 
-    packing_objs = db.query(PackingObject).all()
+    packing_objs = query_by_session(db, request.context.session_id, PackingObject).all()
 
     schema = PackingObjectSchema(strict=True, many=True)
 
@@ -49,6 +49,7 @@ def packing_objects_post(request, num_objects):
     # Create a random selection of new packing objects
     new = [
         PackingObject(
+            session_id=request.context.session_id,
             width=10 + int(200 * random.random()),
             height=10 + int(50 * random.random()),
             x_coordinate=None,
@@ -76,7 +77,7 @@ def packing_objects_delete_unpacked(request):
     db = request.dbsession
 
     unpacked = (
-        db.query(PackingObject)
+        query_by_session(db, request.context.session_id, PackingObject)
         .filter(or_(PackingObject.x_coordinate.is_(None), PackingObject.y_coordinate.is_(None)))
     )
     ret = {'deleted': [p.id for p in unpacked]}
@@ -94,12 +95,24 @@ def packing_objects_delete_unpacked(request):
 )
 def packing_objects_clear_packed(request):
     db = request.dbsession
+    session_id = request.context.session_id
 
-    db.query(PackingObject.id).filter(PackingObject.x_coordinate.isnot(None)).update(
-        {'x_coordinate': None, 'y_coordinate': None}
+    (
+        query_by_session(db, session_id, PackingObject.id)
+        .filter(
+            or_(
+                PackingObject.x_coordinate.isnot(None),
+                PackingObject.rotated.is_(True)
+            )
+        ).update(
+            {'x_coordinate': None, 'y_coordinate': None, 'rotated': False}
+        )
     )
 
     db.flush()
+
+    # TODO: lazy return of everything here - how do I get which rows have been updated above?
+    return PackingObjectSchema(many=True, strict=True).dump(query_by_session(db, session_id, PackingObject)).data
 
 
 @view_config(
@@ -109,18 +122,17 @@ def packing_objects_clear_packed(request):
 )
 @use_kwargs(
     {
-        'packing_object_id': fields.Integer(required=True, location='matchdict'),
-        'x_coordinate': fields.Integer(required=True, allow_none=True),
-        'y_coordinate': fields.Integer(required=True, allow_none=True)
+        'packing_object_id': fields.Integer(required=True, location='matchdict')
     }
 )
-def packing_object_put(request, packing_object_id, x_coordinate, y_coordinate):
+def packing_object_put(request, packing_object_id):
 
     db = request.dbsession
 
     packing_obj = db.query(PackingObject).get(packing_object_id)
-    packing_obj.x_coordinate = x_coordinate
-    packing_obj.y_coordinate = y_coordinate
+
+    for k, v in request.json.items():
+        setattr(packing_obj, k, v)
 
     schema = PackingObjectSchema(strict=True)
 
@@ -137,7 +149,7 @@ def packing_object_put(request, packing_object_id, x_coordinate, y_coordinate):
 def packing_objects_solve(request):
     db = request.dbsession
 
-    input = make_input(db)
+    input = make_input(db, request.context.session_id)
 
     result = call_cgreedy(**input)
 

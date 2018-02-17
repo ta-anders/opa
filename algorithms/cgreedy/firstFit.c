@@ -3,6 +3,8 @@
 #include <time.h>
 
 #include "firstFit.h"
+#include "common.h"
+
 
 /*
  * Function responsible for finding a place to put a packing object within a given rectangle.
@@ -10,18 +12,18 @@
  * Once the object is placed, the parent node is split into two children which can then be utilised
  * by later objects to be packed.
  */
-Node *insert(Node *node, PackingObject *packingObject) {
+Node *insert(Node *node, PackingObject *packingObject, int allowRotation) {
     // Check if this node is a leaf or not
     if (node->leftChild || node->rightChild) {
         if (node->leftChild) {
-            Node *newlNode = insert(node->leftChild, packingObject);
+            Node *newlNode = insert(node->leftChild, packingObject, allowRotation);
             if (newlNode) {
                 return newlNode;
             }
         }
 
         if (node->rightChild) {
-            Node *newrNode = insert(node->rightChild, packingObject);
+            Node *newrNode = insert(node->rightChild, packingObject, allowRotation);
             if (newrNode) {
                 return newrNode;
             }
@@ -31,55 +33,69 @@ Node *insert(Node *node, PackingObject *packingObject) {
         return NULL;
     }
 
+    // Check if it can actually fit
+    if (node->width - packingObject->width < 0 ||
+        node->height - packingObject->height < 0)
+    {
+        if (!allowRotation) {
+            return NULL;
+        }
+
+        if (node->width - packingObject->height < 0 ||
+            node->height - packingObject->width < 0)
+        {
+            return NULL;
+        }
+        else {
+            // We can fit it in by rotating - switch around the data.
+            const int origWidth = packingObject->width;
+            packingObject->width = packingObject->height;
+            packingObject->height = origWidth;
+            packingObject->rotated = 1 - packingObject->rotated;
+            printf("%d was rotated\n", packingObject->id);
+        }
+    }
+
     int axisWidth = node->width - packingObject->width;
     int axisHeight = node->height - packingObject->height;
 
-    // Check if it can actually fit
-    if (axisWidth < 0 || axisHeight < 0) {
-        return NULL;
+    Node *newLeft = malloc(sizeof(Node));
+    Node *newRight = malloc(sizeof(Node));
+
+    initNodeChildren(newLeft);
+    initNodeChildren(newRight);
+
+    node->leftChild = newLeft;
+    node->rightChild = newRight;
+
+    if (axisWidth <= axisHeight) {
+        setNodeData(node->leftChild,
+                    node->xCoordinate + packingObject->width,
+                    node->yCoordinate,
+                    axisWidth,
+                    packingObject->height);
+
+        setNodeData(node->rightChild,
+                    node->xCoordinate,
+                    node->yCoordinate + packingObject->height,
+                    node->width,
+                    axisHeight);
     }
     else {
-        Node *newLeft = malloc(sizeof(Node));
-        Node *newRight = malloc(sizeof(Node));
+        setNodeData(node->leftChild,
+                    node->xCoordinate,
+                    node->yCoordinate + packingObject->height,
+                    packingObject->width,
+                    axisHeight);
 
-        initNodeChildren(newLeft);
-        initNodeChildren(newRight);
-
-        node->leftChild = newLeft;
-        node->rightChild = newRight;
-
-        if (axisWidth <= axisHeight) {
-            setNodeData(node->leftChild,
-                        node->xCoordinate + packingObject->width,
-                        node->yCoordinate,
-                        axisWidth,
-                        packingObject->height);
-
-            setNodeData(node->rightChild,
-                        node->xCoordinate,
-                        node->yCoordinate + packingObject->height,
-                        node->width,
-                        axisHeight);
-        }
-        else {
-            setNodeData(node->leftChild,
-                        node->xCoordinate,
-                        node->yCoordinate + packingObject->height,
-                        packingObject->width,
-                        axisHeight);
-
-            setNodeData(node->rightChild,
-                        node->xCoordinate + packingObject->width,
-                        node->yCoordinate,
-                        axisWidth,
-                        node->height);
-        }
-
-        node->height = packingObject->height;
-        node->width = packingObject->width;
-
-        return node;
+        setNodeData(node->rightChild,
+                    node->xCoordinate + packingObject->width,
+                    node->yCoordinate,
+                    axisWidth,
+                    node->height);
     }
+
+    return node;
 }
 
 /*
@@ -125,6 +141,7 @@ Node *setNodeData(Node *node,
 
 PackingObject *doFirstFitPack(PackingSpace *packingSpace,
                               PackingObject packingObjects[],
+                              PackingParameters *packingParameters,
                               size_t numObjects)
 {
 
@@ -146,7 +163,7 @@ PackingObject *doFirstFitPack(PackingSpace *packingSpace,
     qsort(packingObjects, numObjects, sizeof(*packingObjects), pobjSort);
 
     for (int i = 0; i < numObjects; i++) {
-        Node * thisAns = insert(rootNode, &packingObjects[i]);
+        Node * thisAns = insert(rootNode, &packingObjects[i], packingParameters->allowRotation);
 
         if (thisAns) {
             placeObject(&packingObjects[i],

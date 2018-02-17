@@ -6,6 +6,8 @@ import zope.sqlalchemy
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
 from opa.models.packing_object import PackingObject  # flake8: noqa
+from opa.models.packing_space import PackingSpace  # flake8: noqa
+from opa.models.session import Session  # flake8: noqa
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

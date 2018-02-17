@@ -7,12 +7,17 @@ typedef struct {
     int width;
     int xCoordinate;
     int yCoordinate;
+    int rotated;
 } PackingObject;
 
 typedef struct {
     int totalHeight;
     int totalWidth;
 } PackingSpace;
+
+typedef struct {
+    int allowRotation;
+} PackingParameters;
 
 int getVolume (PackingObject *pobj);
 

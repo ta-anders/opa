@@ -11,6 +11,11 @@ def read_result(db, result):
             obj.x_coordinate = r['x_coordinate']
             obj.y_coordinate = r['y_coordinate']
 
+            obj.rotated = bool(r['rotated'])
+        else:
+            obj.x_coordinate = None
+            obj.y_coordinate = None
+
         packed.append(obj)
 
     db.flush()

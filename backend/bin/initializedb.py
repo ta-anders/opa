@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import datetime
 import os
 import sys
 import transaction
@@ -16,7 +16,9 @@ from opa.models import (
     get_engine,
     get_session_factory,
     get_tm_session,
-    PackingObject
+    PackingObject,
+    PackingSpace,
+    Session
 )
 
 
@@ -43,9 +45,18 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        model = PackingObject(width=10, height=10)
-        print(model)
+        session1 = Session(name='test 1', created_at=datetime.datetime.now())
+        session2 = Session(name='test 2', created_at=datetime.datetime.now())
+        dbsession.add(session1)
+        dbsession.add(session2)
+
+        space = PackingSpace(height=500, width=600, session=session1)
+        model = PackingObject(width=10, height=10, session=session1)
+
+        space2 = PackingSpace(height=500, width=600, session=session2)
         dbsession.add(model)
+        dbsession.add(space)
+        dbsession.add(space2)
 
 
 if __name__ == '__main__':

@@ -1,43 +1,31 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import PackingObject from '../PackingObject/PackingObject';
 
 const getStyles = (props) => {
-	const { xCoordinate, yCoordinate } = props
-	const transform = `translate3d(${xCoordinate}px, ${yCoordinate}px, 0)`
+  const { xCoordinate, yCoordinate } = props;
+  const transform = `translate3d(${xCoordinate}px, ${yCoordinate}px, 0)`;
 
-	return {
-		position: 'absolute',
-		transform,
-		WebkitTransform: transform
-	}
-}
-
-
-
-class PlacedPackingObject extends Component {
-  render() {
-    const { height, width, backgroundColor, id } = this.props;
-    return (
-      <div style={getStyles(this.props)}>
-        <PackingObject height={height}
-                       width={width}
-                       packed={true}
-                       backgroundColor={backgroundColor}
-                       id={id}>
-        </PackingObject>
-    </div>
-    );
-  }
-}
-
-PlacedPackingObject.propTypes = {
-  id: PropTypes.number.isRequired,
-  xCoordinate: PropTypes.number.isRequired,
-  yCoordinate: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
+  return {
+    position: 'absolute',
+    transform,
+    WebkitTransform: transform,
+  };
 };
 
-export default PlacedPackingObject
+const PlacedPackingObject = (props) => {
+  const { height, width, rotated, backgroundColor, id } = props;
+  return (
+    <div style={getStyles(props)}>
+      <PackingObject
+        height={height}
+        width={width}
+        packed
+        rotated={rotated}
+        backgroundColor={backgroundColor}
+        id={id}
+      />
+    </div>
+  );
+};
+
+export default PlacedPackingObject;
