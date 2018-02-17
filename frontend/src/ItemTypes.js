@@ -1,3 +1,3 @@
 export default {
-	PACKING_OBJECT: 'packingObject',
-}
+  PACKING_OBJECT: 'packingObject',
+};
