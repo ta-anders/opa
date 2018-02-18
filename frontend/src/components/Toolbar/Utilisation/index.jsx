@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-
 const Utilisation = (props) => {
   const vols = props.packedObjects.map(obj => obj.width * obj.height);
 
@@ -24,9 +22,4 @@ const Utilisation = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  packedObjects: state.packingObjects.filter(entity => entity.packed),
-  totalVolume: state.packingSpace.width * state.packingSpace.height,
-});
-
-export default connect(mapStateToProps, null)(Utilisation);
+export default Utilisation;

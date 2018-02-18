@@ -3,7 +3,7 @@ import { DropTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { updatePackingObject } from '../../actions/packingObjects';
 import ItemTypes from '../../ItemTypes';
-import PackingObject from '../PackingObject/PackingObject';
+import PackingObject from '../../containers/PackingObject';
 import './UnpackedObjectSpace.css';
 
 const unpackedSpaceTarget = {

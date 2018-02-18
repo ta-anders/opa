@@ -1,5 +1,5 @@
 import React from 'react';
-import PackingObject from '../PackingObject/PackingObject';
+import PackingObject from '../../containers/PackingObject';
 
 const getStyles = (props) => {
   const { xCoordinate, yCoordinate } = props;

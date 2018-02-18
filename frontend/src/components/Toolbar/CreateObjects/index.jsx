@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-
-import { connect } from 'react-redux';
-import { Button, Form, Label, Input } from 'semantic-ui-react';
-
-import { createPackingObjects } from '../../actions/packingObjects';
+import { Button, Form, Input, Label } from 'semantic-ui-react';
 import './index.css';
 
-class CreateObjectsForm extends Component {
+class CreateObjects extends Component {
   constructor(props) {
     super(props);
     this.state = { numObjects: 0 };
@@ -37,8 +33,7 @@ class CreateObjectsForm extends Component {
           </Label>
           <Form.Field>
             <Input
-              className="CreateInput"
-              type="text"
+              className="create-input"
               value={this.state.objects}
               onChange={this.handleChange}
             />
@@ -50,14 +45,4 @@ class CreateObjectsForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  unpackedObjects: state.packingObjects.filter(record => (!record.packed)),
-});
-
-const mapDispatchToProps = dispatch => ({
-  createObjects: (sessionId, body) => dispatch(
-    createPackingObjects(sessionId, body),
-  ),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateObjectsForm);
+export default CreateObjects;

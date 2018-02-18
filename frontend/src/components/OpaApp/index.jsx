@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import FormBar from '../Forms/index';
-import PackingSpace from '../PackingSpace/PackingSpace';
+import Toolbar from '../../containers/Toolbar';
+import PackingSpace from '../../containers/PackingSpace';
 import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace';
 
-import './OpaApp.css';
+import './index.css';
 
 class OpaApp extends Component {
   componentDidMount() {
@@ -20,12 +20,10 @@ class OpaApp extends Component {
 
     return (
       !loading &&
-      <div className="OuterWrapper">
-        <div className="OpaApp">
-          <FormBar sessionId={sessionId} />
-          <PackingSpace objects={packedObjects} sessionId={sessionId} />
-          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
-        </div>
+      <div className="app">
+        <Toolbar sessionId={sessionId} />
+        <PackingSpace objects={packedObjects} sessionId={sessionId} />
+        <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
       </div>
     );
   }

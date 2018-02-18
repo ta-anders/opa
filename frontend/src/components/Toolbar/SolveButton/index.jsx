@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import callSolver from '../../actions/solves';
 
 const SolveButton = props => (
   <Button
@@ -15,8 +13,4 @@ const SolveButton = props => (
   />
 );
 
-const mapDispatchToProps = dispatch => ({
-  callSolver: (sessionId, body) => dispatch(callSolver(sessionId, body)),
-});
-
-export default connect(null, mapDispatchToProps)(SolveButton);
+export default SolveButton;

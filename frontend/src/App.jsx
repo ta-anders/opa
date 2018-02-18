@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import OpaAppContainer from './components/OpaAppContainer/OpaAppContainer';
-import SessionsList from './components/Sessions/SessionsList';
+import OpaAppContainer from './containers/OpaAppContainer';
+import SessionsList from './containers/Sessions';
 
 import rootReducer from './reducers';
 
@@ -17,8 +17,8 @@ const redirectToSessions = () => {
 };
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // eslint-disable-line
     const loggerMiddleware = createLogger();
     this.store = createStore(

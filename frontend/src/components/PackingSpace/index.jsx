@@ -1,19 +1,16 @@
 import Resizable from 're-resizable';
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
-import { connect } from 'react-redux';
-import { updatePackingObject } from '../../actions/packingObjects';
-import { updatePackingSpace, } from '../../actions/packingSpace';
 import ItemTypes from '../../ItemTypes';
 
-import PlacedPackingObject from '../PlacedPackingObject/PlacedPackingObject';
+import PlacedPackingObject from '../PlacedPackingObject';
 
-import './PackingSpace.css';
+import './index.css';
 
 const packingSpaceTarget = {
   drop(props, monitor) {
     const offset = monitor.getSourceClientOffset();
-    const packingSpace = document.getElementsByClassName('PackingSpace')[0];
+    const packingSpace = document.getElementsByClassName('packing-space')[0];
     const packingSpaceOffset = packingSpace.getBoundingClientRect();
     const item = monitor.getItem();
 
@@ -40,7 +37,7 @@ const collectFunc = c => ({
 
 class PackingSpace extends Component {
   constructor(props) {
-    super(...props);
+    super(props);
 
     this.state = { height: props.height, width: props.width };
   }
@@ -70,7 +67,7 @@ class PackingSpace extends Component {
 
     const { width, height } = this.state;
     return connectDropTarget(
-      <div className="PackingSpace">
+      <div className="packing-space">
         <Resizable
           size={{ height, width }}
           onResizeStop={(e, direction, ref, d) => {
@@ -99,19 +96,4 @@ const PackingSpaceTarget = DropTarget(
 )(PackingSpace);
 
 
-const mapStateToProps = state => ({
-  ...state.packingSpace,
-});
-
-
-const mapDispatchToProps = dispatch => ({
-  updatePackingObject: (sessionId, body, id) => dispatch(updatePackingObject(sessionId, body, id)),
-  updatePackingSpace: (sessionId, body) => dispatch(updatePackingSpace(sessionId, body)),
-});
-
-
-const PackingSpaceTargetContainer = connect(
-  mapStateToProps, mapDispatchToProps,
-)(PackingSpaceTarget);
-
-export default PackingSpaceTargetContainer;
+export default PackingSpaceTarget;

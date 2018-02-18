@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { loadData } from '../../actions/app';
+import { loadData } from '../actions/app';
 
-import OpaApp from '../OpaApp/OpaApp';
+import OpaApp from '../components/OpaApp';
 
 const mapStateToProps = (state) => {
   const packedObjects = [];
