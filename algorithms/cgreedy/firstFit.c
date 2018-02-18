@@ -159,7 +159,7 @@ PackingObject *doFirstFitPack(PackingSpace *packingSpace,
            packingSpace->totalHeight,
            packingSpace->totalWidth);
 
-    // Sort the objects in order of decreasing volume
+    // Sort the objects in order of decreasing sort key (roughly equal to size)
     qsort(packingObjects, numObjects, sizeof(*packingObjects), pobjSort);
 
     for (int i = 0; i < numObjects; i++) {
