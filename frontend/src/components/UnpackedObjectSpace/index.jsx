@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
-import { connect } from 'react-redux';
-import { updatePackingObject } from '../../actions/packingObjects';
-import ItemTypes from '../../ItemTypes';
 import PackingObject from '../../containers/PackingObject';
-import './UnpackedObjectSpace.css';
+import ItemTypes from '../../ItemTypes';
+import './index.css';
 
 const unpackedSpaceTarget = {
   drop(props, monitor) {
@@ -42,7 +40,7 @@ class UnpackedObjectSpace extends Component {
       obj => this.renderPackingObject(obj, this.props.sessionId),
     );
     return this.props.connectDropTarget(
-      <div className="UnpackedObjectSpace">
+      <div className="unpacked-object-space">
         {packingObjects}
       </div>,
     );
@@ -57,13 +55,4 @@ const UnpackedObjectSpaceTarget = (
   )(UnpackedObjectSpace)
 );
 
-const mapDispatchToProps = dispatch => ({
-  updatePackingObject: (sessionId, body, id) => dispatch(
-    updatePackingObject(sessionId, body, id),
-  ),
-});
-
-const UnpackedObjectSpaceTargetContainer = connect(
-  null, mapDispatchToProps)(UnpackedObjectSpaceTarget);
-
-export default UnpackedObjectSpaceTargetContainer;
+export default UnpackedObjectSpaceTarget;

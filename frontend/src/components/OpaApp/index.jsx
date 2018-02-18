@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Toolbar from '../../containers/Toolbar';
 import PackingSpace from '../../containers/PackingSpace';
-import UnpackedObjectSpace from '../UnpackedObjectSpace/UnpackedObjectSpace';
+import UnpackedObjectSpace from '../../containers/UnpackedObjectSpace';
 
 import './index.css';
 

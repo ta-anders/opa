@@ -14,8 +14,8 @@ const packingSpaceTarget = {
     const packingSpaceOffset = packingSpace.getBoundingClientRect();
     const item = monitor.getItem();
 
-    const maxWidth = packingSpaceOffset.width - item.width;
-    const maxHeight = packingSpaceOffset.height - item.height;
+    const maxWidth = packingSpaceOffset.width - item.width - 2;
+    const maxHeight = packingSpaceOffset.height - item.height - 2;
 
     const x = offset.x - packingSpaceOffset.left;
     const y = offset.y - packingSpaceOffset.top;
@@ -25,6 +25,10 @@ const packingSpaceTarget = {
       x_coordinate: Math.min(Math.max(x, 0), maxWidth),
       y_coordinate: Math.min(Math.max(y, 0), maxHeight),
     };
+
+    console.log(newPos);
+    console.log(item.width);
+    console.log(packingSpace);
 
     props.updatePackingObject(props.sessionId, newPos, item.id);
   },

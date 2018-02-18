@@ -16,16 +16,16 @@ getVolume (PackingObject *pobj)
 int
 getPackingObjectSortKey (PackingObject *pobj)
 {
-//    int ret = -1;
-//
-//    if (pobj->width > ret) {
-//        ret = pobj->width;
-//    }
-//    if (pobj->height > ret) {
-//        ret = pobj->height;
-//    }
+    int ret = -1;
 
-    return getVolume(pobj);
+    if (pobj->width > ret) {
+        ret = pobj->width;
+    }
+    if (pobj->height > ret) {
+        ret = pobj->height;
+    }
+
+    return ret;
 }
 
 
