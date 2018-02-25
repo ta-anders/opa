@@ -11,7 +11,7 @@ export default function callSolver(sessionId, body) {
     sessionFetch,
     [
       sessionId,
-      'solve',
+      'solve/cgreedy',
       { method: 'POST', body: JSON.stringify(body) },
     ],
     callSolverSuccess,

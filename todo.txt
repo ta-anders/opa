@@ -1,6 +1,11 @@
-Write readme
-Sort by volume/width/height
-Implement drag and drop with snap
-Think about potential other endpoints
-Scenario/User management
-Write packing algorithm!
+UI:
+    - Fix up menu bar thing - probably just make it fixed.
+    - Sort by volume/width/height.
+    - Make drag and drop better - shouldn't be allowed to put on top of other
+    objects. Potentially also should 'snap' to sensible location.
+    - Make solve model where you can choose algo and set parameters etc.
+
+Backend:
+
+Solvers:
+    - Fix up shared code and figure out best way to hook up solvers.

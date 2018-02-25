@@ -12,7 +12,8 @@ def includeme(config):
 
     route_factory('packing_objects', r'/packing_objects')
     route_factory('packing_object_item', r'/packing_objects/{packing_object_id:\d+}')
-    route_factory('solve', r'/solve')
+    route_factory('cgreedy', r'/solve/cgreedy')
+    route_factory('level_mip', r'/solve/level_mip')
     route_factory('clear_packed', r'/packing_objects/clear')
 
     route_factory('packing_spaces', r'/packing_spaces')
