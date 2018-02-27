@@ -26,10 +26,6 @@ const packingSpaceTarget = {
       y_coordinate: Math.min(Math.max(y, 0), maxHeight),
     };
 
-    console.log(newPos);
-    console.log(item.width);
-    console.log(packingSpace);
-
     props.updatePackingObject(props.sessionId, newPos, item.id);
   },
 };

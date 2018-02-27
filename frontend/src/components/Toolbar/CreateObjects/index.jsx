@@ -25,7 +25,7 @@ class CreateObjects extends Component {
     const { unpackedObjects } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Group inline>
+        <Form.Group inline className="left-floated-wrapper">
           <Label
             style={{ fontSize: 'inherit' }}
           >

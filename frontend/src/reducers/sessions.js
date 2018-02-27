@@ -24,6 +24,8 @@ const sessions = (state = initialState, action) => {
       return state.filter(
         entity => action.payload.deleted.indexOf(entity.id) === -1,
       );
+    case ACTION_CONSTANTS.END_LOAD:
+      return action.sessions;
     default:
       return state;
   }

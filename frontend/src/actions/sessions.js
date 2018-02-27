@@ -5,6 +5,10 @@ import {
 } from './index';
 
 // Get actions
+export function fetchSessions() {
+  return fetchWrapper('/sessions');
+}
+
 const getSessionsSuccess = getActionFactory(
   ACTION_CONSTANTS.GET_SESSIONS,
 );

@@ -1,3 +1,7 @@
+.left-floated-wrapper {
+  float: left;
+}
+
 .create-input {
   height: 2.4em;
   margin-left: auto;

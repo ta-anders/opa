@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import {
-  createSession, deleteSession, getSessions,
-  updateSession,
+  createSession, deleteSession,
+  getSessions, updateSession,
 } from '../actions/sessions';
 
 import SessionsList from '../components/Sessions';
