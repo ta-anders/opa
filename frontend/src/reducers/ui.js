@@ -1,13 +1,15 @@
 import * as ACTION_CONSTANTS from '../actions/constants';
 
 const initialState = {
-  loadingBaseData: true,
+  loadingBaseData: false,
   updatingObjects: [],
   updatingSpace: false,
 };
 
 const ui = (state = initialState, action) => {
   switch (action.type) {
+    case ACTION_CONSTANTS.START_LOAD:
+      return { ...state, loadingBaseData: true };
     case ACTION_CONSTANTS.END_LOAD:
       return { ...state, loadingBaseData: false };
     case ACTION_CONSTANTS.START_UPDATE_PACKING_OBJECT:

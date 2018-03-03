@@ -19,4 +19,5 @@ export const CREATE_SESSION = 'CREATE_SESSION';
 export const DELETE_SESSION = 'DELETE_SESSION';
 
 // App data loading
+export const START_LOAD = 'START_LOAD';
 export const END_LOAD = 'END_LOAD';

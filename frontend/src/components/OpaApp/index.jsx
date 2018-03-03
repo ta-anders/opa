@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PackingSpace from '../../containers/PackingSpace';
 
 import Toolbar from '../../containers/Toolbar';
-import PackingSpace from '../../containers/PackingSpace';
 import UnpackedObjectSpace from '../../containers/UnpackedObjectSpace';
+import SideMenu from '../SideMenu';
 
 import './index.css';
 
@@ -27,10 +28,13 @@ class OpaApp extends Component {
 
     return (
       !loading &&
-      <div className="app">
-        <Toolbar sessionId={sessionId} allSessions={sessions} />
-        <PackingSpace objects={packedObjects} sessionId={sessionId} />
-        <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
+      <div>
+        <SideMenu />
+        <div className="opa-app">
+          <Toolbar sessionId={sessionId} allSessions={sessions} />
+          <PackingSpace objects={packedObjects} sessionId={sessionId} />
+          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
+        </div>
       </div>
     );
   }
