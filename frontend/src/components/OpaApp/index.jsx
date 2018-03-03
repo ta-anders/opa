@@ -3,7 +3,7 @@ import PackingSpace from '../../containers/PackingSpace';
 
 import Toolbar from '../../containers/Toolbar';
 import UnpackedObjectSpace from '../../containers/UnpackedObjectSpace';
-import SideMenu from '../SideMenu';
+import SideMenu from '../../containers/SideMenu';
 
 import './index.css';
 
@@ -29,7 +29,7 @@ class OpaApp extends Component {
     return (
       !loading &&
       <div>
-        <SideMenu />
+        <SideMenu sessionId={sessionId} />
         <div className="opa-app">
           <Toolbar sessionId={sessionId} allSessions={sessions} />
           <PackingSpace objects={packedObjects} sessionId={sessionId} />

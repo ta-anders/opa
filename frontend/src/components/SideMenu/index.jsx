@@ -1,7 +1,12 @@
+import classNames from 'classnames';
 import React from 'react';
-import { Menu, Sidebar, Icon } from 'semantic-ui-react';
-import SolveButton from './SolveButton';
+import { Menu, Sidebar } from 'semantic-ui-react';
 import ClearObjects from './ClearObjects';
+import './index.css';
+import SolveButton from './SolveButton';
+
+const sidebarStyling = { width: '4.5%', backgroundColor: '#CED4E3' };
+const sideBarItemClassNames = classNames('item', 'sidebar-item');
 
 const SideMenu = (props) => {
   const {
@@ -17,18 +22,17 @@ const SideMenu = (props) => {
         direction="left"
         vertical
         inverted
-        fixed
         visible
-        style={{width: "4.5%", backgroundColor: "#CED4E3"}}
+        style={sidebarStyling}
       >
-        <div style={{display: "flex", flexDirection: "column", height: "100%", paddingTop: "41px", justifyContent: "flex-start", flexGrow: "0", overflow: "hidden"}}>
-          <div className="item" style={{alignSelf: "center"}}>
+        <div className="sidebar-container">
+          <div className={sideBarItemClassNames}>
             <ClearObjects
               sessionId={sessionId}
               clearPackedObjects={clearPackedObjects}
             />
           </div>
-          <div className="item" style={{alignSelf: "center"}}>
+          <div className={sideBarItemClassNames}>
             <SolveButton
               sessionId={sessionId}
               callSolver={callSolver}

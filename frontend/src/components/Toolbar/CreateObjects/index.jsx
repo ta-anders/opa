@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Label } from 'semantic-ui-react';
+import { Button, Form, Input, Label, Popup } from 'semantic-ui-react';
 import './index.css';
 
 class CreateObjects extends Component {
@@ -26,9 +26,7 @@ class CreateObjects extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Group inline className="left-floated-wrapper">
-          <Label
-            style={{ fontSize: 'inherit' }}
-          >
+          <Label style={{ fontSize: 'inherit' }}>
             {unpackedObjects.length}
           </Label>
           <Form.Field>
@@ -38,7 +36,12 @@ class CreateObjects extends Component {
               onChange={this.handleChange}
             />
           </Form.Field>
-          <Button circular icon="plus" />
+          <Popup
+            trigger={
+              <Button circular icon="plus" />
+            }
+            content="Create new objects"
+          />
         </Form.Group>
       </Form>
     );
