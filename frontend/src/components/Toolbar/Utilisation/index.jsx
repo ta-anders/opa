@@ -1,4 +1,5 @@
 import React from 'react';
+import { Progress } from 'semantic-ui-react';
 
 const Utilisation = (props) => {
   const vols = props.packedObjects.map(obj => obj.width * obj.height);
@@ -10,15 +11,10 @@ const Utilisation = (props) => {
 
   let utilisation = 100 * (tot / props.totalVolume);
 
-  utilisation = Math.round(utilisation * 100) / 100;
+  utilisation = Math.round(utilisation);
 
   return (
-    <h2
-      style={{ display: 'inline-block' }}
-      align="center"
-    >
-      Utilisation: { utilisation }%
-    </h2>
+    <Progress percent={utilisation} progress color="violet" />
   );
 };
 

@@ -10,4 +10,10 @@
   .toolbar .create-wrapper {
     min-width: 330px;
     display: inline-block;
+    align-self: center;
+  }
+
+  .toolbar .utilisation {
+    flex-grow: 1;
+    max-width: 50%;
   }

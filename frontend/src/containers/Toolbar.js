@@ -8,6 +8,7 @@ import Toolbar from '../components/Toolbar';
 const mapStateToProps = state => ({
   unpackedObjects: state.packingObjects.filter(record => (!record.packed)),
   packedObjects: state.packingObjects.filter(entity => entity.packed),
+  totalVolume: state.packingSpace.height * state.packingSpace.width,
 });
 
 const mapDispatchToProps = dispatch => ({

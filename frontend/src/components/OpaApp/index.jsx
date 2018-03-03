@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PackingSpace from '../../containers/PackingSpace';
+import SideMenu from '../../containers/SideMenu';
 
 import Toolbar from '../../containers/Toolbar';
 import UnpackedObjectSpace from '../../containers/UnpackedObjectSpace';
-import SideMenu from '../../containers/SideMenu';
 
 import './index.css';
 

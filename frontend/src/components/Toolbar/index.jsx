@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Breadcrumb, Dropdown } from 'semantic-ui-react';
+import Utilisation from './Utilisation';
 import CreateObjects from './CreateObjects';
 import DeleteObjects from './DeleteObjects';
 import './index.css';
@@ -11,8 +12,10 @@ const Toolbar = (props) => {
     sessionId,
     allSessions,
     createObjects,
+    packedObjects,
     unpackedObjects,
     deleteObjects,
+    totalVolume,
   } = props;
 
   const selectedSession = allSessions.find(e => e.id === sessionId);
@@ -53,6 +56,12 @@ const Toolbar = (props) => {
               )}
             </Breadcrumb.Section>
           </Breadcrumb>
+        </div>
+        <div className="utilisation">
+          <Utilisation
+            packedObjects={packedObjects}
+            totalVolume={totalVolume}
+          />
         </div>
         <div className="create-wrapper">
           <CreateObjects
