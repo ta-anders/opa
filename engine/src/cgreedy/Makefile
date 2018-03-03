@@ -7,7 +7,7 @@ OBJ = main.o firstFit.o shelf.o common.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 cgreedy: $(OBJ)
-	gcc -o cgreedy.so $^ $(CFLAGS)
+	gcc -pie -rdynamic -o cgreedy.so $^ $(CFLAGS)
 
 .PHONY : clean
 

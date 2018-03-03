@@ -1,10 +1,15 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 
 const DeleteObjects = props => (
-  <Button
-    onClick={() => props.deleteObjects(props.sessionId)}
-    icon="trash"
+  <Popup
+    trigger={
+      <Button
+        onClick={() => props.deleteObjects(props.sessionId)}
+        icon="trash"
+      />
+    }
+    content="Delete unpacked objects"
   />
 );
 

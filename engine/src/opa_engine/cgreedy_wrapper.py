@@ -30,7 +30,7 @@ class PackingObject(Structure):
 
 
 # TODO: sort this thing out
-packer = CDLL('../algorithms/cgreedy/cgreedy.so')
+packer = CDLL('../engine/src/cgreedy/cgreedy.so')
 func = packer.doFirstFitPack
 
 func.restype = POINTER(PackingObject)
@@ -43,15 +43,15 @@ def packing_object_array_type_factory(num):
 
 def call_cgreedy(packing_space, packing_objects, allow_rotation=True):
     num_objects = len(packing_objects)
-    space = PackingSpace(**packing_space)
+    space = PackingSpace(packing_space['height'], packing_space['width'])
 
     parameters = PackingParameters(int(allow_rotation))
 
     ArrayType = packing_object_array_type_factory(num_objects)
     objects = (
         PackingObject(
-            xCoordinate=-1,
-            yCoordinate=-1,
+            xCoordinate=pobj.pop('x_coordinate'),
+            yCoordinate=pobj.pop('y_coordinate'),
             **pobj
         )
         for pobj in packing_objects

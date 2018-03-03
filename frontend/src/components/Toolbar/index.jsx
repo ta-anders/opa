@@ -1,64 +1,72 @@
 import React from 'react';
-import ClearObjects from '../../components/Toolbar/ClearObjects';
-import CreateObjects from '../../components/Toolbar/CreateObjects';
-import DeleteObjects from '../../components/Toolbar/DeleteObjects';
-import SolveButton from '../../components/Toolbar/SolveButton';
-import Utilisation from '../../components/Toolbar/Utilisation';
+import { Link } from 'react-router-dom';
+
+import { Breadcrumb, Dropdown } from 'semantic-ui-react';
+import CreateObjects from './CreateObjects';
+import DeleteObjects from './DeleteObjects';
 import './index.css';
 
 const Toolbar = (props) => {
   const {
     sessionId,
-    clearPackedObjects,
+    allSessions,
     createObjects,
     unpackedObjects,
     deleteObjects,
-    callSolver,
-    packedObjects,
-    totalVolume,
   } = props;
 
+  const selectedSession = allSessions.find(e => e.id === sessionId);
+
   return (
-    <div className="toolbar">
-      <div
-        style={
-          {
-            width: props.width,
-            height: '100%',
-            float: 'left',
-            textAlign: 'center',
-          }
-        }
-      >
-        <Utilisation
-          packedObjects={packedObjects}
-          totalVolume={totalVolume}
-        />
-        <ClearObjects
-          sessionId={sessionId}
-          clearPackedObjects={clearPackedObjects}
-        />
-        <SolveButton
-          sessionId={sessionId}
-          callSolver={callSolver}
-        />
-      </div>
-      <div className="unpacked-section">
-        <div style={{ float: 'left', paddingLeft: '30%' }}>
+    selectedSession != null && (
+      <div className="toolbar">
+        <div>
+          <Breadcrumb size="large">
+            <Breadcrumb.Section>
+              <Link to={'/sessions'}>
+                Sessions
+              </Link>
+            </Breadcrumb.Section>
+            <Breadcrumb.Divider icon="right chevron" />
+            <Breadcrumb.Section active>
+              {allSessions && (
+                <Dropdown scrolling text={selectedSession.name}>
+                  <Dropdown.Menu>
+                    {allSessions.map(session => (
+                      <Dropdown.Item
+                        key={session.id}
+                        as={
+                          () => (
+                            <a
+                              className="item"
+                              href={`${session.id}`}
+                              onClick={() => console.log('hi')}
+                            >
+                              {session.name}
+                            </a>
+                          )
+                        }
+                      />
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              )}
+            </Breadcrumb.Section>
+          </Breadcrumb>
+        </div>
+        <div className="create-wrapper">
           <CreateObjects
-            sessionId={sessionId}
+            sessionId={selectedSession.id}
             createObjects={createObjects}
             unpackedObjects={unpackedObjects}
           />
-        </div>
-        <div style={{ float: 'right' }}>
           <DeleteObjects
-            sessionId={sessionId}
+            sessionId={selectedSession.id}
             deleteObjects={deleteObjects}
           />
         </div>
       </div>
-    </div>
+    )
   );
 };
 

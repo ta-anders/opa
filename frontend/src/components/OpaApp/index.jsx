@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PackingSpace from '../../containers/PackingSpace';
 
 import Toolbar from '../../containers/Toolbar';
-import PackingSpace from '../../containers/PackingSpace';
 import UnpackedObjectSpace from '../../containers/UnpackedObjectSpace';
+import SideMenu from '../../containers/SideMenu';
 
 import './index.css';
 
@@ -15,15 +16,25 @@ class OpaApp extends Component {
   }
 
   render() {
-    const { packedObjects, unpackedObjects, loading, match } = this.props;
-    const sessionId = match.params.sessionId;
+    const {
+      packedObjects,
+      unpackedObjects,
+      loading,
+      match,
+      sessions,
+    } = this.props;
+
+    const sessionId = Number(match.params.sessionId);
 
     return (
       !loading &&
-      <div className="app">
-        <Toolbar sessionId={sessionId} />
-        <PackingSpace objects={packedObjects} sessionId={sessionId} />
-        <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
+      <div>
+        <SideMenu sessionId={sessionId} />
+        <div className="opa-app">
+          <Toolbar sessionId={sessionId} allSessions={sessions} />
+          <PackingSpace objects={packedObjects} sessionId={sessionId} />
+          <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
+        </div>
       </div>
     );
   }

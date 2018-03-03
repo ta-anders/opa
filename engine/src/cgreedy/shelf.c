@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ntsid.h>
 #include <time.h>
 
 #include "shelf.h"

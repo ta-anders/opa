@@ -6,11 +6,8 @@ from pyramid.view import view_config
 from sqlalchemy import or_
 from webargs.pyramidparser import use_kwargs
 
-from opa.make_input import make_input
 from opa.models import PackingObject
-from opa.read_result import read_result
 from opa.schemas.packing_object import PackingObjectSchema
-from opa.solvers.cgreedy_wrapper import call_cgreedy
 from opa.utils import get_random_color, query_by_session
 
 logger = logging.getLogger(__name__)
@@ -139,25 +136,3 @@ def packing_object_put(request, packing_object_id):
     result = schema.dump(packing_obj)
 
     return result.data
-
-
-@view_config(
-    route_name='solve',
-    request_method='POST',
-    renderer='json'
-)
-def packing_objects_solve(request):
-    db = request.dbsession
-
-    input = make_input(db, request.context.session_id)
-
-    result = call_cgreedy(**input)
-
-    data = read_result(db, result)
-
-    schema = PackingObjectSchema(strict=True, many=True)
-    
-    return schema.dump(data).data
-
-
-

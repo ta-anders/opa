@@ -1,6 +1,14 @@
-Write readme
-Sort by volume/width/height
-Implement drag and drop with snap
-Think about potential other endpoints
-Scenario/User management
-Write packing algorithm!
+UI:
+    - Sort by volume/width/height.
+    - Make drag and drop better - shouldn't be allowed to put on top of other
+    objects. Potentially also should 'snap' to sensible location.
+    - Make solve model where you can choose algo and set parameters etc.
+    - Info section up the top, some description of features, links back to page
+    - 'Auto place mode' - things get placed greedily when you drag in.
+    - Figure out what is going on when you launch a new scenario after coming
+    from another one - seems to load the other first?
+
+Backend:
+
+Solvers:
+    - Fix up shared code and figure out best way to hook up solvers.

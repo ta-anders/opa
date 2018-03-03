@@ -1,8 +1,7 @@
-import os
 from glob import glob
-from os.path import splitext, basename
+from os.path import basename, splitext
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 requires = [
     'alembic',
@@ -32,7 +31,7 @@ tests_require = [
 
 setup(
     name='opa',
-    version='0.0',
+    version='0.0.1',
     description='opa',
     classifiers=[
         'Programming Language :: Python',
