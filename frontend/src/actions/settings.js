@@ -1,9 +1,5 @@
 import * as ACTION_CONSTANTS from './constants';
-import {
-  fetchAndDispatch,
-  updateActionFactory,
-  sessionFetch,
-} from './index';
+import { fetchAndDispatch, sessionFetch, updateActionFactory, } from './index';
 
 // Get actions
 export function fetchSettings(sessionId) {

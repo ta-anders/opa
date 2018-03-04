@@ -41,6 +41,7 @@ const SideMenu = (props) => {
               sessionId={sessionId}
               callSolver={callSolver}
               enableTooltips={settings.enableTooltips}
+              selectedAlgorithmId={settings.selectedAlgorithmId}
             />
           </div>
           <div className={sideBarItemClassNames}>

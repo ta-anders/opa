@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Form, Icon, Modal, Popup } from 'semantic-ui-react';
+import { Button, Checkbox, Dropdown, Form, Icon, Modal, Popup } from 'semantic-ui-react';
+
+import './index.css';
 
 class SettingsModal extends Component {
   constructor(props) {
@@ -30,12 +32,18 @@ class SettingsModal extends Component {
   }
 
   handleSubmit() {
-    const { enableTooltips } = this.state;
-    this.props.updateSettings(this.props.sessionId, { enableTooltips });
+    const { enableTooltips, selectedAlgorithmId } = this.state;
+    this.props.updateSettings(
+      this.props.sessionId,
+      { enableTooltips, selectedAlgorithmId },
+    );
     this.handleClose();
   }
 
   render() {
+    const dropDownOptions = this.state.algorithms.map(
+      a => ({ key: a.id, value: a.id, text: a.name }),
+    );
     return (
       <Modal
         trigger={
@@ -60,13 +68,30 @@ class SettingsModal extends Component {
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
             <Form.Field>
-              <Checkbox
-                toggle
-                checked={this.state.enableTooltips}
-                onChange={this.handleToggle}
-                name="enableTooltips"
-                label="Enable tooltips"
-              />
+              <h4>
+                Enable tooltips
+              </h4>
+              <div className="settings-item">
+                <Checkbox
+                  toggle
+                  checked={this.state.enableTooltips}
+                  onChange={this.handleToggle}
+                  name="enableTooltips"
+                />
+              </div>
+              <div className="settings-item">
+                <h4>
+                Auto pack algorithm
+                </h4>
+                <Dropdown
+                  placeholder="Choose an algorithm"
+                  selection
+                  options={dropDownOptions}
+                  name="selectedAlgorithmId"
+                  value={this.state.selectedAlgorithmId}
+                  onChange={this.handleChange}
+                />
+              </div>
             </Form.Field>
           </Form>
         </Modal.Content>
