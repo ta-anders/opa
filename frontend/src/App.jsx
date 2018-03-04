@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import OpaAppContainer from './containers/OpaAppContainer';
+import OpaAppContainer from './containers/OpaApp';
 import SessionsList from './containers/Sessions';
 
 import rootReducer from './reducers';

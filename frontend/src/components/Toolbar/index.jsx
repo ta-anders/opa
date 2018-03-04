@@ -16,6 +16,7 @@ const Toolbar = (props) => {
     unpackedObjects,
     deleteObjects,
     totalVolume,
+    settings,
   } = props;
 
   const selectedSession = allSessions.find(e => e.id === sessionId);
@@ -68,10 +69,12 @@ const Toolbar = (props) => {
             sessionId={selectedSession.id}
             createObjects={createObjects}
             unpackedObjects={unpackedObjects}
+            enableTooltips={settings.enableTooltips}
           />
           <DeleteObjects
             sessionId={selectedSession.id}
             deleteObjects={deleteObjects}
+            enableTooltips={settings.enableTooltips}
           />
         </div>
       </div>

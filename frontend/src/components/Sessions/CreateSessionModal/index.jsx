@@ -58,27 +58,29 @@ class CreateSessionModal extends Component {
         <Modal.Content>
           <Form onSubmit={this.handleSubmit} error={this.state.errors}>
             <Form.Field>
-              <label>Name</label>
               <Form.Input
                 placeholder="Session Name"
                 onChange={this.handleChange}
                 name="name"
+                label="Name"
                 value={this.state.name}
                 required
               />
-              <label>Height</label>
               <Form.Input
                 placeholder="Height"
                 onChange={this.handleChange}
                 name="height"
+                label="Height"
                 value={this.state.height}
+                required
               />
-              <label>Width</label>
               <Form.Input
                 placeholder="Width"
                 onChange={this.handleChange}
                 name="width"
+                label="Width"
                 value={this.state.width}
+                required
               />
               <Message
                 error

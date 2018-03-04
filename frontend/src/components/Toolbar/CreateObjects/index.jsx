@@ -22,7 +22,7 @@ class CreateObjects extends Component {
   }
 
   render() {
-    const { unpackedObjects } = this.props;
+    const { unpackedObjects, enableTooltips } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Group inline className="left-floated-wrapper">
@@ -41,6 +41,7 @@ class CreateObjects extends Component {
               <Button circular icon="plus" />
             }
             content="Create new objects"
+            open={enableTooltips ? undefined : false}
           />
         </Form.Group>
       </Form>

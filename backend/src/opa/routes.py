@@ -17,3 +17,4 @@ def includeme(config):
     route_factory('clear_packed', r'/packing_objects/clear')
 
     route_factory('packing_spaces', r'/packing_spaces')
+    route_factory('session_configuration', r'/session_configuration')

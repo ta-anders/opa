@@ -8,6 +8,7 @@ import zope.sqlalchemy
 from opa.models.packing_object import PackingObject  # flake8: noqa
 from opa.models.packing_space import PackingSpace  # flake8: noqa
 from opa.models.session import Session  # flake8: noqa
+from opa.models.session_configuration import SessionConfiguration  # flake8: noqa
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

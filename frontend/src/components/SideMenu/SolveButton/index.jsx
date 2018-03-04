@@ -13,6 +13,7 @@ const SolveButton = props => (
     }
     content="Auto pack"
     position="right center"
+    open={props.enableTooltips ? undefined : false}
   />
 );
 

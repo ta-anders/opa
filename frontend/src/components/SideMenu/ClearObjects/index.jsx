@@ -13,6 +13,7 @@ const ClearObjects = props => (
     }
     content="Clear packing progress"
     position="right center"
+    open={props.enableTooltips ? undefined : false}
   />
 );
 

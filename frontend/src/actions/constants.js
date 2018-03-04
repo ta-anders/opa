@@ -18,6 +18,10 @@ export const UPDATE_SESSION = 'UPDATE_SESSION';
 export const CREATE_SESSION = 'CREATE_SESSION';
 export const DELETE_SESSION = 'DELETE_SESSION';
 
+// Settings
+export const GET_SETTINGS = 'GET_SETTINGS';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+
 // App data loading
 export const START_LOAD = 'START_LOAD';
 export const END_LOAD = 'END_LOAD';

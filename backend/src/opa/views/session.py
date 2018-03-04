@@ -4,7 +4,8 @@ from marshmallow import fields
 from pyramid.view import view_config
 from webargs.pyramidparser import use_kwargs
 
-from opa.models import Session, PackingSpace
+from opa.constants import DEFAULT_SESSION_CONFIG_KWARGS
+from opa.models import PackingSpace, Session, SessionConfiguration
 from opa.schemas.session import SessionSchema
 
 
@@ -42,9 +43,22 @@ def session_post(request, name, height, width, status):
     db = request.dbsession
 
     new_session = Session(name=name, created_at=datetime.datetime.now(), status=status)
-    _packing_space = PackingSpace(height=height, width=width, session=new_session)
+    packing_space = PackingSpace(height=height, width=width, session=new_session)
 
-    db.add_all([new_session, _packing_space])
+    # To init the session configuration for this new session, use the one
+    # from the most recently created session (if one exists). Otherwise use a default.
+    # TODO: make a master session config to use
+    latest_session_config = (
+        db.query(SessionConfiguration)
+        .order_by(SessionConfiguration.id.desc()).first()
+    )
+    session_config = (
+        latest_session_config.copy(db, new_session)
+        if latest_session_config is not None
+        else SessionConfiguration(session=new_session, **DEFAULT_SESSION_CONFIG_KWARGS)
+    )
+
+    db.add_all([new_session, packing_space, session_config])
     db.flush()
 
     schema = SessionSchema(strict=True)
