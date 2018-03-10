@@ -22,7 +22,7 @@ class SessionsList extends Component {
 
   renderSession(session) {
     const { id, name } = session;
-    const createdAt = (new Date(session.createdAt)).toString();
+    const createdAt = (new Date(session.created_at)).toString();
 
     let text = null;
     let color = null;

@@ -41,7 +41,12 @@ class CreateSessionModal extends Component {
     }
 
     this.props.addNewSession(
-      { name: name, height: height, width: width, status: 'New' },
+      {
+        name,
+        height: height,
+        width: width,
+        status: 'New',
+      },
     );
 
     this.setState({ ...initialState });
