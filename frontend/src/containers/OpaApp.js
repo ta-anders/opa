@@ -20,6 +20,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.ui.loadingBaseData,
     sessions: state.sessions,
+    settings: state.settings,
     packedObjects,
     unpackedObjects,
   };

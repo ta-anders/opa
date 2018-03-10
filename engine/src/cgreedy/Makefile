@@ -4,7 +4,7 @@ DEPS = common.h firstFit.h shelf.h
 OBJ = main.o firstFit.o shelf.o common.o
 
 %.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -fPIC -c -o $@ $< $(CFLAGS)
 
 cgreedy: $(OBJ)
 	gcc -pie -rdynamic -o cgreedy.so $^ $(CFLAGS)

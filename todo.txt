@@ -4,11 +4,11 @@ UI:
     objects. Potentially also should 'snap' to sensible location.
     - Make solve model where you can choose algo and set parameters etc.
     - Info section up the top, some description of features, links back to page
-    - 'Auto place mode' - things get placed greedily when you drag in.
-    - Figure out what is going on when you launch a new scenario after coming
-    from another one - seems to load the other first?
 
 Backend:
 
 Solvers:
     - Fix up shared code and figure out best way to hook up solvers.
+    - Little mini solve to figure out how to place one object (greedily).
+    THen when you click an object it fires one off to display (somehow)
+    to the ui where it would be placed, click to do so.

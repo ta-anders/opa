@@ -10,6 +10,7 @@ const DeleteObjects = props => (
       />
     }
     content="Delete unpacked objects"
+    open={props.enableTooltips ? undefined : false}
   />
 );
 

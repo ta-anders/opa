@@ -2,6 +2,8 @@ import logging
 
 from ctypes import CDLL, POINTER, Structure, byref, c_int, c_uint
 
+from opa_engine.core.load import load_data_from_json
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,18 +43,23 @@ def packing_object_array_type_factory(num):
     return PackingObject * num
 
 
-def call_cgreedy(packing_space, packing_objects, allow_rotation=True):
+def call_cgreedy(json_data, allow_rotation=True):
+    packing_space, packing_objects = load_data_from_json(json_data)
+
     num_objects = len(packing_objects)
-    space = PackingSpace(packing_space['height'], packing_space['width'])
+    space = PackingSpace(packing_space.height, packing_space.width)
 
     parameters = PackingParameters(int(allow_rotation))
 
     ArrayType = packing_object_array_type_factory(num_objects)
     objects = (
         PackingObject(
-            xCoordinate=pobj.pop('x_coordinate'),
-            yCoordinate=pobj.pop('y_coordinate'),
-            **pobj
+            id=pobj.id,
+            height=pobj.height,
+            width=pobj.width,
+            xCoordinate=pobj.x_coordinate,
+            yCoordinate=pobj.y_coordinate,
+            rotated=pobj.rotated
         )
         for pobj in packing_objects
     )

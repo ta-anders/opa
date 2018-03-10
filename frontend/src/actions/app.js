@@ -3,6 +3,7 @@ import * as ACTION_CONSTANTS from './constants';
 import { fetchPackingObject } from './packingObjects';
 import { fetchPackingSpace } from './packingSpace';
 import { fetchSessions } from './sessions';
+import { fetchSettings, fetchSolvers } from './settings';
 
 export const startLoad = () => ({
   type: ACTION_CONSTANTS.START_LOAD,
@@ -20,6 +21,7 @@ export const loadData = sessionId => (dispatch) => {
     packingObjects: fetchPackingObject(sessionId),
     packingSpace: fetchPackingSpace(sessionId),
     sessions: fetchSessions(),
+    settings: fetchSettings(sessionId),
   };
 
   Promise.all(Object.values(getActions)).then((data) => {

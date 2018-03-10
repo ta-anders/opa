@@ -8,11 +8,12 @@ const SolveButton = props => (
         circular
         size="large"
         icon="cubes"
-        onClick={() => props.callSolver(props.sessionId)}
+        onClick={() => props.callSolver(props.sessionId, props.selectedAlgorithmId)}
       />
     }
     content="Auto pack"
     position="right center"
+    open={props.enableTooltips ? undefined : false}
   />
 );
 

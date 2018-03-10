@@ -22,6 +22,7 @@ class OpaApp extends Component {
       loading,
       match,
       sessions,
+      settings,
     } = this.props;
 
     const sessionId = Number(match.params.sessionId);
@@ -29,9 +30,9 @@ class OpaApp extends Component {
     return (
       !loading &&
       <div>
-        <SideMenu sessionId={sessionId} />
+        <SideMenu sessionId={sessionId} settings={settings} />
         <div className="opa-app">
-          <Toolbar sessionId={sessionId} allSessions={sessions} />
+          <Toolbar sessionId={sessionId} allSessions={sessions} settings={settings} />
           <PackingSpace objects={packedObjects} sessionId={sessionId} />
           <UnpackedObjectSpace objects={unpackedObjects} sessionId={sessionId} />
         </div>
