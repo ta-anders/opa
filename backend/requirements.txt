@@ -1,0 +1,6 @@
+django==2.0.3
+djangorestframework==3.7.7
+psycopg2==2.7.4
+djangorestframework-camel-case==0.2.0
+
+-e .
