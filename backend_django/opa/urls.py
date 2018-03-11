@@ -1,4 +1,6 @@
 from django.conf.urls import include, url
+from django.contrib import admin
+from django.urls import path
 from rest_framework import routers
 
 from opa.api.views.packing_object import PackingObjectDetailViews, PackingObjectListViews, packing_objects_clear_packed
@@ -7,10 +9,13 @@ from opa.api.views.session import SessionViewSet
 from opa.api.views.session_configuration import SessionConfigDetailViews, session_config_get
 from opa.api.views.solves import opa_solve
 
+# Admin page because why not
+urlpatterns = [path('admin/', admin.site.urls)]
+
 router = routers.DefaultRouter()
 router.register(r'sessions', SessionViewSet)
 
-urlpatterns = router.urls
+urlpatterns += router.urls
 
 # Packing space
 packing_space_urls = [
