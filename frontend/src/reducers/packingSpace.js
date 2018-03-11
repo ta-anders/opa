@@ -7,7 +7,7 @@ const packingSpace = (state = initialState, action) => {
     case ACTION_CONSTANTS.END_LOAD:
       return action.packingSpace;
     case ACTION_CONSTANTS.UPDATE_PACKING_SPACE:
-      return action.payload.packing_space;
+      return action.payload.packingSpace;
     default:
       return state;
   }

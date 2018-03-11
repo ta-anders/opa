@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updatePackingObject: (sessionId, body, id) => dispatch(updatePackingObject(sessionId, body, id)),
-  updatePackingSpace: (sessionId, body) => dispatch(updatePackingSpace(sessionId, body)),
+  updatePackingSpace: (sessionId, body, id) => dispatch(updatePackingSpace(sessionId, body, id)),
 });
 
 

@@ -9,12 +9,12 @@ const callSolverSuccess = createActionFactory(
   ACTION_CONSTANTS.SOLVER_SUCCESS,
 );
 
-export default function callSolver(sessionId, selectedAlgorithmId, body) {
+export default function callSolver(sessionId, selectedAlgorithm, body) {
   return fetchAndDispatch(
     sessionFetch,
     [
       sessionId,
-      `solve/${selectedAlgorithmId}`,
+      `solve/${selectedAlgorithm}/`,
       { method: 'POST', body: JSON.stringify(body) },
     ],
     callSolverSuccess,

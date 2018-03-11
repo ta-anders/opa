@@ -6,7 +6,7 @@ import {
 
 // Get actions
 export function fetchSessions() {
-  return fetchWrapper('/sessions');
+  return fetchWrapper('/sessions/');
 }
 
 const getSessionsSuccess = getActionFactory(
@@ -16,7 +16,7 @@ const getSessionsSuccess = getActionFactory(
 export function getSessions() {
   return fetchAndDispatch(
     fetchWrapper,
-    ['/sessions'],
+    ['/sessions/'],
     getSessionsSuccess,
   );
 }
@@ -30,7 +30,7 @@ export function createSession(body) {
   return fetchAndDispatch(
     fetchWrapper,
     [
-      '/sessions',
+      '/sessions/',
       { method: 'POST', body: JSON.stringify(body) },
     ],
     createSessionSuccess,
@@ -46,8 +46,8 @@ export function updateSession(sessionId, body) {
   return fetchAndDispatch(
     fetchWrapper,
     [
-      `/sessions/${sessionId}`,
-      { method: 'PUT', body: JSON.stringify(body) },
+      `/sessions/${sessionId}/`,
+      { method: 'PATCH', body: JSON.stringify(body) },
     ],
     updateSessionSuccess,
   );
@@ -62,7 +62,7 @@ export function deleteSession(sessionId, body) {
   return fetchAndDispatch(
     fetchWrapper,
     [
-      `/sessions/${sessionId}`,
+      `/sessions/${sessionId}/`,
       { method: 'DELETE', body: JSON.stringify(body) },
     ],
     deleteSessionSuccess,

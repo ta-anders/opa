@@ -59,7 +59,7 @@ class PackingSpace extends Component {
   }
 
   render() {
-    const { objects, connectDropTarget, sessionId } = this.props;
+    const { objects, connectDropTarget, sessionId, id } = this.props;
 
     const packingObjects = objects.map(
       obj => this.renderPlacedPackingObject(obj, sessionId),
@@ -74,7 +74,7 @@ class PackingSpace extends Component {
             this.props.updatePackingSpace(this.props.sessionId, {
               width: d.width + width,
               height: d.height + height,
-            });
+            }, id);
             this.setState({
               height: d.height + this.state.height,
               width: d.width + this.state.width,

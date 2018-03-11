@@ -7,10 +7,10 @@ import SideMenu from '../components/SideMenu';
 
 const mapDispatchToProps = dispatch => ({
   clearPackedObjects: sessionId => dispatch(clearPackedObjects(sessionId)),
-  callSolver: (sessionId, selectedAlgorithmId, body) => (
-    dispatch(callSolver(sessionId, selectedAlgorithmId, body))
+  callSolver: (sessionId, selectedAlgorithm, body) => (
+    dispatch(callSolver(sessionId, selectedAlgorithm, body))
   ),
-  updateSettings: (sessionId, body) => dispatch(updateSettings(sessionId, body)),
+  updateSettings: (sessionId, body, id) => dispatch(updateSettings(sessionId, body, id)),
 });
 
 export default connect(null, mapDispatchToProps)(SideMenu);

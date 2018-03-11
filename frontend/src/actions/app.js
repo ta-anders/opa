@@ -3,7 +3,7 @@ import * as ACTION_CONSTANTS from './constants';
 import { fetchPackingObject } from './packingObjects';
 import { fetchPackingSpace } from './packingSpace';
 import { fetchSessions } from './sessions';
-import { fetchSettings, fetchSolvers } from './settings';
+import { fetchSettings } from './settings';
 
 export const startLoad = () => ({
   type: ACTION_CONSTANTS.START_LOAD,
