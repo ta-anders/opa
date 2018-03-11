@@ -1,8 +1,11 @@
-# from marshmallow import Schema, fields
-#
-#
-# class SessionConfigurationSchema(Schema):
-#     id = fields.Integer(dump_only=True)
-#
-#     enable_tooltips = fields.Boolean(requred=True, dump_to='enableTooltips')
-#     selected_algorithm_id = fields.Integer(required=True, dump_to='selectedAlgorithmId')
+from rest_framework import serializers
+
+from opa.api.models import SessionConfiguration, Algorithm
+
+
+class SessionConfigurationSerializer(serializers.HyperlinkedModelSerializer):
+    selected_algorithm = serializers.PrimaryKeyRelatedField(queryset=Algorithm.objects.all())
+
+    class Meta:
+        model = SessionConfiguration
+        fields = ('id', 'enable_tooltips', 'selected_algorithm')

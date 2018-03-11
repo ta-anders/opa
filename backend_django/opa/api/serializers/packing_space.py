@@ -1,8 +1,9 @@
-# from marshmallow import Schema, fields
-#
-#
-# class PackingSpaceSchema(Schema):
-#     id = fields.Integer(dump_only=True)
-#
-#     width = fields.Integer(required=True)
-#     height = fields.Integer(required=True)
+from rest_framework import serializers
+
+from opa.api.models import PackingSpace
+
+
+class PackingSpaceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PackingSpace
+        fields = ('id', 'width', 'height')

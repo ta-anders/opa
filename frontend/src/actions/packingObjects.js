@@ -13,7 +13,7 @@ import {
 // );
 
 export function fetchPackingObject(sessionId) {
-  return sessionFetch(sessionId, 'packing_objects');
+  return sessionFetch(sessionId, 'packing_objects/');
 }
 
 // Create Actions
@@ -26,7 +26,7 @@ export function createPackingObjects(sessionId, body) {
     sessionFetch,
     [
       sessionId,
-      'packing_objects',
+      'packing_objects/',
       { method: 'POST', body: JSON.stringify(body) },
     ],
     createPackingObjectsSuccess,
@@ -43,11 +43,12 @@ export const startObjectUpdateSuccess = objectId => (
 );
 
 export function updatePackingObject(sessionId, body, id) {
+  console.log(sessionId);
   return fetchAndDispatch(
     sessionFetch,
     [
       sessionId,
-      `packing_objects/${id}`,
+      `packing_objects/${id}/`,
       { method: 'PUT', body: JSON.stringify(body) },
     ],
     updatePackingObjectSuccess,
@@ -64,7 +65,7 @@ export function clearPackedObjects(sessionId, body) {
     sessionFetch,
     [
       sessionId,
-      'packing_objects/clear',
+      'packing_objects/clear/',
       { method: 'PUT', body: JSON.stringify(body) },
     ],
     clearPackedObjectsSuccess,
@@ -82,7 +83,7 @@ export function deletePackingObjects(sessionId, body) {
     sessionFetch,
     [
       sessionId,
-      'packing_objects',
+      'packing_objects/',
       { method: 'DELETE', body: JSON.stringify(body) },
     ],
     deletePackingObjectsSuccess,

@@ -1,51 +1,30 @@
-# from marshmallow import fields
-# from pyramid.view import view_config
-# from webargs.pyramidparser import use_kwargs
-#
-# from opa.models import SessionConfiguration, Algorithm
-# from opa.schemas.algorithm import AlgorithmSchema
-# from opa.schemas.session_configuration import SessionConfigurationSchema
-# from opa.utils import query_by_session
-#
-#
-# @view_config(
-#     route_name='session_configuration',
-#     request_method='GET',
-#     renderer='json'
-# )
-# def session_configuration_get(request):
-#     db = request.dbsession
-#
-#     session_configuration = query_by_session(db, request.context.session_id, SessionConfiguration).one()
-#
-#     schema = SessionConfigurationSchema(strict=True)
-#
-#     result = schema.dump(session_configuration).data
-#
-#     # TODO: tacking this onto here for now
-#     algorithms = db.query(Algorithm).all()
-#     result['algorithms'] = AlgorithmSchema(strict=True, many=True).dump(algorithms).data
-#
-#     return result
-#
-#
-# @view_config(
-#     route_name='session_configuration',
-#     request_method='PUT',
-#     renderer='json'
-# )
-# @use_kwargs(
-#     {
-#         'enable_tooltips': fields.Boolean(required=True, load_from='enableTooltips'),
-#         'selected_algorithm_id': fields.Integer(required=True, load_from='selectedAlgorithmId')
-#     }
-# )
-# def session_configuration_put(request, enable_tooltips, selected_algorithm_id):
-#     db = request.dbsession
-#
-#     session_configuration = query_by_session(db, request.context.session_id, SessionConfiguration).one()
-#
-#     session_configuration.enable_tooltips = enable_tooltips
-#     session_configuration.selected_algorithm_id = selected_algorithm_id
-#
-#     return SessionConfigurationSchema(strict=True).dump(session_configuration).data
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.generics import UpdateAPIView
+from rest_framework.response import Response
+
+from opa.api.models import Algorithm, SessionConfiguration
+from opa.api.serializers.algorithm import AlgorithmSerializer
+from opa.api.serializers.session_configuration import SessionConfigurationSerializer
+from opa.api.views import FilterBySessionMixin
+
+
+@api_view(['GET'])
+def session_config_get(request, session_id):
+    try:
+        config = SessionConfiguration.objects.get(session_id=session_id)
+    except SessionConfiguration.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    data = SessionConfigurationSerializer(config).data
+
+    # TODO: tacking this onto here for now
+    algorithms = Algorithm.objects.all()
+    data['algorithms'] = AlgorithmSerializer(algorithms, many=True).data
+
+    return Response(data)
+
+
+class SessionConfigDetailViews(FilterBySessionMixin, UpdateAPIView):
+    queryset = SessionConfiguration.objects.all()
+    serializer_class = SessionConfigurationSerializer

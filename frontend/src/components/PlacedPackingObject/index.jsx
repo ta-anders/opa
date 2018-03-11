@@ -13,7 +13,7 @@ const getStyles = (props) => {
 };
 
 const PlacedPackingObject = (props) => {
-  const { height, width, rotated, backgroundColor, id } = props;
+  const { height, width, rotated, backgroundColor, sessionId, id } = props;
   return (
     <div style={getStyles(props)}>
       <PackingObject
@@ -23,6 +23,7 @@ const PlacedPackingObject = (props) => {
         rotated={rotated}
         backgroundColor={backgroundColor}
         id={id}
+        sessionId={sessionId}
       />
     </div>
   );

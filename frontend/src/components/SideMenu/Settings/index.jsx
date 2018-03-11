@@ -32,10 +32,11 @@ class SettingsModal extends Component {
   }
 
   handleSubmit() {
-    const { enableTooltips, selectedAlgorithmId } = this.state;
+    const { enableTooltips, selectedAlgorithm } = this.state;
     this.props.updateSettings(
       this.props.sessionId,
-      { enableTooltips, selectedAlgorithmId },
+      { enableTooltips, selectedAlgorithm },
+      this.props.settings.id,
     );
     this.handleClose();
   }
@@ -87,8 +88,8 @@ class SettingsModal extends Component {
                   placeholder="Choose an algorithm"
                   selection
                   options={dropDownOptions}
-                  name="selectedAlgorithmId"
-                  value={this.state.selectedAlgorithmId}
+                  name="selectedAlgorithm"
+                  value={this.state.selectedAlgorithm}
                   onChange={this.handleChange}
                 />
               </div>

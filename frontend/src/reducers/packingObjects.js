@@ -25,15 +25,20 @@ const packingObjects = (state = initialState, action) => {
         ...state.slice(indexToUpdate + 1, state.length),
       ]);
     }
-    case ACTION_CONSTANTS.CLEAR_PACKED_OBJECTS:
-      return action.payload;
+    case ACTION_CONSTANTS.CLEAR_PACKED_OBJECTS: {
+      const updated = action.payload.map(i => i.id);
+      return ([
+        ...state.filter(entity => updated.indexOf(entity.id) === -1),
+        ...action.payload,
+      ]);
+    }
     case ACTION_CONSTANTS.SOLVER_SUCCESS:
       return action.payload;
     case ACTION_CONSTANTS.UPDATE_PACKING_SPACE: {
-      const updated = action.payload.modified_packing_objects.map(i => i.id);
+      const updated = action.payload.modifiedPackingObjects.map(i => i.id);
       return ([
         ...state.filter(entity => updated.indexOf(entity.id) === -1),
-        ...action.payload.modified_packing_objects
+        ...action.payload.modifiedPackingObjects
       ]);
     }
     default:

@@ -10,12 +10,10 @@ class SessionConfiguration(SessionIDMixin):
     class Meta:
         db_table = 'session_configurations'
 
-    # def copy(self, db, new_session):
-    #     new_session_config = SessionConfiguration(
-    #         session=new_session,
-    #         enable_tooltips=self.enable_tooltips,
-    #         selected_algorithm_id=self.selected_algorithm_id
-    #     )
-    #     db.add(new_session_config)
-    #
-    #     return new_session_config
+    def copy(self, new_session):
+        new_session_config = self
+        new_session_config.pk = None
+        new_session_config.session = new_session
+        new_session_config.save()
+
+        return new_session_config

@@ -3,7 +3,7 @@ import * as ACTION_CONSTANTS from '../actions/constants';
 const initialState = {
   enableTooltips: true,
   algorithms: [],
-  selectedAlgorithmId: null,
+  selectedAlgorithm: null,
 };
 
 const settings = (state = initialState, action) => {

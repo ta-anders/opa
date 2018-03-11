@@ -1,138 +1,77 @@
-# import logging
-# import random
-#
-# from marshmallow import fields
-# from pyramid.view import view_config
-# from sqlalchemy import or_
-# from webargs.pyramidparser import use_kwargs
-#
-# from opa.models import PackingObject
-# from opa.schemas.packing_object import PackingObjectSchema
-# from opa.utils import get_random_color, query_by_session
-#
-# logger = logging.getLogger(__name__)
-#
-#
-# @view_config(
-#     route_name='packing_objects',
-#     request_method='GET',
-#     renderer='json'
-# )
-# def packing_objects_get(request):
-#     db = request.dbsession
-#
-#     packing_objs = query_by_session(db, request.context.session_id, PackingObject).all()
-#
-#     schema = PackingObjectSchema(strict=True, many=True)
-#
-#     result = schema.dump(packing_objs)
-#
-#     return result.data
-#
-#
-# @view_config(
-#     route_name='packing_objects',
-#     request_method='POST',
-#     renderer='json'
-# )
-# @use_kwargs(
-#     {'num_objects': fields.Integer(required=True)}
-# )
-# def packing_objects_post(request, num_objects):
-#     db = request.dbsession
-#
-#     logger.debug('Creating %s new packing objects', num_objects)
-#
-#     # Create a random selection of new packing objects
-#     new = [
-#         PackingObject(
-#             session_id=request.context.session_id,
-#             width=10 + int(200 * random.random()),
-#             height=10 + int(50 * random.random()),
-#             x_coordinate=None,
-#             y_coordinate=None,
-#             background_color=get_random_color()
-#         )
-#         for _ in range(num_objects)
-#     ]
-#     db.add_all(new)
-#     db.flush()
-#
-#     schema = PackingObjectSchema(strict=True, many=True)
-#
-#     result = schema.dump(new)
-#
-#     return result.data
-#
-#
-# @view_config(
-#     route_name='packing_objects',
-#     request_method='DELETE',
-#     renderer='json'
-# )
-# def packing_objects_delete_unpacked(request):
-#     db = request.dbsession
-#
-#     unpacked = (
-#         query_by_session(db, request.context.session_id, PackingObject)
-#         .filter(or_(PackingObject.x_coordinate.is_(None), PackingObject.y_coordinate.is_(None)))
-#     )
-#     ret = {'deleted': [p.id for p in unpacked]}
-#
-#     unpacked.delete()
-#     db.flush()
-#
-#     return ret
-#
-#
-# @view_config(
-#     route_name='clear_packed',
-#     request_method='PUT',
-#     renderer='json'
-# )
-# def packing_objects_clear_packed(request):
-#     db = request.dbsession
-#     session_id = request.context.session_id
-#
-#     (
-#         query_by_session(db, session_id, PackingObject.id)
-#         .filter(
-#             or_(
-#                 PackingObject.x_coordinate.isnot(None),
-#                 PackingObject.rotated.is_(True)
-#             )
-#         ).update(
-#             {'x_coordinate': None, 'y_coordinate': None, 'rotated': False}
-#         )
-#     )
-#
-#     db.flush()
-#
-#     # TODO: lazy return of everything here - how do I get which rows have been updated above?
-#     return PackingObjectSchema(many=True, strict=True).dump(query_by_session(db, session_id, PackingObject)).data
-#
-#
-# @view_config(
-#     route_name='packing_object_item',
-#     request_method='PUT',
-#     renderer='json'
-# )
-# @use_kwargs(
-#     {
-#         'packing_object_id': fields.Integer(required=True, location='matchdict')
-#     }
-# )
-# def packing_object_put(request, packing_object_id):
-#
-#     db = request.dbsession
-#
-#     packing_obj = db.query(PackingObject).get(packing_object_id)
-#
-#     for k, v in request.json.items():
-#         setattr(packing_obj, k, v)
-#
-#     schema = PackingObjectSchema(strict=True)
-#
-#     result = schema.dump(packing_obj)
-#
-#     return result.data
+import logging
+import random
+
+from django.db.models import Q
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.generics import ListCreateAPIView, UpdateAPIView
+from rest_framework.response import Response
+
+from opa.api.models import PackingObject
+from opa.api.serializers.packing_object import PackingObjectSerializer
+from opa.api.utils import get_random_color
+from opa.api.views import FilterBySessionMixin
+
+logger = logging.getLogger(__name__)
+
+
+class PackingObjectListViews(FilterBySessionMixin, ListCreateAPIView):
+    queryset = PackingObject.objects.all()
+    serializer_class = PackingObjectSerializer
+
+    def post(self, request, *args, **kwargs):
+        num_objects = int(request.data['num_objects'])
+        logger.debug('Creating %s new packing objects', num_objects)
+
+        # Create a random selection of new packing objects
+        new = [
+            PackingObject(
+                session_id=self.kwargs['session_id'],
+                width=10 + int(200 * random.random()),
+                height=10 + int(50 * random.random()),
+                x_coordinate=None,
+                y_coordinate=None,
+                background_color=get_random_color()
+            )
+            for _ in range(num_objects)
+        ]
+        PackingObject.objects.bulk_create(new)
+
+        serializer = PackingObjectSerializer(new, many=True)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, *args, **kwargs):
+        unpacked = (
+            self.get_queryset()
+            .filter(Q(x_coordinate__isnull=True) | Q(y_coordinate__isnull=True))
+        )
+
+        ret = {'deleted': [p.id for p in unpacked]}
+
+        unpacked.delete()
+
+        return Response(ret)
+
+
+class PackingObjectDetailViews(FilterBySessionMixin, UpdateAPIView):
+    queryset = PackingObject.objects.all()
+    serializer_class = PackingObjectSerializer
+
+
+@api_view(['PUT'])
+def packing_objects_clear_packed(request, session_id):
+    packed = (
+        PackingObject.objects
+        .filter(session_id=session_id)
+        .filter(Q(x_coordinate__isnull=False) | Q(rotated=True))
+    )
+
+    for p in packed:
+        p.x_coordinate = None
+        p.y_coordinate = None
+        p.rotated = False
+
+        p.save()
+
+    return Response(PackingObjectSerializer(packed, many=True).data)
